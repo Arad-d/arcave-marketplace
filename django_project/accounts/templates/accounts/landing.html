@@ -1,0 +1,38 @@
+{% extends 'shop/base.html' %}
+
+{% block title %}خوش آمدید - آرکیو{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero">
+    <div class="container">
+        <h1 class="hero-title">به آرکیو خوش آمدید</h1>
+        <p class="hero-subtitle">مقصد شما برای کشف محصولات منحصربفرد از فروشگاه‌های محلی عالی</p>
+    </div>
+</section>
+
+<!-- Landing Options -->
+<div class="landing-options">
+    <!-- Customer Card -->
+    <div class="landing-card">
+        <div class="landing-card-icon">🛍️</div>
+        <h2>مشتری هستم</h2>
+        <p>محصولات را مرور کنید، خرید کنید و با فروشندگان ارتباط برقرار کنید</p>
+        <div style="display: flex; flex-direction: column; gap: 1rem;">
+            <a href="{% url 'customer_login' %}" class="btn btn-primary btn-lg">ورود</a>
+            <a href="{% url 'customer_signup' %}" class="btn btn-secondary">ایجاد حساب کاربری</a>
+        </div>
+    </div>
+
+    <!-- Shop Owner Card -->
+    <div class="landing-card">
+        <div class="landing-card-icon">🏪</div>
+        <h2>فروشنده هستم</h2>
+        <p>محصولات خود را بفروشید، موجودی را مدیریت کنید و با مشتریان در ارتباط باشید</p>
+        <div style="display: flex; flex-direction: column; gap: 1rem;">
+            <a href="{% url 'shop_owner_login' %}" class="btn btn-primary btn-lg">ورود</a>
+            <a href="{% url 'shop_owner_signup' %}" class="btn btn-secondary">ثبت فروشگاه</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

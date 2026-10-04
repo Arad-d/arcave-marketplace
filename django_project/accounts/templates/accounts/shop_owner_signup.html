@@ -1,0 +1,99 @@
+{% extends 'shop/base.html' %}
+
+{% block title %}ثبت‌نام فروشنده - آرکیو{% endblock %}
+
+{% block content %}
+<section class="hero" style="padding: 3rem 2rem;">
+    <div class="container" style="max-width: 600px;">
+        <h1 class="hero-title" style="font-size: 2rem;">ثبت فروشگاه شما</h1>
+        <p class="hero-subtitle">به عنوان فروشنده به آرکیو بپیوندید و مشتریان بیشتری جذب کنید.</p>
+        
+        <div class="card" style="padding: 2rem; margin-top: 2rem;">
+            <form method="post">
+                {% csrf_token %}
+                
+                <h3 style="margin-bottom: 1.5rem; color: var(--color-brown);">اطلاعات فروشگاه</h3>
+                
+                <div class="form-group">
+                    <label class="form-label" for="name">نام شما</label>
+                    <input type="text" class="form-control" id="name" name="name" required 
+                           placeholder="نام کامل خود را وارد کنید">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="store_name">نام فروشگاه</label>
+                    <input type="text" class="form-control" id="store_name" name="store_name" required 
+                           placeholder="نام فروشگاه خود را وارد کنید">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="password">رمز عبور</label>
+                    <input type="password" class="form-control" id="password" name="password" required 
+                           placeholder="رمز عبور ایجاد کنید">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="password2">تکرار رمز عبور</label>
+                    <input type="password" class="form-control" id="password2" name="password2" required 
+                           placeholder="رمز عبور را تکرار کنید">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="address">آدرس فروشگاه</label>
+                    <textarea class="form-control" id="address" name="address" rows="3" 
+                              placeholder="آدرس فروشگاه خود را وارد کنید (اختیاری)"></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="phone">شماره تلفن</label>
+                    <input type="tel" class="form-control" id="phone" name="phone" 
+                           placeholder="+989123456789 (اختیاری)" pattern="^\+[0-9]{10,15}$">
+                    <small style="color: var(--color-charcoal-light); display: block; margin-top: 0.5rem;">
+                        فرمت: +989123456789 (با کد کشور)
+                    </small>
+                </div>
+                
+                <h3 style="margin: 2rem 0 1.5rem; color: var(--color-brown);">سوالات امنیتی</h3>
+                
+                <div class="form-group">
+                    <label class="form-label" for="security_question1">سوال امنیتی ۱</label>
+                    <input type="text" class="form-control" id="security_question1" name="security_question1" required 
+                           placeholder="اولین سوال امنیتی خود را وارد کنید">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="security_answer1">پاسخ ۱</label>
+                    <input type="text" class="form-control" id="security_answer1" name="security_answer1" required 
+                           placeholder="پاسخ را وارد کنید">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="security_question2">سوال امنیتی ۲</label>
+                    <input type="text" class="form-control" id="security_question2" name="security_question2" required 
+                           placeholder="دومین سوال امنیتی خود را وارد کنید">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="security_answer2">پاسخ ۲</label>
+                    <input type="text" class="form-control" id="security_answer2" name="security_answer2" required 
+                           placeholder="پاسخ را وارد کنید">
+                </div>
+                
+                <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 1rem;">
+                    ثبت فروشگاه
+                </button>
+            </form>
+            
+            <div style="text-align: center; margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid var(--color-cream-dark);">
+                <p style="color: var(--color-charcoal-light);">
+                    قبلاً فروشگاه دارید؟ 
+                    <a href="{% url 'shop_owner_login' %}">وارد شوید</a>
+                </p>
+                <p style="margin-top: 0.5rem;">
+                    <a href="{% url 'landing' %}">→ بازگشت به صفحه اصلی</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

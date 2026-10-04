@@ -1,0 +1,62 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}آرکیو{% endblock %}</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@100..900&display=swap" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="navbar-content">
+            {% if request.session.shop_owner_id %}
+                <a href="{% url 'shop_owner_dashboard' %}" class="navbar-brand">Arcave</a>
+            {% else %}
+                <a href="{% url 'product_list' %}" class="navbar-brand">Arcave</a>
+            {% endif %}
+            <ul class="navbar-nav">
+                {% if user.is_authenticated %}
+                    <li><a href="{% url 'view_cart' %}">سبد خرید</a></li>
+                    <li><a href="{% url 'customer_dashboard' %}">داشبورد من</a></li>
+                    <li><a href="{% url 'logout' %}">خروج</a></li>
+                {% elif request.session.shop_owner_id %}
+                    <li><a href="{% url 'shop_owner_dashboard' %}">داشبورد فروشگاه</a></li>
+                    <li><a href="{% url 'logout' %}">خروج</a></li>
+                {% endif %}
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Messages -->
+    {% if messages %}
+        <div class="container" style="margin-top: 2rem;">
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <!-- Main Content -->
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p class="footer-text">&copy; 2026 آرکیو. تمامی حقوق محفوظ است.</p>
+        </div>
+    </footer>
+</body>
+</html>

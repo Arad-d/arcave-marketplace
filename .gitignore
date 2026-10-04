@@ -1,0 +1,26 @@
+# Local credentials and machine-specific settings
+.env
+.env.*
+!.env.example
+
+# Local data and uploaded files
+*.db
+*.sqlite3
+*.sqlite3-*
+django_project/media/
+django_project/staticfiles/
+
+# Python environments and generated files
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Editor and operating-system files
+.idea/
+.vscode/
+.DS_Store

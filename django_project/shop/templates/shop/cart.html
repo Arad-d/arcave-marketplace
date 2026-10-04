@@ -1,0 +1,90 @@
+{% extends 'shop/base.html' %}
+
+{% block title %}سبد خرید - آرکیو{% endblock %}
+
+{% block content %}
+<div class="container" style="padding: 2rem 0;">
+    <h1 style="margin-bottom: 2rem; font-family: var(--font-display);">سبد خرید</h1>
+    
+    {% if cart_items %}
+        <div class="card" style="overflow: hidden;">
+            <table class="table" style="margin-bottom: 0;">
+                <thead>
+                    <tr>
+                        <th style="width: 100px;">محصول</th>
+                        <th>نام</th>
+                        <th>قیمت</th>
+                        <th>تعداد</th>
+                        <th>جمع</th>
+                        <th>عملیات</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in cart_items %}
+                        <tr>
+                            <td>
+                                {% if item.product.image %}
+                                    <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}" style="width: 80px; height: 80px; object-fit: cover; border-radius: 8px;">
+                                {% else %}
+                                    <div style="width: 80px; height: 80px; background-color: var(--color-cream-dark); border-radius: 8px; display: flex; align-items: center; justify-content: center;">
+                                        <span>📦</span>
+                                    </div>
+                                {% endif %}
+                            </td>
+                            <td>
+                                <strong>{{ item.product.name }}</strong>
+                                <br>
+                                <a href="{% url 'shop_profile' item.product.shop_owner.pk %}" style="color: var(--color-brown); text-decoration: none; font-size: 0.875rem;">
+                                    {{ item.product.shop_owner.store_name }}
+                                </a>
+                            </td>
+                            <td>{{ item.product.price|floatformat:"0" }} ریال</td>
+                            <td>
+                                <form action="{% url 'update_cart' item.pk %}" method="post" style="display: flex; align-items: center; gap: 0.5rem;">
+                                    {% csrf_token %}
+                                    <select name="quantity" class="form-control" style="width: 70px; padding: 0.5rem;" onchange="this.form.submit()">
+                                        {% for i in "12345"|make_list %}
+                                            <option value="{{ i }}" {% if item.quantity == i|add:0 %}selected{% endif %}>{{ i }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </form>
+                            </td>
+                            <td><strong>{{ item.get_total_price|floatformat:"0" }} ریال</strong></td>
+                            <td>
+                                <a href="{% url 'remove_from_cart' item.pk %}" class="btn btn-danger btn-sm" onclick="return confirm('این مورد از سبد خرید حذف شود؟');">
+                                    حذف
+                                </a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        
+        <!-- Cart Summary -->
+        <div class="card" style="margin-top: 2rem; padding: 2rem;">
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+                <div>
+                    <p style="color: var(--color-charcoal-light); margin-bottom: 0.5rem;">تعداد کل: <strong>{{ total_items }}</strong></p>
+                    <h2 style="margin: 0; color: var(--color-brown);">جمع کل: {{ total_price|floatformat:"0" }} ریال</h2>
+                </div>
+                <div style="display: flex; gap: 1rem;">
+                    <a href="{% url 'product_list' %}" class="btn btn-secondary">ادامه خرید</a>
+                    <a href="{% url 'checkout' %}" class="btn btn-primary btn-lg" onclick="return confirm('آیا می‌خواهید خرید را نهایی کنید؟');">
+                        پرداخت
+                    </a>
+                </div>
+            </div>
+        </div>
+    {% else %}
+        <div class="empty-state">
+            <div class="empty-state-icon">🛒</div>
+            <h3>سبد خرید شما خالی است</h3>
+            <p>محصولات ما را مرور کنید و موارد مورد نظر را به سبد خرید اضافه کنید.</p>
+            <a href="{% url 'product_list' %}" class="btn btn-primary" style="margin-top: 1rem;">
+                مشاهده محصولات
+            </a>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

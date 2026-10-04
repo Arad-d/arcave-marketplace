@@ -1,0 +1,104 @@
+{% extends 'shop/base.html' %}
+
+{% block title %}محصولات - آرکیو{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero" style="padding: 3rem 2rem;">
+    <div class="container">
+        <h1 class="hero-title">محصولات شگفت‌انگیز را کشف کنید</h1>
+        <p class="hero-subtitle">از مجموعه محصولات منحصربفرد فروشگاه‌های محلی ما دیدن کنید</p>
+        
+        <!-- Search and Filter -->
+        <div class="search-container">
+            <form class="search-form" method="get" style="flex-wrap: wrap; gap: 1rem;">
+                <input type="text" class="search-input" name="q" placeholder="جستجوی محصولات..." value="{{ query }}">
+                <select name="category" class="form-control" style="min-width: 200px;">
+                    <option value="">همه دسته‌بندی‌ها</option>
+                    {% for value, label in categories %}
+                        <option value="{{ value }}" {% if category == value %}selected{% endif %}>{{ label }}</option>
+                    {% endfor %}
+                </select>
+                <button type="submit" class="btn btn-primary">جستجو</button>
+                {% if query or category %}
+                    <a href="{% url 'product_list' %}" class="btn btn-secondary">پاک کردن فیلترها</a>
+                {% endif %}
+            </form>
+        </div>
+    </div>
+</section>
+
+<!-- Products Grid -->
+<div class="container">
+    {% if query %}
+        <h2 style="margin-bottom: 1.5rem;">
+            {% if page_obj.object_list %}
+                نتایج جستجو برای "{{ query }}"
+            {% else %}
+                نتیجه‌ای برای "{{ query }}" یافت نشد
+            {% endif %}
+        </h2>
+    {% endif %}
+    
+    {% if page_obj.object_list %}
+        <div class="product-grid">
+            {% for product in page_obj.object_list %}
+                <div class="card">
+                    {% if product.image %}
+                        <img src="{{ product.image.url }}" alt="{{ product.name }}" class="card-image">
+                    {% else %}
+                        <div class="card-image" style="display: flex; align-items: center; justify-content: center; background-color: var(--color-cream-dark);">
+                            <span style="font-size: 4rem;">📦</span>
+                        </div>
+                    {% endif %}
+                    <div class="card-content">
+                        <div style="margin-bottom: 0.5rem;">
+                            <span style="background-color: var(--color-brown); color: white; padding: 0.25rem 0.75rem; border-radius: 20px; font-size: 0.75rem; font-weight: 500;">
+                                {% if product.category == 'electronics' %}محصولات الکترونیک{% else %}لوازم جانبی الکترونیک{% endif %}
+                            </span>
+                        </div>
+                        <h3 class="card-title">{{ product.name }}</h3>
+                        <p class="card-text">{{ product.description|truncatewords:15 }}</p>
+                        <div style="margin-bottom: 0.5rem;">
+                            <a href="{% url 'shop_profile' product.shop_owner.pk %}" style="color: var(--color-brown); text-decoration: none; font-weight: 500;">
+                                🏪 {{ product.shop_owner.store_name }}
+                            </a>
+                        </div>
+                        <div class="card-price">{{ product.price|floatformat:"0" }} ریال</div>
+                        <a href="{% url 'product_detail' product.pk %}" class="btn btn-primary" style="width: 100%;">
+                            مشاهده جزئیات
+                        </a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        
+        <!-- Pagination -->
+        {% if page_obj.has_other_pages %}
+            <div class="pagination">
+                {% if page_obj.has_previous %}
+                    <a href="?page={{ page_obj.previous_page_number }}{% if query %}&q={{ query }}{% endif %}{% if category %}&category={{ category }}{% endif %}">→ قبلی</a>
+                {% endif %}
+
+                {% for num in page_obj.paginator.page_range %}
+                    {% if page_obj.number == num %}
+                        <span class="current">{{ num }}</span>
+                    {% else %}
+                        <a href="?page={{ num }}{% if query %}&q={{ query }}{% endif %}{% if category %}&category={{ category }}{% endif %}">{{ num }}</a>
+                    {% endif %}
+                {% endfor %}
+
+                {% if page_obj.has_next %}
+                    <a href="?page={{ page_obj.next_page_number }}{% if query %}&q={{ query }}{% endif %}{% if category %}&category={{ category }}{% endif %}">بعدی ←</a>
+                {% endif %}
+            </div>
+        {% endif %}
+    {% else %}
+        <div class="empty-state">
+            <div class="empty-state-icon">📭</div>
+            <h3>محصولی موجود نیست</h3>
+            <p>بعداً برای محصولات جدید سر بزنید!</p>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

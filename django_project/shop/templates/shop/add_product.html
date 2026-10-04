@@ -1,0 +1,85 @@
+{% extends 'shop/base.html' %}
+
+{% block title %}افزودن محصول - {{ request.session.shop_owner_store }}{% endblock %}
+
+{% block content %}
+<div class="container" style="padding: 2rem 0;">
+    <!-- Dashboard Header -->
+    <div class="dashboard-header">
+        <h1 class="dashboard-title">افزودن محصول جدید</h1>
+        <p class="dashboard-subtitle">یک مورد جدید در فروشگاه خود ثبت کنید</p>
+    </div>
+    
+    <div class="dashboard-grid">
+        <!-- Sidebar -->
+        <aside class="dashboard-sidebar">
+            <ul class="dashboard-nav">
+                <li><a href="{% url 'shop_owner_dashboard' %}">داشبورد</a></li>
+                <li><a href="{% url 'add_product' %}" class="active">افزودن محصول</a></li>
+                <li><a href="{% url 'edit_shop_owner_profile' %}">ویرایش پروفایل</a></li>
+                <li><a href="{% url 'logout' %}">خروج</a></li>
+            </ul>
+        </aside>
+        
+        <!-- Main Content -->
+        <div class="dashboard-content">
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                
+                <div class="form-group">
+                    <label class="form-label" for="name">نام محصول</label>
+                    <input type="text" class="form-control" id="name" name="name" required 
+                           placeholder="نام محصول را وارد کنید">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="price">قیمت (ریال)</label>
+                    <input type="number" class="form-control" id="price" name="price" step="0.01" min="0" required 
+                           placeholder="0.00">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="description">توضیحات</label>
+                    <textarea class="form-control" id="description" name="description" rows="5" required 
+                              placeholder="محصول خود را توصیف کنید..."></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="stock">تعداد موجودی</label>
+                    <input type="number" class="form-control" id="stock" name="stock" min="0" required 
+                           placeholder="چند عدد موجود است؟" value="0">
+                    <small style="color: var(--color-charcoal-light); display: block; margin-top: 0.5rem;">
+                        تعداد واحدهای موجود برای فروش
+                    </small>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="category">دسته‌بندی</label>
+                    <select class="form-control" id="category" name="category" required>
+                        <option value="">دسته‌بندی را انتخاب کنید</option>
+                        <option value="electronics">محصولات الکترونیک</option>
+                        <option value="accessories">لوازم جانبی الکترونیک</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="image">تصویر محصول</label>
+                    <input type="file" class="form-control" id="image" name="image" accept="image/*">
+                    <small style="color: var(--color-charcoal-light); display: block; margin-top: 0.5rem;">
+                        توصیه شده: ۸۰۰×۶۰۰ پیکسل یا بزرگتر، فرمت JPG یا PNG
+                    </small>
+                </div>
+                
+                <div style="display: flex; gap: 1rem; margin-top: 2rem;">
+                    <button type="submit" class="btn btn-primary">
+                        افزودن محصول
+                    </button>
+                    <a href="{% url 'shop_owner_dashboard' %}" class="btn btn-secondary">
+                        انصراف
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,128 @@
+{% extends 'shop/base.html' %}
+
+{% block title %}نظرات محصول - {{ product.name }}{% endblock %}
+
+{% block content %}
+<div class="container" style="padding: 2rem 0;">
+    <!-- Dashboard Header -->
+    <div class="dashboard-header">
+        <h1 class="dashboard-title">نظرات محصول</h1>
+        <p class="dashboard-subtitle">مشاهده و پاسخ به نظرات {{ product.name }}</p>
+    </div>
+    
+    <!-- Product Info Card -->
+    <div class="card" style="margin-bottom: 2rem; padding: 1.5rem;">
+        <div style="display: flex; align-items: center; gap: 1.5rem; flex-wrap: wrap;">
+            {% if product.image %}
+                <img src="{{ product.image.url }}" alt="{{ product.name }}" style="width: 100px; height: 100px; object-fit: cover; border-radius: 8px;">
+            {% else %}
+                <div style="width: 100px; height: 100px; background-color: var(--color-cream-dark); border-radius: 8px; display: flex; align-items: center; justify-content: center;">
+                    <span style="font-size: 2rem;">📦</span>
+                </div>
+            {% endif %}
+            <div>
+                <h2 style="margin: 0;">{{ product.name }}</h2>
+                <p style="color: var(--color-charcoal-light); margin: 0.5rem 0;">
+                    {{ product.price|floatformat:"0" }} ریال | 
+                    موجودی: {{ product.stock }} عدد |
+                    نظرات: {{ comments|length }}
+                </p>
+                <a href="{% url 'product_detail' product.pk %}" class="btn btn-secondary btn-sm" target="_blank">
+                    مشاهده محصول در سایت
+                </a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="dashboard-grid">
+        <!-- Sidebar -->
+        <aside class="dashboard-sidebar">
+            <ul class="dashboard-nav">
+                <li><a href="{% url 'shop_owner_dashboard' %}">داشبورد</a></li>
+                <li><a href="{% url 'add_product' %}">افزودن محصول</a></li>
+                <li><a href="{% url 'edit_shop_owner_profile' %}">ویرایش پروفایل</a></li>
+                <li><a href="{% url 'logout' %}">خروج</a></li>
+            </ul>
+        </aside>
+        
+        <!-- Main Content -->
+        <div class="dashboard-content">
+            <h2 style="margin-bottom: 1.5rem;">نظرات مشتریان ({{ comments|length }})</h2>
+            
+            {% if comments %}
+                <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+                    {% for comment in comments %}
+                        <div class="card" style="padding: 1.5rem;">
+                            <div class="comment-header" style="margin-bottom: 1rem;">
+                                <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+                                    <div>
+                                        <span class="comment-author" style="font-weight: 600;">{{ comment.customer.username }}</span>
+                                        <span style="color: var(--color-charcoal-light); margin-right: 1rem;">
+                                            {{ comment.created_at|date:"Y/m/d" }}
+                                        </span>
+                                    </div>
+                                    {% if comment.reply %}
+                                        <span style="background-color: var(--color-success); color: white; padding: 0.25rem 0.75rem; border-radius: 12px; font-size: 0.75rem;">
+                                            ✓ پاسخ داده شده
+                                        </span>
+                                    {% else %}
+                                        <span style="background-color: orange; color: white; padding: 0.25rem 0.75rem; border-radius: 12px; font-size: 0.75rem;">
+                                            ⏳ در انتظار پاسخ
+                                        </span>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            
+                            <div class="comment-text" style="background-color: var(--color-cream); padding: 1rem; border-radius: 8px; margin-bottom: 1rem;">
+                                {{ comment.text }}
+                            </div>
+                            
+                            {% if comment.reply %}
+                                <!-- Existing Reply -->
+                                <div class="reply" style="margin-right: 2rem; background-color: var(--color-brown-light, #E8D5C4); padding: 1rem; border-radius: 8px; border-right: 3px solid var(--color-brown);">
+                                    <div class="reply-header" style="font-weight: 600; color: var(--color-brown); margin-bottom: 0.5rem;">
+                                        ↳ پاسخ شما
+                                    </div>
+                                    <div>{{ comment.reply.text }}</div>
+                                    <small style="color: var(--color-charcoal-light); display: block; margin-top: 0.5rem;">
+                                        {{ comment.reply.created_at|date:"Y/m/d" }}
+                                    </small>
+                                </div>
+                            {% else %}
+                                <!-- Reply Form -->
+                                <div style="margin-right: 2rem;">
+                                    <form action="{% url 'reply_to_comment' comment.id %}" method="post">
+                                        {% csrf_token %}
+                                        <div class="form-group">
+                                            <label class="form-label" style="font-weight: 600; color: var(--color-brown);">
+                                                پاسخ به این نظر:
+                                            </label>
+                                            <textarea class="form-control" name="text" rows="3" placeholder="پاسخ خود را بنویسید..." required></textarea>
+                                        </div>
+                                        <button type="submit" class="btn btn-primary btn-sm">
+                                            ارسال پاسخ
+                                        </button>
+                                    </form>
+                                </div>
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div class="empty-state">
+                    <div class="empty-state-icon">💬</div>
+                    <h3>هنوز نظری ثبت نشده</h3>
+                    <p>هنوز مشتری نظری برای این محصول ثبت نکرده است.</p>
+                </div>
+            {% endif %}
+            
+            <!-- Back Button -->
+            <div style="margin-top: 2rem;">
+                <a href="{% url 'shop_owner_dashboard' %}" class="btn btn-secondary">
+                    ← بازگشت به داشبورد
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

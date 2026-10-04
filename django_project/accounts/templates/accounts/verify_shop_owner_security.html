@@ -1,0 +1,110 @@
+{% extends 'shop/base.html' %}
+
+{% block title %}تأیید امنیتی - فروشنده{% endblock %}
+
+{% block content %}
+<section class="hero" style="padding: 4rem 2rem;">
+    <div class="container" style="max-width: 500px;">
+        <h1 class="hero-title" style="font-size: 2rem;">تأیید امنیتی</h1>
+        <p class="hero-subtitle">برای بازنشانی رمز عبور به سوالات امنیتی پاسخ دهید</p>
+        
+        <div class="card" style="padding: 2rem; margin-top: 2rem;">
+            {% if locked %}
+                <div class="alert alert-error" style="text-align: center;">
+                    <h3 style="color: var(--color-error); margin-bottom: 1rem;">⏱️ حساب قفل شده</h3>
+                    <p>تلاش‌های ناموفق زیادی انجام شده. لطفاً دوباره امتحان کنید پس از:</p>
+                    <div style="font-size: 2rem; font-weight: bold; color: var(--color-error); margin: 1rem 0;" id="countdown">
+                        {{ remaining|default:300 }}
+                    </div>
+                    <p style="font-size: 0.875rem; color: var(--color-charcoal-light);">
+                        این برای امنیت شماست. لطفاً قبل از تلاش مجدد صبر کنید.
+                    </p>
+                </div>
+                
+                <div style="text-align: center; margin-top: 2rem;">
+                    <a href="{% url 'landing' %}" class="btn btn-secondary">→ بازگشت به صفحه اصلی</a>
+                </div>
+                
+                <script>
+                    // Countdown timer
+                    let remaining = {{ remaining|default:300 }};
+                    const countdownEl = document.getElementById('countdown');
+                    
+                    function formatTime(seconds) {
+                        const mins = Math.floor(seconds / 60);
+                        const secs = seconds % 60;
+                        return `${mins}:${secs.toString().padStart(2, '0')}`;
+                    }
+                    
+                    countdownEl.textContent = formatTime(remaining);
+                    
+                    const timer = setInterval(() => {
+                        remaining--;
+                        countdownEl.textContent = formatTime(remaining);
+                        
+                        if (remaining <= 0) {
+                            clearInterval(timer);
+                            location.reload();
+                        }
+                    }, 1000);
+                </script>
+            {% else %}
+                {% if step == 1 %}
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label class="form-label" for="name">نام شما</label>
+                            <input type="text" class="form-control" id="name" name="name" required 
+                                   placeholder="نام ثبت‌شده خود را وارد کنید">
+                        </div>
+                        <button type="submit" class="btn btn-primary" style="width: 100%;">
+                            ادامه
+                        </button>
+                    </form>
+                
+                {% elif step == 2 %}
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label class="form-label">سوال امنیتی ۱</label>
+                            <div style="padding: 1rem; background-color: var(--color-cream-dark); border-radius: var(--radius-sm); margin-bottom: 1rem;">
+                                <strong>{{ question }}</strong>
+                            </div>
+                            <input type="text" class="form-control" id="answer1" name="answer1" required 
+                                   placeholder="پاسخ خود را وارد کنید" autocomplete="off">
+                        </div>
+                        <button type="submit" class="btn btn-primary" style="width: 100%;">
+                            تأیید
+                        </button>
+                    </form>
+                
+                {% elif step == 3 %}
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="alert" style="background-color: var(--color-cream-dark); margin-bottom: 1rem;">
+                            پاسخ اول نادرست بود. لطفاً به سوال دوم پاسخ دهید.
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">سوال امنیتی ۲</label>
+                            <div style="padding: 1rem; background-color: var(--color-cream-dark); border-radius: var(--radius-sm); margin-bottom: 1rem;">
+                                <strong>{{ question }}</strong>
+                            </div>
+                            <input type="text" class="form-control" id="answer2" name="answer2" required 
+                                   placeholder="پاسخ خود را وارد کنید" autocomplete="off">
+                        </div>
+                        <button type="submit" class="btn btn-primary" style="width: 100%;">
+                            تأیید
+                        </button>
+                    </form>
+                {% endif %}
+                
+                <div style="text-align: center; margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid var(--color-cream-dark);">
+                    <p style="color: var(--color-charcoal-light);">
+                        <a href="{% url 'forgot_password' %}">→ بازگشت به انتخاب نوع حساب</a>
+                    </p>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</section>
+{% endblock %}

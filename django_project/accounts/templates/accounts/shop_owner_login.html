@@ -1,0 +1,48 @@
+{% extends 'shop/base.html' %}
+
+{% block title %}ورود فروشنده - آرکیو{% endblock %}
+
+{% block content %}
+<section class="hero" style="padding: 4rem 2rem;">
+    <div class="container" style="max-width: 500px;">
+        <h1 class="hero-title" style="font-size: 2rem;">ورود فروشنده</h1>
+        <p class="hero-subtitle">به داشبورد فروشگاه خود دسترسی پیدا کنید و محصولات خود را مدیریت کنید.</p>
+        
+        <div class="card" style="padding: 2rem; margin-top: 2rem;">
+            <form method="post">
+                {% csrf_token %}
+                
+                <div class="form-group">
+                    <label class="form-label" for="name">نام</label>
+                    <input type="text" class="form-control" id="name" name="name" required 
+                           placeholder="نام خود را وارد کنید">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="password">رمز عبور</label>
+                    <input type="password" class="form-control" id="password" name="password" required 
+                           placeholder="رمز عبور خود را وارد کنید">
+                </div>
+                
+                <div class="form-group" style="display: flex; justify-content: flex-start; margin-top: -0.5rem; margin-bottom: 1rem;">
+                    <a href="{% url 'forgot_password' %}" style="font-size: 0.875rem; color: var(--color-brown);">رمز عبور را فراموش کرده‌اید؟</a>
+                </div>
+                
+                <button type="submit" class="btn btn-primary" style="width: 100%;">
+                    ورود
+                </button>
+            </form>
+            
+            <div style="text-align: center; margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid var(--color-cream-dark);">
+                <p style="color: var(--color-charcoal-light);">
+                    فروشگاه ندارید؟ 
+                    <a href="{% url 'shop_owner_signup' %}">فروشگاه خود را ثبت کنید</a>
+                </p>
+                <p style="margin-top: 0.5rem;">
+                    <a href="{% url 'landing' %}">→ بازگشت به صفحه اصلی</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,96 @@
+{% extends 'shop/base.html' %}
+
+{% block title %}ویرایش محصول - {{ product.name }}{% endblock %}
+
+{% block content %}
+<div class="container" style="padding: 2rem 0;">
+    <!-- Dashboard Header -->
+    <div class="dashboard-header">
+        <h1 class="dashboard-title">ویرایش محصول</h1>
+        <p class="dashboard-subtitle">به‌روزرسانی جزئیات {{ product.name }}</p>
+    </div>
+    
+    <div class="dashboard-grid">
+        <!-- Sidebar -->
+        <aside class="dashboard-sidebar">
+            <ul class="dashboard-nav">
+                <li><a href="{% url 'shop_owner_dashboard' %}">داشبورد</a></li>
+                <li><a href="{% url 'add_product' %}">افزودن محصول</a></li>
+                <li><a href="{% url 'edit_shop_owner_profile' %}">ویرایش پروفایل</a></li>
+                <li><a href="{% url 'logout' %}">خروج</a></li>
+            </ul>
+        </aside>
+        
+        <!-- Main Content -->
+        <div class="dashboard-content">
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                
+                <div class="form-group">
+                    <label class="form-label" for="name">نام محصول</label>
+                    <input type="text" class="form-control" id="name" name="name" required 
+                           value="{{ product.name }}" placeholder="نام محصول را وارد کنید">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="price">قیمت (ریال)</label>
+                    <input type="number" class="form-control" id="price" name="price" step="0.01" min="0" required 
+                           value="{{ product.price }}" placeholder="0.00">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="description">توضیحات</label>
+                    <textarea class="form-control" id="description" name="description" rows="5" required 
+                              placeholder="محصول خود را توصیف کنید...">{{ product.description }}</textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="stock">تعداد موجودی</label>
+                    <input type="number" class="form-control" id="stock" name="stock" min="0" required 
+                           value="{{ product.stock }}" placeholder="چند عدد موجود است؟">
+                    <small style="color: var(--color-charcoal-light); display: block; margin-top: 0.5rem;">
+                        تعداد واحدهای موجود برای فروش
+                    </small>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="category">دسته‌بندی</label>
+                    <select class="form-control" id="category" name="category" required>
+                        <option value="">دسته‌بندی را انتخاب کنید</option>
+                        <option value="electronics" {% if product.category == 'electronics' %}selected{% endif %}>محصولات الکترونیک</option>
+                        <option value="accessories" {% if product.category == 'accessories' %}selected{% endif %}>لوازم جانبی الکترونیک</option>
+                        
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="image">تصویر محصول</label>
+                    {% if product.image %}
+                        <div style="margin-bottom: 1rem;">
+                            <p style="margin-bottom: 0.5rem;">تصویر فعلی:</p>
+                            <img src="{{ product.image.url }}" alt="{{ product.name }}" style="max-width: 200px; max-height: 200px; border-radius: 8px;">
+                        </div>
+                    {% endif %}
+                    <input type="file" class="form-control" id="image" name="image" accept="image/*">
+                    <small style="color: var(--color-charcoal-light); display: block; margin-top: 0.5rem;">
+                        {% if product.image %}
+                            برای جایگزینی تصویر فعلی، تصویر جدید آپلود کنید (اختیاری)
+                        {% else %}
+                            توصیه شده: ۸۰۰×۶۰۰ پیکسل یا بزرگتر، فرمت JPG یا PNG
+                        {% endif %}
+                    </small>
+                </div>
+                
+                <div style="display: flex; gap: 1rem; margin-top: 2rem;">
+                    <button type="submit" class="btn btn-primary">
+                        ذخیره تغییرات
+                    </button>
+                    <a href="{% url 'shop_owner_dashboard' %}" class="btn btn-secondary">
+                        انصراف
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
