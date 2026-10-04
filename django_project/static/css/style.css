@@ -735,3 +735,14 @@ textarea.form-control {
 [dir="rtl"] select {
     text-align: right;
 }
+
+.inline-action { display: inline; margin: 0; }
+.navigation-action {
+    background: none;
+    border: 0;
+    color: inherit;
+    font: inherit;
+    cursor: pointer;
+    padding: 0;
+}
+.navigation-action:focus-visible { outline: 2px solid currentColor; outline-offset: 4px; }

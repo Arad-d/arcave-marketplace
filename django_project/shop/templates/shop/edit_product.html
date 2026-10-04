@@ -17,7 +17,7 @@
                 <li><a href="{% url 'shop_owner_dashboard' %}">داشبورد</a></li>
                 <li><a href="{% url 'add_product' %}">افزودن محصول</a></li>
                 <li><a href="{% url 'edit_shop_owner_profile' %}">ویرایش پروفایل</a></li>
-                <li><a href="{% url 'logout' %}">خروج</a></li>
+                <li><form method="post" action="{% url 'logout' %}" class="inline-action">{% csrf_token %}<button type="submit" class="navigation-action">خروج</button></form></li>
             </ul>
         </aside>
         
@@ -71,12 +71,12 @@
                             <img src="{{ product.image.url }}" alt="{{ product.name }}" style="max-width: 200px; max-height: 200px; border-radius: 8px;">
                         </div>
                     {% endif %}
-                    <input type="file" class="form-control" id="image" name="image" accept="image/*">
+                    <input type="file" class="form-control" id="image" name="image" accept="image/jpeg,image/png,image/webp">
                     <small style="color: var(--color-charcoal-light); display: block; margin-top: 0.5rem;">
                         {% if product.image %}
                             برای جایگزینی تصویر فعلی، تصویر جدید آپلود کنید (اختیاری)
                         {% else %}
-                            توصیه شده: ۸۰۰×۶۰۰ پیکسل یا بزرگتر، فرمت JPG یا PNG
+                            JPG، PNG یا WebP؛ حداکثر ۵ مگابایت و ۴۰۹۶ پیکسل
                         {% endif %}
                     </small>
                 </div>

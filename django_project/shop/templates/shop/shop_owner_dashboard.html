@@ -33,7 +33,7 @@
                 <li><a href="{% url 'shop_owner_dashboard' %}" class="active">داشبورد</a></li>
                 <li><a href="{% url 'add_product' %}">افزودن محصول</a></li>
                 <li><a href="{% url 'edit_shop_owner_profile' %}">ویرایش پروفایل</a></li>
-                <li><a href="{% url 'logout' %}">خروج</a></li>
+                <li><form method="post" action="{% url 'logout' %}" class="inline-action">{% csrf_token %}<button type="submit" class="navigation-action">خروج</button></form></li>
             </ul>
         </aside>
         
@@ -127,7 +127,7 @@
                                         <a href="{% url 'product_comments' product.pk %}" class="btn btn-sm btn-primary">
                                             نظرات {% if product.comments.count > 0 %}({{ product.comments.count }}){% endif %}
                                         </a>
-                                        <a href="{% url 'delete_product' product.pk %}" class="btn btn-sm btn-danger" onclick="return confirm('آیا مطمئنید که می‌خواهید این محصول را حذف کنید؟');">حذف</a>
+                                        <form method="post" action="{% url 'delete_product' product.pk %}" class="inline-action">{% csrf_token %}<button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('آیا مطمئنید که می‌خواهید این محصول را حذف کنید؟');">حذف</button></form>
                                     </td>
                                 </tr>
                             {% endfor %}

@@ -6,7 +6,7 @@
 <section class="hero" style="padding: 4rem 2rem;">
     <div class="container" style="max-width: 500px;">
         <h1 class="hero-title" style="font-size: 2rem;">تأیید امنیتی</h1>
-        <p class="hero-subtitle">برای بازنشانی رمز عبور به سوالات امنیتی پاسخ دهید</p>
+        <p class="hero-subtitle">برای بازنشانی رمز عبور به هر دو سوال امنیتی پاسخ دهید</p>
         
         <div class="card" style="padding: 2rem; margin-top: 2rem;">
             {% if locked %}
@@ -82,7 +82,7 @@
                     <form method="post">
                         {% csrf_token %}
                         <div class="alert" style="background-color: var(--color-cream-dark); margin-bottom: 1rem;">
-                            پاسخ اول نادرست بود. لطفاً به سوال دوم پاسخ دهید.
+                            پاسخ اول تأیید شد. برای ادامه به سوال دوم پاسخ دهید.
                         </div>
                         <div class="form-group">
                             <label class="form-label">سوال امنیتی ۲</label>

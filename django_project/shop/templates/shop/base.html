@@ -27,10 +27,10 @@
                 {% if user.is_authenticated %}
                     <li><a href="{% url 'view_cart' %}">سبد خرید</a></li>
                     <li><a href="{% url 'customer_dashboard' %}">داشبورد من</a></li>
-                    <li><a href="{% url 'logout' %}">خروج</a></li>
+                    <li><form method="post" action="{% url 'logout' %}" class="inline-action">{% csrf_token %}<button type="submit" class="navigation-action">خروج</button></form></li>
                 {% elif request.session.shop_owner_id %}
                     <li><a href="{% url 'shop_owner_dashboard' %}">داشبورد فروشگاه</a></li>
-                    <li><a href="{% url 'logout' %}">خروج</a></li>
+                    <li><form method="post" action="{% url 'logout' %}" class="inline-action">{% csrf_token %}<button type="submit" class="navigation-action">خروج</button></form></li>
                 {% endif %}
             </ul>
         </div>

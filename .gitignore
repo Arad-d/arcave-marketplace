@@ -2,6 +2,7 @@
 .env
 .env.*
 !.env.example
+.backups/
 
 # Local data and uploaded files
 *.db

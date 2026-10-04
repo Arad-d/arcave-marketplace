@@ -1,6 +1,6 @@
 """Regression tests for seller credentials and account-bound password recovery."""
 
-from django.contrib.auth.hashers import make_password
+from django.contrib.auth.hashers import check_password, make_password
 from django.db import connection
 from django.db.migrations.executor import MigrationExecutor
 from django.test import Client, TestCase, TransactionTestCase
@@ -21,9 +21,9 @@ class AccountSecurityTests(TestCase):
                 email=f"customer{index}@example.com",
                 password="Original-password-1",
                 security_question1="First question?",
-                security_answer1="first",
+                security_answer1=make_password("first"),
                 security_question2="Second question?",
-                security_answer2="second",
+                security_answer2=make_password("second"),
             )
             for index in range(2)
         ]
@@ -33,16 +33,14 @@ class AccountSecurityTests(TestCase):
                 store_name=f"Store {index}",
                 password=make_password("Original-password-1"),
                 security_question1="First question?",
-                security_answer1="first",
+                security_answer1=make_password("first"),
                 security_question2="Second question?",
-                security_answer2="second",
+                security_answer2=make_password("second"),
             )
             for index in range(2)
         ]
 
-    def verify_account(
-        self, user_type: str, account: Customer | ShopOwner, second_answer: bool = False
-    ) -> None:
+    def verify_account(self, user_type: str, account: Customer | ShopOwner) -> None:
         """Complete the public security-question flow for a chosen account."""
         self.client = Client()
         if user_type == "customer":
@@ -52,11 +50,10 @@ class AccountSecurityTests(TestCase):
             url = reverse("verify_shop_owner_security")
             identity = {"name": account.name}
         self.client.post(url, identity)
-        if second_answer:
-            self.client.post(url, {"answer1": "incorrect"})
-            response = self.client.post(url, {"answer2": "second"})
-        else:
-            response = self.client.post(url, {"answer1": "first"})
+        first = self.client.post(url, {"answer1": "first"})
+        self.assertEqual(first.status_code, 200)
+        self.assertNotIn("recovery_grant", self.client.session)
+        response = self.client.post(url, {"answer2": "second"})
         self.assertRedirects(
             response,
             reverse("reset_password", args=[user_type, account.pk]),
@@ -133,9 +130,13 @@ class AccountSecurityTests(TestCase):
     def test_seller_profile_rejects_wrong_current_password(self) -> None:
         """Knowing a seller session is insufficient to change their password."""
         owner = self.owners[0]
-        session = self.client.session
-        session["shop_owner_id"] = owner.pk
-        session.save()
+        self.client.post(
+            reverse("shop_owner_login"),
+            {
+                "name": owner.name,
+                "password": "Original-password-1",
+            },
+        )
         response = self.client.post(
             reverse("edit_shop_owner_profile"),
             {
@@ -197,38 +198,37 @@ class AccountSecurityTests(TestCase):
                 self.assertTrue(accounts[1].check_password("Original-password-1"))
 
     def test_both_security_answers_allow_only_verified_account_reset(self) -> None:
-        """Both question paths grant one-use recovery for the correct account."""
+        """Both answers together grant one-use recovery for the correct account."""
         for user_type, accounts in [
             ("customer", self.customers),
             ("shop_owner", self.owners),
         ]:
-            for second_answer in (False, True):
-                with self.subTest(user_type=user_type, second_answer=second_answer):
-                    account = accounts[0]
-                    self.verify_account(user_type, account, second_answer)
-                    response = self.client.post(
-                        reverse("reset_password", args=[user_type, account.pk]),
-                        {
-                            "new_password": "Recovered-password-2",
-                            "confirm_password": "Recovered-password-2",
-                        },
-                    )
-                    self.assertRedirects(response, reverse(f"{user_type}_login"))
-                    account.refresh_from_db()
-                    self.assertNotEqual(account.password, "Recovered-password-2")
-                    self.assertTrue(account.check_password("Recovered-password-2"))
-                    self.assertNotIn("verified_for_reset", self.client.session)
-                    self.assertNotIn("verified_reset_user_id", self.client.session)
-                    replay = self.client.post(
-                        reverse("reset_password", args=[user_type, account.pk]),
-                        {
-                            "new_password": "Replay-password-3",
-                            "confirm_password": "Replay-password-3",
-                        },
-                    )
-                    self.assertRedirects(replay, reverse("forgot_password"))
-                    account.refresh_from_db()
-                    self.assertTrue(account.check_password("Recovered-password-2"))
+            with self.subTest(user_type=user_type):
+                account = accounts[0]
+                self.verify_account(user_type, account)
+                response = self.client.post(
+                    reverse("reset_password", args=[user_type, account.pk]),
+                    {
+                        "new_password": "Recovered-password-2",
+                        "confirm_password": "Recovered-password-2",
+                    },
+                )
+                self.assertRedirects(response, reverse(f"{user_type}_login"))
+                account.refresh_from_db()
+                self.assertNotEqual(account.password, "Recovered-password-2")
+                self.assertTrue(account.check_password("Recovered-password-2"))
+                self.assertNotIn("recovery_grant", self.client.session)
+                self.assertNotIn("verified_reset_user_id", self.client.session)
+                replay = self.client.post(
+                    reverse("reset_password", args=[user_type, account.pk]),
+                    {
+                        "new_password": "Replay-password-3",
+                        "confirm_password": "Replay-password-3",
+                    },
+                )
+                self.assertRedirects(replay, reverse("forgot_password"))
+                account.refresh_from_db()
+                self.assertTrue(account.check_password("Recovered-password-2"))
 
     def test_unverified_recovery_is_rejected(self) -> None:
         """Reset requests require a completed account verification."""
@@ -259,6 +259,7 @@ class SellerPasswordMigrationTests(TransactionTestCase):
         ]
         latest = [("accounts", "0004_hash_shop_owner_passwords")]
         executor = MigrationExecutor(connection)
+        current = executor.loader.graph.leaf_nodes()
         executor.migrate(previous)
         legacy_apps = executor.loader.project_state(previous).apps
         owner_model = legacy_apps.get_model("accounts", "ShopOwner")
@@ -271,11 +272,11 @@ class SellerPasswordMigrationTests(TransactionTestCase):
                 name="hashed", store_name="Hashed Store", password=original_hash
             )
             MigrationExecutor(connection).migrate(latest)
-            migrated = ShopOwner.objects.get(pk=legacy.pk)
+            migrated = owner_model.objects.get(pk=legacy.pk)
             self.assertNotEqual(migrated.password, "Legacy-password-1")
-            self.assertTrue(migrated.check_password("Legacy-password-1"))
+            self.assertTrue(check_password("Legacy-password-1", migrated.password))
             self.assertEqual(
-                ShopOwner.objects.get(pk=hashed.pk).password, original_hash
+                owner_model.objects.get(pk=hashed.pk).password, original_hash
             )
         finally:
-            MigrationExecutor(connection).migrate(latest)
+            MigrationExecutor(connection).migrate(current)

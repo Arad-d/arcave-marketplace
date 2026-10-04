@@ -18,7 +18,7 @@
                 <li><a href="{% url 'view_cart' %}">سبد خرید من</a></li>
                 <li><a href="{% url 'product_list' %}">مشاهده محصولات</a></li>
                 <li><a href="{% url 'edit_customer_profile' %}">ویرایش پروفایل</a></li>
-                <li><a href="{% url 'logout' %}">خروج</a></li>
+                <li><form method="post" action="{% url 'logout' %}" class="inline-action">{% csrf_token %}<button type="submit" class="navigation-action">خروج</button></form></li>
             </ul>
         </aside>
         

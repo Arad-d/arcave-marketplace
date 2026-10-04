@@ -51,9 +51,9 @@
                             </td>
                             <td><strong>{{ item.get_total_price|floatformat:"0" }} ریال</strong></td>
                             <td>
-                                <a href="{% url 'remove_from_cart' item.pk %}" class="btn btn-danger btn-sm" onclick="return confirm('این مورد از سبد خرید حذف شود؟');">
+                                <form method="post" action="{% url 'remove_from_cart' item.pk %}" class="inline-action">{% csrf_token %}<button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('این مورد از سبد خرید حذف شود؟');">
                                     حذف
-                                </a>
+                                </button></form>
                             </td>
                         </tr>
                     {% endfor %}
@@ -70,9 +70,9 @@
                 </div>
                 <div style="display: flex; gap: 1rem;">
                     <a href="{% url 'product_list' %}" class="btn btn-secondary">ادامه خرید</a>
-                    <a href="{% url 'checkout' %}" class="btn btn-primary btn-lg" onclick="return confirm('آیا می‌خواهید خرید را نهایی کنید؟');">
+                    <form method="post" action="{% url 'checkout' %}" class="inline-action">{% csrf_token %}<button type="submit" class="btn btn-primary btn-lg" onclick="return confirm('آیا می‌خواهید خرید را نهایی کنید؟');">
                         پرداخت
-                    </a>
+                    </button></form>
                 </div>
             </div>
         </div>

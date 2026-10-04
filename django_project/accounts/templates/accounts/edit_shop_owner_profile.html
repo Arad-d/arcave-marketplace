@@ -16,7 +16,7 @@
                 <li><a href="{% url 'shop_owner_dashboard' %}">داشبورد</a></li>
                 <li><a href="{% url 'add_product' %}">افزودن محصول</a></li>
                 <li><a href="{% url 'edit_shop_owner_profile' %}" class="active">ویرایش پروفایل</a></li>
-                <li><a href="{% url 'logout' %}">خروج</a></li>
+                <li><form method="post" action="{% url 'logout' %}" class="inline-action">{% csrf_token %}<button type="submit" class="navigation-action">خروج</button></form></li>
             </ul>
         </aside>
         

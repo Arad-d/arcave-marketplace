@@ -49,22 +49,22 @@ The existing `setup.sh` and nested README are legacy setup instructions; follow 
 
 This repository preserves the initial development version and subsequent improvements. It is a learning and portfolio prototype and is not ready to handle real customer accounts or payments.
 
-The first security update hashes seller passwords, migrates legacy plaintext seller passwords, and binds password recovery to the verified account. Apply it with `python manage.py migrate` before using an existing database.
+The security updates hash seller passwords and recovery answers, require both answers, expire recovery sessions, limit guesses across browser sessions, enforce password validation, protect state-changing requests with POST and CSRF, and validate image uploads. Seller sessions are revoked after password changes. Apply the migrations with `python manage.py migrate` before using an existing database. See [SECURITY.md](SECURITY.md) for limits and deployment configuration.
 
 Account security and credential migration are covered by regression tests:
 
 ```bash
 cd django_project
-python manage.py test accounts
+python manage.py test accounts shop
 ```
 
 Remaining work:
 
 - Checkout records purchases and updates inventory; no payment gateway is integrated.
-- Security answers still require secure hashing; recovery needs further hardening.
-- Checkout needs protection against simultaneous purchases and stricter HTTP method checks.
-- Input validation and purchase eligibility for comments need strengthening.
-- Shopping and inventory flows still need automated coverage.
+- Configure and verify the actual production domain, TLS certificate, reverse proxy, and media hosting before deployment.
+- Checkout still needs protection against simultaneous purchases and duplicate submissions.
+- Extend validation and error handling beyond the account and product forms.
+- Extend inventory and order lifecycle tests; security and access-control tests are included.
 - The terminal prototype's purchase flow references a table it does not initialize.
 
 These improvements will be tracked through subsequent commits. Embedded configuration credentials have been moved into a local, ignored `.env` file before the initial publication.
