@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.hashers import make_password
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.db import connection
@@ -161,7 +162,7 @@ def shop_owner_signup(request):
         ShopOwner.objects.create(
             name=name,
             store_name=store_name,
-            password=password,
+            password=make_password(password),
             address=address,
             phone=phone,
             security_question1=security_question1,
@@ -196,7 +197,9 @@ def shop_owner_login(request):
             pass
         
         try:
-            shop_owner = ShopOwner.objects.get(name=name, password=password)
+            shop_owner = ShopOwner.objects.get(name=name)
+            if not shop_owner.check_password(password):
+                raise ShopOwner.DoesNotExist
             # Clear failed attempts on successful login
             clear_failed_attempts(shop_owner)
             # Store shop owner ID in session
@@ -304,7 +307,7 @@ def edit_shop_owner_profile(request):
         
         # Update password if provided
         if current_password and new_password:
-            if current_password != shop_owner.password:
+            if not shop_owner.check_password(current_password):
                 messages.error(request, 'رمز عبور فعلی اشتباه است.')
                 return render(request, 'accounts/edit_shop_owner_profile.html', {'shop_owner': shop_owner})
             
@@ -312,7 +315,7 @@ def edit_shop_owner_profile(request):
                 messages.error(request, 'رمزهای عبور جدید مطابقت ندارند.')
                 return render(request, 'accounts/edit_shop_owner_profile.html', {'shop_owner': shop_owner})
             
-            shop_owner.password = new_password
+            shop_owner.set_password(new_password)
             messages.success(request, 'رمز عبور با موفقیت به‌روزرسانی شد! لطفاً دوباره وارد شوید.')
             shop_owner.save()
             logout(request)
@@ -393,6 +396,7 @@ def verify_customer_security(request):
                     # Correct! Allow password reset
                     request.session['verified_for_reset'] = True
                     request.session['reset_user_type'] = 'customer'
+                    request.session['verified_reset_user_id'] = customer.id
                     return redirect('reset_password', user_type='customer', user_id=customer.id)
                 else:
                     # Wrong answer, show second question
@@ -416,6 +420,7 @@ def verify_customer_security(request):
                     # Correct! Allow password reset
                     request.session['verified_for_reset'] = True
                     request.session['reset_user_type'] = 'customer'
+                    request.session['verified_reset_user_id'] = customer.id
                     return redirect('reset_password', user_type='customer', user_id=customer.id)
                 else:
                     # Both answers wrong - lock account
@@ -521,6 +526,7 @@ def verify_shop_owner_security(request):
                     # Correct! Allow password reset
                     request.session['verified_for_reset'] = True
                     request.session['reset_user_type'] = 'shop_owner'
+                    request.session['verified_reset_user_id'] = shop_owner.id
                     return redirect('reset_password', user_type='shop_owner', user_id=shop_owner.id)
                 else:
                     # Wrong answer, show second question
@@ -544,6 +550,7 @@ def verify_shop_owner_security(request):
                     # Correct! Allow password reset
                     request.session['verified_for_reset'] = True
                     request.session['reset_user_type'] = 'shop_owner'
+                    request.session['verified_reset_user_id'] = shop_owner.id
                     return redirect('reset_password', user_type='shop_owner', user_id=shop_owner.id)
                 else:
                     # Both answers wrong - lock account
@@ -600,7 +607,11 @@ def reset_password(request, user_type, user_id):
         return redirect('forgot_password')
     
     # Verify user type matches
-    if request.session.get('reset_user_type') != user_type:
+    if (
+        user_type not in {'customer', 'shop_owner'}
+        or request.session.get('reset_user_type') != user_type
+        or request.session.get('verified_reset_user_id') != user_id
+    ):
         messages.error(request, 'Invalid reset request.')
         return redirect('forgot_password')
     
@@ -627,6 +638,7 @@ def reset_password(request, user_type, user_id):
                 
                 # Clear session
                 request.session.pop('verified_for_reset', None)
+                request.session.pop('verified_reset_user_id', None)
                 request.session.pop('reset_user_type', None)
                 request.session.pop('reset_customer_id', None)
                 request.session.pop('security_step', None)
@@ -639,13 +651,14 @@ def reset_password(request, user_type, user_id):
         elif user_type == 'shop_owner':
             try:
                 shop_owner = ShopOwner.objects.get(id=user_id)
-                shop_owner.password = new_password
+                shop_owner.set_password(new_password)
                 clear_failed_attempts(shop_owner)
                 shop_owner.save()
                 messages.success(request, 'Password reset successfully! Please log in.')
                 
                 # Clear session
                 request.session.pop('verified_for_reset', None)
+                request.session.pop('verified_reset_user_id', None)
                 request.session.pop('reset_user_type', None)
                 request.session.pop('reset_shop_owner_id', None)
                 request.session.pop('shop_security_step', None)
@@ -656,4 +669,3 @@ def reset_password(request, user_type, user_id):
                 return redirect('forgot_password')
     
     return render(request, 'accounts/reset_password.html', {'user_type': user_type})
-

@@ -47,14 +47,24 @@ The existing `setup.sh` and nested README are legacy setup instructions; follow 
 
 ## Current status and planned improvements
 
-This repository preserves the initial development version. It is a learning and portfolio prototype and is not ready to handle real customer accounts or payments.
+This repository preserves the initial development version and subsequent improvements. It is a learning and portfolio prototype and is not ready to handle real customer accounts or payments.
+
+The first security update hashes seller passwords, migrates legacy plaintext seller passwords, and binds password recovery to the verified account. Apply it with `python manage.py migrate` before using an existing database.
+
+Account security and credential migration are covered by regression tests:
+
+```bash
+cd django_project
+python manage.py test accounts
+```
+
+Remaining work:
 
 - Checkout records purchases and updates inventory; no payment gateway is integrated.
-- Seller passwords and security answers still require secure hashing.
-- Password recovery needs account-specific authorization checks.
+- Security answers still require secure hashing; recovery needs further hardening.
 - Checkout needs protection against simultaneous purchases and stricter HTTP method checks.
 - Input validation and purchase eligibility for comments need strengthening.
-- The test files are placeholders; automated coverage will be added as the application improves.
+- Shopping and inventory flows still need automated coverage.
 - The terminal prototype's purchase flow references a table it does not initialize.
 
 These improvements will be tracked through subsequent commits. Embedded configuration credentials have been moved into a local, ignored `.env` file before the initial publication.

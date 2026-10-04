@@ -1,3 +1,6 @@
+from typing import Optional
+
+from django.contrib.auth.hashers import check_password, make_password
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 
@@ -43,3 +46,11 @@ class ShopOwner(models.Model):
     
     def __str__(self):
         return f"{self.name} - {self.store_name}"
+
+    def set_password(self, raw_password: Optional[str]) -> None:
+        """Hash a seller password without saving the model."""
+        self.password = make_password(raw_password)
+
+    def check_password(self, raw_password: Optional[str]) -> bool:
+        """Check a supplied password against the seller's stored hash."""
+        return check_password(raw_password, self.password)
