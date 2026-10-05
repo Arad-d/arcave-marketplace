@@ -1,16 +1,21 @@
+import logging
+
 from accounts.middleware import shop_owner_required
 from accounts.models import ShopOwner
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
-from django.db import transaction
+from django.db import DatabaseError, transaction
 from django.db.models import Q, Sum
 from django.http import HttpResponseForbidden
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views.decorators.http import require_POST
 
-from .forms import ProductForm
-from .models import Cart, Comment, Product, Purchase, Reply
+from .forms import MessageForm, ProductForm, QuantityForm
+from .models import Cart, Comment, Order, Product, Purchase, Reply
+from .services import ShoppingError, change_cart, checkout_token, place_order
+
+logger = logging.getLogger(__name__)
 
 
 @login_required
@@ -75,62 +80,30 @@ def product_detail(request, pk):
 @login_required
 @require_POST
 def add_to_cart(request, pk):
-    """Add product to cart."""
-    product = get_object_or_404(Product, pk=pk)
-
-    if request.method == "POST":
+    """Add validated units without exceeding the resulting cart or stock limit."""
+    form = QuantityForm(request.POST)
+    if form.is_valid():
         try:
-            quantity = int(request.POST.get("quantity", 1))
-        except ValueError:
-            quantity = 1
-
-        # Validate quantity (max 5)
-        if quantity < 1:
-            quantity = 1
-        elif quantity > 5:
-            quantity = 5
-            messages.warning(request, "Maximum 5 units per product allowed.")
-
-        # Check stock availability
-        if not product.is_in_stock():
-            messages.error(request, f"{product.name} ناموجود است.")
-            return redirect("product_detail", pk=pk)
-
-        if not product.has_enough_stock(quantity):
-            messages.error(
-                request, f"فقط {product.stock} عدد از {product.name} موجود است."
+            change_cart(
+                request.user.pk, product_id=pk, quantity=form.cleaned_data["quantity"]
             )
-            return redirect("product_detail", pk=pk)
-
-        # Check if product already in cart
-        cart_item, created = Cart.objects.get_or_create(
-            customer=request.user, product=product, defaults={"quantity": quantity}
-        )
-
-        if not created:
-            # Product already in cart, update quantity
-            new_quantity = cart_item.quantity + quantity
-            if new_quantity > 5:
-                new_quantity = 5
-                messages.warning(request, "حداکثر ۵ عدد از هر محصول مجاز است.")
-            cart_item.quantity = new_quantity
-            cart_item.save()
-            messages.success(
-                request, f"تعداد {product.name} در سبد خرید به‌روزرسانی شد."
-            )
-        else:
-            messages.success(request, f"{product.name} به سبد خرید اضافه شد.")
-
+            messages.success(request, "سبد خرید به‌روزرسانی شد.")
+        except ShoppingError as error:
+            messages.error(request, str(error))
+    else:
+        messages.error(request, "تعداد باید یک عدد صحیح بین ۱ تا ۵ باشد.")
     return redirect("product_detail", pk=pk)
 
 
 @login_required
 def view_cart(request):
     """Display shopping cart."""
-    cart_items = Cart.objects.filter(customer=request.user).select_related("product")
+    cart_items = list(
+        Cart.objects.filter(customer=request.user).select_related("product")
+    )
 
     # Calculate totals
-    total_items = cart_items.aggregate(total=Sum("quantity"))["total"] or 0
+    total_items = sum(item.quantity for item in cart_items)
     total_price = sum(item.get_total_price() for item in cart_items)
 
     return render(
@@ -140,6 +113,7 @@ def view_cart(request):
             "cart_items": cart_items,
             "total_items": total_items,
             "total_price": total_price,
+            "checkout_token": checkout_token(request.user.pk, cart_items),
         },
     )
 
@@ -147,95 +121,62 @@ def view_cart(request):
 @login_required
 @require_POST
 def update_cart(request, pk):
-    """Update cart item quantity."""
-    cart_item = get_object_or_404(Cart, pk=pk, customer=request.user)
-
-    if request.method == "POST":
+    """Update an owned cart with validated quantities."""
+    get_object_or_404(Cart, pk=pk, customer=request.user)
+    form = QuantityForm(request.POST)
+    if form.is_valid():
         try:
-            quantity = int(request.POST.get("quantity", 1))
-        except ValueError:
-            quantity = 1
-
-        # Validate quantity (max 5)
-        if quantity < 1:
-            quantity = 1
-        elif quantity > 5:
-            quantity = 5
-            messages.warning(request, "Maximum 5 units per product allowed.")
-
-        # Check stock availability
-        if not cart_item.product.has_enough_stock(quantity):
-            messages.error(request, f"فقط {cart_item.product.stock} عدد موجود است.")
-            return redirect("view_cart")
-
-        cart_item.quantity = quantity
-        cart_item.save()
-        messages.success(request, "سبد خرید با موفقیت به‌روزرسانی شد.")
-
+            change_cart(
+                request.user.pk, cart_id=pk, quantity=form.cleaned_data["quantity"]
+            )
+            messages.success(request, "سبد خرید به‌روزرسانی شد.")
+        except ShoppingError as error:
+            messages.error(request, str(error))
+    else:
+        messages.error(request, "تعداد باید یک عدد صحیح بین ۱ تا ۵ باشد.")
     return redirect("view_cart")
 
 
 @login_required
 @require_POST
 def remove_from_cart(request, pk):
-    """Remove item from cart."""
-    cart_item = get_object_or_404(Cart, pk=pk, customer=request.user)
-    cart_item.delete()
+    """Remove an owned item under the same lock used by checkout."""
+    change_cart(request.user.pk, cart_id=pk, remove=True)
     messages.success(request, "مورد از سبد خرید حذف شد.")
     return redirect("view_cart")
 
 
 @login_required
-@transaction.atomic
 @require_POST
 def checkout(request):
-    """Process checkout and deduct inventory."""
-    cart_items = Cart.objects.filter(customer=request.user).select_related("product")
-
-    if not cart_items.exists():
-        messages.error(request, "سبد خرید شما خالی است.")
+    """Confirm the displayed cart once, returning the same receipt on retries."""
+    try:
+        order = place_order(request.user.pk, request.POST.get("checkout_token", ""))
+    except ShoppingError as error:
+        messages.error(request, str(error))
         return redirect("view_cart")
+    except DatabaseError:
+        logger.exception("Checkout transaction failed")
+        messages.error(request, "ثبت سفارش انجام نشد. دوباره تلاش کنید.")
+        return redirect("view_cart")
+    messages.success(request, "سفارش ثبت شد. پرداخت آنلاین در این نسخه فعال نیست.")
+    return redirect("order_detail", number=order.number)
 
-    # Validate stock availability for all items
-    for item in cart_items:
-        if not item.product.has_enough_stock(item.quantity):
-            messages.error(
-                request,
-                f"موجودی کافی برای {item.product.name} نیست. فقط {item.product.stock} عدد موجود است.",
-            )
-            return redirect("view_cart")
 
-    # Process purchases and deduct inventory
-    total_purchase_price = 0
-    for item in cart_items:
-        # Deduct stock
-        item.product.stock -= item.quantity
-        item.product.save()
-
-        # Create purchase record
-        purchase_price = item.product.price * item.quantity
-        Purchase.objects.create(
-            product=item.product,
-            customer=request.user,
-            quantity=item.quantity,
-            total_price=purchase_price,
-        )
-        total_purchase_price += purchase_price
-
-    # Clear cart
-    cart_items.delete()
-
-    messages.success(
-        request, f"سفارش با موفقیت ثبت شد! جمع کل: {total_purchase_price:,.0f} ریال"
+@login_required
+def order_detail(request, number):
+    """Show a receipt only to the customer who placed the order."""
+    order = get_object_or_404(
+        Order.objects.prefetch_related("items"), number=number, customer=request.user
     )
-    return redirect("customer_dashboard")
+    return render(request, "shop/order_detail.html", {"order": order})
 
 
 @login_required
 def customer_dashboard(request):
     """Customer dashboard with purchases and browsing."""
     purchases = Purchase.objects.filter(customer=request.user).select_related(
-        "product", "product__shop_owner"
+        "product", "seller", "order"
     )
 
     # Get cart count
@@ -263,12 +204,13 @@ def add_comment(request, pk):
         return HttpResponseForbidden("ثبت نظر فقط برای خریداران این محصول مجاز است.")
 
     if request.method == "POST":
-        text = request.POST.get("text")
+        form = MessageForm(request.POST)
+        text = form.cleaned_data["text"] if form.is_valid() else ""
         if text:
             Comment.objects.create(product=product, customer=request.user, text=text)
             messages.success(request, "نظر با موفقیت ثبت شد!")
         else:
-            messages.error(request, "نظر نمی‌تواند خالی باشد.")
+            messages.error(request, "نظر باید بین ۱ تا ۲۰۰۰ نویسه باشد.")
 
     return redirect("product_detail", pk=pk)
 
@@ -293,16 +235,16 @@ def shop_owner_dashboard(request):
 
     # Get products sold data
     products_sold = (
-        Purchase.objects.filter(product__shop_owner=shop_owner)
-        .select_related("product", "customer")
+        Purchase.objects.filter(seller=shop_owner)
+        .select_related("product", "customer", "order")
         .order_by("-created_at")
     )
 
     # Calculate total products sold
     total_products_sold = (
-        Purchase.objects.filter(product__shop_owner=shop_owner).aggregate(
-            total=Sum("quantity")
-        )["total"]
+        Purchase.objects.filter(seller=shop_owner).aggregate(total=Sum("quantity"))[
+            "total"
+        ]
         or 0
     )
 
@@ -384,18 +326,29 @@ def reply_to_comment(request, comment_id):
     comment = get_object_or_404(Comment, id=comment_id, product__shop_owner=shop_owner)
 
     if request.method == "POST":
-        text = request.POST.get("text")
+        form = MessageForm(request.POST)
+        text = form.cleaned_data["text"] if form.is_valid() else ""
         if text:
-            Reply.objects.create(comment=comment, shop_owner=shop_owner, text=text)
-            messages.success(request, "پاسخ با موفقیت ثبت شد!")
+            _, created = Reply.objects.get_or_create(
+                comment=comment, defaults={"shop_owner": shop_owner, "text": text}
+            )
+            messages.success(
+                request,
+                (
+                    "پاسخ با موفقیت ثبت شد!"
+                    if created
+                    else "این نظر قبلاً پاسخ داده شده است."
+                ),
+            )
         else:
-            messages.error(request, "پاسخ نمی‌تواند خالی باشد.")
+            messages.error(request, "پاسخ باید بین ۱ تا ۲۰۰۰ نویسه باشد.")
 
     return redirect("shop_owner_dashboard")
 
 
 @require_POST
 @shop_owner_required
+@transaction.atomic
 def delete_product(request, pk):
     """Delete a product (shop owner only)."""
     shop_owner_id = request.session.get("shop_owner_id")
@@ -410,7 +363,9 @@ def delete_product(request, pk):
         messages.error(request, "Shop owner not found.")
         return redirect("shop_owner_login")
 
-    product = get_object_or_404(Product, pk=pk, shop_owner=shop_owner)
+    product = get_object_or_404(
+        Product.objects.select_for_update(), pk=pk, shop_owner=shop_owner
+    )
     product.delete()
     messages.success(request, "محصول با موفقیت حذف شد!")
 
@@ -418,6 +373,7 @@ def delete_product(request, pk):
 
 
 @shop_owner_required
+@transaction.atomic
 def edit_product(request, pk):
     """Edit an existing product (shop owner only)."""
     shop_owner_id = request.session.get("shop_owner_id")
@@ -432,7 +388,9 @@ def edit_product(request, pk):
         messages.error(request, "Shop owner not found.")
         return redirect("shop_owner_login")
 
-    product = get_object_or_404(Product, pk=pk, shop_owner=shop_owner)
+    product = get_object_or_404(
+        Product.objects.select_for_update(), pk=pk, shop_owner=shop_owner
+    )
 
     form = ProductForm(
         request.POST if request.method == "POST" else None,

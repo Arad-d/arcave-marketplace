@@ -43,22 +43,18 @@
                             {% for purchase in purchases %}
                                 <tr>
                                     <td>
-                                        <strong>{{ purchase.product.name }}</strong>
+                                        <strong>{{ purchase.product_name }}</strong>
                                     </td>
-                                    <td>
-                                        <a href="{% url 'shop_profile' purchase.product.shop_owner.pk %}" style="color: var(--color-brown); text-decoration: none;">
-                                            {{ purchase.product.shop_owner.store_name }}
-                                        </a>
-                                    </td>
+                                    <td>{{ purchase.store_name }}</td>
                                     <td>{{ purchase.quantity }}</td>
-                                    <td>{{ purchase.total_price|default:purchase.product.price|floatformat:"0" }} ریال</td>
+                                    <td>{% if purchase.total_price != None %}{{ purchase.total_price|floatformat:"0" }} ریال{% else %}نامشخص{% endif %}</td>
                                     <td>
                                         {{ purchase.created_at|date:"Y/m/d" }}
                                     </td>
                                     <td>
-                                        <a href="{% url 'product_detail' purchase.product.pk %}" class="btn btn-sm btn-secondary">
-                                            مشاهده
-                                        </a>
+                                        <a href="{% url 'order_detail' purchase.order.number %}">{{ purchase.order }}</a>
+                                        <p>{{ purchase.order.get_status_display }}</p>
+                                        {% if purchase.product_id %}<a href="{% url 'product_detail' purchase.product_id %}">مشاهده محصول</a>{% else %}محصول حذف شده است{% endif %}
                                     </td>
                                 </tr>
                             {% endfor %}

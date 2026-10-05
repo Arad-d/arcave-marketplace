@@ -70,8 +70,8 @@
                 </div>
                 <div style="display: flex; gap: 1rem;">
                     <a href="{% url 'product_list' %}" class="btn btn-secondary">ادامه خرید</a>
-                    <form method="post" action="{% url 'checkout' %}" class="inline-action">{% csrf_token %}<button type="submit" class="btn btn-primary btn-lg" onclick="return confirm('آیا می‌خواهید خرید را نهایی کنید؟');">
-                        پرداخت
+                    <form method="post" action="{% url 'checkout' %}" class="inline-action">{% csrf_token %}<input type="hidden" name="checkout_token" value="{{ checkout_token }}"><button type="submit" class="btn btn-primary btn-lg" onclick="return confirm('آیا می‌خواهید خرید را نهایی کنید؟');">
+                        ثبت سفارش
                     </button></form>
                 </div>
             </div>

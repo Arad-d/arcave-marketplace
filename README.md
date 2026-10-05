@@ -6,7 +6,7 @@ A Persian-language marketplace prototype built with Python and Django. Sellers m
 
 - Separate customer and shop-owner registration, login, and dashboards.
 - Product images, categories, search, and pagination.
-- Shopping carts, stock tracking, and purchase history.
+- Shopping carts, concurrent inventory protection, and durable order receipts.
 - Product comments and seller replies.
 - Store profiles and seller sales summaries.
 - Persian interface, Iranian rial prices, and Tehran time zone.
@@ -51,7 +51,9 @@ This repository preserves the initial development version and subsequent improve
 
 The security updates hash seller passwords and recovery answers, require both answers, expire recovery sessions, limit guesses across browser sessions, enforce password validation, protect state-changing requests with POST and CSRF, and validate image uploads. Seller sessions are revoked after password changes. Apply the migrations with `python manage.py migrate` before using an existing database. See [SECURITY.md](SECURITY.md) for limits and deployment configuration.
 
-Account security and credential migration are covered by regression tests:
+Shopping reliability now includes atomic checkout, duplicate-submission protection, validated cart quantities, preserved purchase details, and unique order numbers with fulfillment status. See [SHOPPING.md](SHOPPING.md) for the completed checklist, migration behavior, and remaining limits.
+
+Account security, credential migration, and shopping reliability are covered by regression tests:
 
 ```bash
 cd django_project
@@ -62,9 +64,8 @@ Remaining work:
 
 - Checkout records purchases and updates inventory; no payment gateway is integrated.
 - Configure and verify the actual production domain, TLS certificate, reverse proxy, and media hosting before deployment.
-- Checkout still needs protection against simultaneous purchases and duplicate submissions.
 - Extend validation and error handling beyond the account and product forms.
-- Extend inventory and order lifecycle tests; security and access-control tests are included.
+- Add cancellation, refunds, delivery tracking, and payment reconciliation when integrating real payments.
 - The terminal prototype's purchase flow references a table it does not initialize.
 
 These improvements will be tracked through subsequent commits. Embedded configuration credentials have been moved into a local, ignored `.env` file before the initial publication.

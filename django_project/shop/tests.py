@@ -13,7 +13,7 @@ from PIL import Image
 from PIL.PngImagePlugin import PngInfo
 
 from .forms import ProductForm
-from .models import Cart, Comment, Product, Purchase, Reply
+from .models import Cart, Comment, Order, Product, Purchase, Reply
 
 
 def image_upload(
@@ -136,6 +136,7 @@ class ShoppingSecurityTests(TestCase):
         self.client.force_login(self.customers[0])
         url = reverse("add_comment", args=[self.products[0].pk])
         Purchase.objects.create(
+            order=Order.objects.create(customer=self.customers[1]),
             customer=self.customers[1],
             product=self.products[0],
             quantity=1,
@@ -146,6 +147,7 @@ class ShoppingSecurityTests(TestCase):
         )
         self.assertFalse(Comment.objects.filter(product=self.products[0]).exists())
         Purchase.objects.create(
+            order=Order.objects.create(customer=self.customers[0]),
             customer=self.customers[0],
             product=self.products[0],
             quantity=1,
@@ -252,9 +254,11 @@ class ShoppingSecurityTests(TestCase):
         """Legitimate form submissions work after enforcing POST and CSRF."""
         client = Client(enforce_csrf_checks=True)
         client.force_login(self.customers[0])
-        client.get(reverse("view_cart"))
+        cart_response = client.get(reverse("view_cart"))
         response = client.post(
-            reverse("checkout"), HTTP_X_CSRFTOKEN=client.cookies["csrftoken"].value
+            reverse("checkout"),
+            {"checkout_token": cart_response.context["checkout_token"]},
+            HTTP_X_CSRFTOKEN=client.cookies["csrftoken"].value,
         )
         self.assertEqual(response.status_code, 302)
         self.assertEqual(Purchase.objects.filter(customer=self.customers[0]).count(), 1)

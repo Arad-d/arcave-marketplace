@@ -24,7 +24,7 @@
         <!-- Main Content -->
         <div class="dashboard-content">
             <form method="post" enctype="multipart/form-data">
-                {% csrf_token %}
+                {% csrf_token %}{{ form.original_stock }}
                 
                 <div class="form-group">
                     <label class="form-label" for="name">نام محصول</label>

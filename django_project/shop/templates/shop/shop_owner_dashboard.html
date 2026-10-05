@@ -58,11 +58,11 @@
                             {% for purchase in products_sold %}
                                 <tr>
                                     <td>
-                                        <a href="{% url 'product_detail' purchase.product.pk %}">{{ purchase.product.name }}</a>
+                                        {{ purchase.product_name }}<br>{{ purchase.order }}<br>{{ purchase.order.get_status_display }}
                                     </td>
                                     <td>{{ purchase.customer.username }}</td>
                                     <td>{{ purchase.quantity }}</td>
-                                    <td>{{ purchase.total_price|floatformat:"0" }} ریال</td>
+                                    <td>{% if purchase.total_price != None %}{{ purchase.total_price|floatformat:"0" }} ریال{% else %}نامشخص{% endif %}</td>
                                     <td>{{ purchase.created_at|date:"Y/m/d" }}</td>
                                 </tr>
                             {% endfor %}
