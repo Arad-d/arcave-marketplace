@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="340" viewBox="0 0 1200 340" role="img" aria-labelledby="title desc">
+  <title id="title">Arcave — Discover locally. Shop with clarity.</title>
+  <desc id="desc">A charcoal and terracotta marketplace banner with illustrated product cards and a recorded order.</desc>
+  <defs><linearGradient id="background" x2="1" y2="1"><stop stop-color="#222321"/><stop offset="1" stop-color="#382b24"/></linearGradient></defs>
+  <rect width="1200" height="340" rx="24" fill="url(#background)"/>
+  <circle cx="1130" cy="25" r="270" fill="#d4a574" opacity=".05"/>
+  <circle cx="1130" cy="25" r="208" fill="none" stroke="#d4a574" opacity=".13"/>
+  <g transform="translate(64 52)">
+    <rect width="46" height="46" rx="14" fill="#d4a574"/>
+    <path d="M13 20h20l2 16H11l2-16Zm5 0v-5a5 5 0 0 1 10 0v5" fill="none" stroke="#332920" stroke-width="2.5" stroke-linejoin="round"/>
+    <text x="62" y="30" fill="#d4a574" font-family="Arial, sans-serif" font-size="18" letter-spacing="3">BILINGUAL MARKETPLACE</text>
+  </g>
+  <text x="64" y="189" fill="#faf7f2" font-family="Arial, sans-serif" font-size="78" font-weight="700" letter-spacing="-3">Arcave</text>
+  <text x="67" y="240" fill="#e2d7ca" font-family="Arial, sans-serif" font-size="25">Discover locally. Shop with clarity.</text>
+  <text x="67" y="286" fill="#b9a999" font-family="Arial, sans-serif" font-size="15" letter-spacing="1">EXPLORE PRODUCTS   /   MANAGE A STORE   /   TRACK ORDERS</text>
+  <g transform="translate(790 54)">
+    <rect width="330" height="232" rx="18" fill="#2b2824" stroke="#615043"/>
+    <text x="22" y="34" fill="#e2d7ca" font-family="Arial, sans-serif" font-size="14">LOCAL FINDS. TWO LANGUAGES.</text>
+    <rect x="22" y="52" width="135" height="111" rx="12" fill="#efe6da"/>
+    <rect x="173" y="52" width="135" height="111" rx="12" fill="#dfe7d9"/>
+    <path d="M67 111V96a22 22 0 0 1 44 0v15" fill="none" stroke="#333b36" stroke-width="8"/>
+    <rect x="58" y="104" width="17" height="32" rx="8" fill="#89512f"/><rect x="104" y="104" width="17" height="32" rx="8" fill="#89512f"/>
+    <rect x="203" y="85" width="75" height="49" rx="8" fill="#35473a"/><path d="m218 85 7-9h23l7 9" fill="#35473a"/><circle cx="241" cy="110" r="18" fill="#d4a574"/><circle cx="241" cy="110" r="12" fill="#333b36"/>
+    <circle cx="33" cy="195" r="11" fill="#a8c5a8"/><path d="m28 195 4 4 7-8" fill="none" stroke="#26372b" stroke-width="2"/>
+    <text x="54" y="200" fill="#e2d7ca" font-family="Arial, sans-serif" font-size="15">Order recorded</text>
+    <text x="257" y="200" fill="#d4a574" font-family="Arial, sans-serif" font-size="13">FA / EN</text>
+  </g>
+</svg>

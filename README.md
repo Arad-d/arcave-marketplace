@@ -1,95 +1,128 @@
-# Arcave Marketplace
+<p align="center">
+  <img src="docs/arcave-banner.svg" width="100%" alt="Arcave — Discover locally. Shop with clarity.">
+</p>
 
-A Persian and English marketplace prototype built with Python and Django. Sellers manage their stores and product inventory, while customers browse products, use a shopping cart, and record purchases.
+<p align="center">
+  <a href="https://github.com/Arad-d/arcave-marketplace/actions/workflows/tests.yml"><img src="https://github.com/Arad-d/arcave-marketplace/actions/workflows/tests.yml/badge.svg" alt="Django and PostgreSQL tests"></a>
+  <img src="https://img.shields.io/badge/Django-5.2-356638?logo=django&amp;logoColor=white" alt="Django 5.2">
+  <img src="https://img.shields.io/badge/PostgreSQL-17-4169E1?logo=postgresql&amp;logoColor=white" alt="PostgreSQL 17">
+  <img src="https://img.shields.io/badge/Languages-Persian%20%26%20English-D4A574" alt="Persian and English">
+</p>
 
-## Features
+<p align="center">
+  A marketplace that connects customers with independent stores.<br>
+  Discover products, manage inventory, and keep a clear record of every order.
+</p>
 
-- Separate customer and shop-owner registration, login, and dashboards.
-- Product images, categories, search, and pagination.
-- Shopping carts, concurrent inventory protection, and durable order receipts.
-- Product comments and seller replies.
-- Store profiles and seller sales summaries.
-- Persian/English language switch, automatic RTL/LTR layouts, Iranian rial prices, and Tehran time zone.
+<p align="center">
+  <a href="#a-look-inside"><strong>Explore the screenshots</strong></a> ·
+  <a href="#get-started">Run locally</a> ·
+  <a href="USER_EXPERIENCE.md#fictional-demo">Demo setup</a> ·
+  <a href="docs/portfolio/README.md">Case study</a> ·
+  <a href="SECURITY.md">Security</a>
+</p>
 
-## Project structure
+## From a local discovery to a recorded order
 
-- `django_project/`: Django website, with `accounts` and `shop` applications.
-- `main.py`: original SQLite-based terminal prototype, retained to show the project's evolution.
-- `AGENTS.md`: development guidance for the Django application.
-- `MAINTENANCE.md`: test commands, CI, error pages and logging.
+Arcave brings customer and seller journeys into one Django application. Browse a store's products, build a cart, and review an order. Sellers manage listings and inventory, see their sales, and reply to buyer reviews.
 
-The website uses Django templates, CSS, PostgreSQL, and Pillow for product images. Local databases, uploaded files, credentials, and generated files are excluded from version control.
+**Explore the catalog before signing in.** Customer accounts are required for cart changes and purchases. Persian and English interfaces switch between RTL and LTR layouts, while prices stay in Iranian rials (IRR).
 
-## Run the website locally
+The fictional demo includes six products, sample accounts, an order and a buyer review. It runs in a separate local database. **A public hosted demo is not available yet; no payments or deliveries take place.**
 
-Use Python 3.10–3.14, Django 5.2 and PostgreSQL 17 (the version used in CI). The dependency file keeps Django within its 5.2 series.
+## A look inside
 
-```bash
-cd django_project
+<details>
+  <summary><strong>Desktop catalog — expand to view</strong></summary>
+  <p><img src="docs/portfolio/catalog-en.jpg" width="100%" alt="English desktop catalog with six fictional products and illustrated product cards"></p>
+</details>
+
+<table>
+  <tr><th>Browse in Persian</th><th>Review your cart</th><th>Recover from a form error</th></tr>
+  <tr>
+    <td valign="top"><img src="docs/portfolio/mobile-fa.jpg" width="250" alt="Persian mobile catalog with right-to-left navigation and search"></td>
+    <td valign="top"><img src="docs/portfolio/cart-mobile-en.jpg" width="250" alt="Mobile cart with quantity updates, a total, and a no-payment checkout notice"></td>
+    <td valign="top"><img src="docs/portfolio/form-errors-en.jpg" width="250" alt="Seller product form with a linked error summary and preserved draft values"></td>
+  </tr>
+</table>
+
+All screenshots use fictional accounts and products. [View the order receipt and full case study](docs/portfolio/README.md).
+
+## What you can do
+
+| | In Arcave |
+| --- | --- |
+| **Discover products** | Browse without signing in, search listings, filter categories, and explore store profiles and product details. |
+| **Review before ordering** | Adjust cart quantities explicitly, check the total, and record an order with a unique receipt number. Stock is checked again at checkout. |
+| **Run a store** | Create and edit listings, upload validated product images, manage inventory, and view store-specific sales. |
+| **Keep purchase history** | Receipts preserve the purchased name, store, quantity and price even after a listing changes or is deleted. |
+| **Talk about a purchase** | Customers can review products they purchased; the seller can reply. Duplicate replies preserve the original answer. |
+| **Choose your language** | Switch between Persian and English from the header, with responsive RTL/LTR layouts and a saved language preference. |
+
+## Get started
+
+Use Python **3.10–3.14**, PostgreSQL **17**, and a local database configured for this project.
+
+```sh
+git clone https://github.com/Arad-d/arcave-marketplace.git
+cd arcave-marketplace/django_project
 python3 -m venv .venv
 source .venv/bin/activate
 python -m pip install -r requirements-dev.txt
-# For a new checkout only; preserve any existing .env.
 cp .env.example .env
-python -c "from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())"
 ```
 
-Paste the generated key into `DJANGO_SECRET_KEY` in `.env`, configure your PostgreSQL credentials, and create a database matching `DB_NAME`. The example uses `arcave_db`. Keep `.env` private. With your PostgreSQL administrator account, you can create the development database using `createdb -h localhost -U postgres arcave_db`; adjust the host and role to match your installation. Keep `DJANGO_DEBUG=True` for local development. Back up and verify an existing database before applying migrations.
+Follow [SETUP.md](SETUP.md) to generate a private secret, configure your database and apply migrations. Preserve an existing `.env` if you already have a local installation. Then run:
 
-```bash
+```sh
 python manage.py migrate
 python manage.py runserver
 ```
 
-Open http://127.0.0.1:8000 and register a customer or shop owner. Uploaded product images are stored locally in `django_project/media/`.
+Open [localhost:8000](http://127.0.0.1:8000/). Windows activation and a macOS/Linux setup helper are covered in the guide.
 
-On Windows, activate the environment with `.venv\Scripts\activate`.
+**Try this:** follow the [fictional demo setup](USER_EXPERIENCE.md#fictional-demo), sign in as the sample customer, add headphones to the cart, change the quantity, and place a demonstration order. Open the receipt, then use the sample seller account to explore inventory and reviews.
 
-On macOS/Linux, `bash django_project/setup.sh` from the repository root can prepare `.venv`, install the development dependencies, and create a private `.env` with a generated secret if one does not exist. It preserves existing configuration and prints the database/migration steps for you to complete. Persian setup instructions are in [django_project/README.md](django_project/README.md).
+## Under the hood
 
-For a deployed environment, install `requirements.txt`, follow [SECURITY.md](SECURITY.md), collect static assets with `python manage.py collectstatic --noinput`, and serve the resulting `django_project/staticfiles/` through your hosting setup.
+- **Django / Python:** server-rendered pages with separate customer and seller dashboards.
+- **PostgreSQL transactions:** checkout locks the customer and product rows, then records the order, deducts stock and clears the purchased cart together.
+- **Protected confirmations:** signed, customer-specific tokens prevent duplicate orders and require another cart review when quantities or prices change.
+- **Durable receipts:** order lines snapshot the purchased details; deleted listings do not erase purchase history.
+- **Account and upload protection:** hashed credentials, server-side ownership checks, CSRF protection, recovery limits, and decoded/re-encoded raster uploads.
+- **Bilingual presentation:** Django translation catalogs, a persistent language switch, accessible form errors and responsive layouts.
 
-## Current status and planned improvements
+Read the [checkout design and tradeoffs](SHOPPING.md), [security improvements](SECURITY.md), and [UX verification notes](USER_EXPERIENCE.md).
 
-This repository preserves the initial development version and subsequent improvements. It is a learning and portfolio prototype and is not ready to handle real customer accounts or payments.
+## Quality checks
 
-The security updates hash seller passwords and recovery answers, require both answers, expire recovery sessions, limit guesses across browser sessions, enforce password validation, protect state-changing requests with POST and CSRF, and validate image uploads. Seller sessions are revoked after password changes. Apply the migrations with `python manage.py migrate` before using an existing database. See [SECURITY.md](SECURITY.md) for limits and deployment configuration.
-
-Shopping reliability now includes atomic checkout, duplicate-submission protection, validated cart quantities, preserved purchase details, and unique order numbers with fulfillment status. See [SHOPPING.md](SHOPPING.md) for the completed checklist, migration behavior, and remaining limits.
-
-Account security, credential migration, and shopping reliability are covered by regression tests:
-
-```bash
+```sh
 cd django_project
+python manage.py check
+python manage.py makemigrations --check --dry-run
 python manage.py test accounts shop arcave --settings=arcave.test_settings
 ```
 
-GitHub runs the complete PostgreSQL suite on every push and pull request using Python 3.10 and 3.14. [MAINTENANCE.md](MAINTENANCE.md) contains the completed maintenance checklist, database permissions for tests, coverage commands, and how to investigate errors using request references.
+The [GitHub workflow](.github/workflows/tests.yml) runs configuration and migration checks, dependency checks, translation validation, and the PostgreSQL test suite on Python **3.10 and 3.14**. Action versions are pinned to commit hashes; test jobs have read-only repository permissions.
 
-Remaining work:
+Tests cover account security, seller permissions, cart updates, competing purchases, duplicate checkout, receipt snapshots, translation, form errors and isolated demo setup. See [MAINTENANCE.md](MAINTENANCE.md) for test database requirements, coverage and troubleshooting.
 
-- Checkout records purchases and updates inventory; no payment gateway is integrated.
-- Configure and verify the actual production domain, TLS certificate, reverse proxy, and media hosting before deployment.
-- Extend validation and error handling beyond the account and product forms.
-- Add cancellation, refunds, delivery tracking, and payment reconciliation when integrating real payments.
-- The terminal prototype's purchase flow references a table it does not initialize.
+## Project map
 
-These improvements will be tracked through subsequent commits. Embedded configuration credentials have been moved into a local, ignored `.env` file before the initial publication.
+| Path | Purpose |
+| --- | --- |
+| [`django_project/accounts/`](django_project/accounts/) | Customer and seller authentication, profiles and recovery. |
+| [`django_project/shop/`](django_project/shop/) | Listings, carts, checkout, orders and reviews. |
+| [`django_project/arcave/`](django_project/arcave/) | Configuration, error pages, logging and demo isolation. |
+| [`docs/portfolio/`](docs/portfolio/) | Fictional-data screenshots and project case study. |
+| [`main.py`](main.py) | Original SQLite terminal prototype, retained to show the project's evolution. |
 
-## User experience and portfolio
+## Current capabilities
 
-The catalog supports browsing before sign-in, responsive RTL/LTR layouts, clearer cart review, accessible field errors and retained form values. An isolated fictional demo includes six products, sample accounts, a receipt and reviews. See [USER_EXPERIENCE.md](USER_EXPERIENCE.md) for setup, verification and the remaining publishing steps, or open the [portfolio case study and screenshots](docs/portfolio/README.md).
+Arcave is a portfolio prototype. Checkout records orders and updates inventory; it does not collect payment. Shipping, cancellations, refunds and payment reconciliation are not implemented. Product descriptions and reviews remain in the language their authors entered.
 
-## Languages
+Public hosting, operational monitoring and a tested backup/recovery process still need configuration. Shared demo accounts can modify their fictional data. Read [SECURITY.md](SECURITY.md) before deploying or accepting real customer information. The historical terminal prototype is not the active website.
 
-Use the English / فارسی button in the header (next to the customer cart) to switch languages while staying on the current page. Your choice is stored for one year; without a saved choice, the browser language is used when supported, with Persian as the fallback. Labels, forms, messages, categories, order status and error pages are translated. User-entered product descriptions, reviews, store names and security questions remain in their original language. Prices stay in Iranian rials; English displays the `IRR` label.
+## Author
 
-The English source and compiled catalogs live in `django_project/locale/en/LC_MESSAGES/`. Both are committed, so a normal checkout runs without installing gettext. When editing translations, install GNU gettext (`brew install gettext` on macOS or `sudo apt-get install gettext` on Ubuntu), then run from the repository root:
-
-```bash
-python django_project/manage.py makemessages -l en --no-wrap --ignore=.venv --ignore=venv --ignore=.backups
-# Edit django_project/locale/en/LC_MESSAGES/django.po.
-python django_project/manage.py compilemessages -l en
-```
-
-GitHub checks that the compiled catalog matches its source. Language tests exercise public, customer and seller pages, validation messages, recovery forms and language switching with CSRF protection.
+Created and maintained by **[Arad Delbari](https://github.com/Arad-d)**.
