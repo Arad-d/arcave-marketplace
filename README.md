@@ -1,6 +1,6 @@
 # Arcave Marketplace
 
-A Persian-language marketplace prototype built with Python and Django. Sellers manage their stores and product inventory, while customers browse products, use a shopping cart, and record purchases.
+A Persian and English marketplace prototype built with Python and Django. Sellers manage their stores and product inventory, while customers browse products, use a shopping cart, and record purchases.
 
 ## Features
 
@@ -9,7 +9,7 @@ A Persian-language marketplace prototype built with Python and Django. Sellers m
 - Shopping carts, concurrent inventory protection, and durable order receipts.
 - Product comments and seller replies.
 - Store profiles and seller sales summaries.
-- Persian interface, Iranian rial prices, and Tehran time zone.
+- Persian/English language switch, automatic RTL/LTR layouts, Iranian rial prices, and Tehran time zone.
 
 ## Project structure
 
@@ -75,3 +75,17 @@ Remaining work:
 - The terminal prototype's purchase flow references a table it does not initialize.
 
 These improvements will be tracked through subsequent commits. Embedded configuration credentials have been moved into a local, ignored `.env` file before the initial publication.
+
+## Languages
+
+Use the English / فارسی button in the header (next to the customer cart) to switch languages while staying on the current page. Your choice is stored for one year; without a saved choice, the browser language is used when supported, with Persian as the fallback. Labels, forms, messages, categories, order status and error pages are translated. User-entered product descriptions, reviews, store names and security questions remain in their original language. Prices stay in Iranian rials; English displays the `IRR` label.
+
+The English source and compiled catalogs live in `django_project/locale/en/LC_MESSAGES/`. Both are committed, so a normal checkout runs without installing gettext. When editing translations, install GNU gettext (`brew install gettext` on macOS or `sudo apt-get install gettext` on Ubuntu), then run from the repository root:
+
+```bash
+python django_project/manage.py makemessages -l en --no-wrap --ignore=.venv --ignore=venv --ignore=.backups
+# Edit django_project/locale/en/LC_MESSAGES/django.po.
+python django_project/manage.py compilemessages -l en
+```
+
+GitHub checks that the compiled catalog matches its source. Language tests exercise public, customer and seller pages, validation messages, recovery forms and language switching with CSRF protection.

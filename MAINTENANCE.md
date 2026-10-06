@@ -47,13 +47,13 @@ Format changed Python files with `python -m black <files>` and check imports/bas
 
 ## GitHub automation
 
-[Tests workflow](.github/workflows/tests.yml) runs on every push and pull request, and can also be started manually from the repository's Actions tab. Both Python 3.10 and 3.14 jobs start an isolated PostgreSQL 17 service, install supported dependency versions, validate Django configuration, detect missing migrations, apply migrations to an empty database, check dependency compatibility, and run the complete suite with a coverage summary.
+[Tests workflow](.github/workflows/tests.yml) runs on every push and pull request, and can also be started manually from the repository's Actions tab. Both Python 3.10 and 3.14 jobs start an isolated PostgreSQL 17 service, install supported dependency versions, validate Django configuration, detect missing migrations, apply migrations to an empty database, check dependency compatibility and compiled English translations, and run the complete suite with a coverage summary.
 
 The credentials in this workflow are disposable values for its isolated database. It requires no application credentials or repository secrets and has read-only repository permissions. Action versions are pinned to commit IDs. Dependencies stay within supported major/minor families and receive compatible updates when CI installs them; this is not a fully locked dependency set. Evaluate dependency updates through the full suite. CI failures appear in the commit/PR checks; open the failed step to diagnose them. Branch protection is a separate repository setting and is not enabled by adding this workflow.
 
 ## Error pages
 
-With `DJANGO_DEBUG=False`, HTTP 400, 403, 404 and 500 responses use a Persian page with an explanation, home link and reference number. CSRF rejections explain that the form should be reopened and submitted again. The pages have inline styling and render without session, authentication, database queries, remote fonts or static-file services, so a database outage does not break the fallback page. Error responses use `Cache-Control: no-store`.
+With `DJANGO_DEBUG=False`, HTTP 400, 403, 404 and 500 responses use a Persian or English page according to the selected language with an explanation, home link and reference number. CSRF rejections explain that the form should be reopened and submitted again. The pages have inline styling and render without session, authentication, database queries, remote fonts or static-file services, so a database outage does not break the fallback page. Error responses use `Cache-Control: no-store`.
 
 Django still displays its diagnostic pages for 400/404/500 in development debug mode. Test production error handling with `arcave.test_runtime`, or use a separate local preview configuration with debug disabled and local HTTPS settings; keep the actual production HTTPS protections enabled. No intentional crash endpoint is installed in the website.
 

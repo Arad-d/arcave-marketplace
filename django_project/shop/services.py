@@ -9,6 +9,7 @@ from accounts.models import Customer
 from django.core import signing
 from django.db import transaction
 from django.shortcuts import get_object_or_404
+from django.utils.translation import gettext_lazy as _
 
 from .models import Cart, Order, Product, Purchase
 
@@ -61,7 +62,9 @@ def change_cart(
         ).first()
         quantity = quantity + (item.quantity if item else 0)
     if not 1 <= quantity <= 5 or quantity > product.stock:
-        raise ShoppingError("تعداد باید بین ۱ تا ۵ و حداکثر برابر موجودی محصول باشد.")
+        raise ShoppingError(
+            _("تعداد باید بین ۱ تا ۵ و حداکثر برابر موجودی محصول باشد.")
+        )
     Cart.objects.update_or_create(
         customer_id=customer_id, product_id=product_id, defaults={"quantity": quantity}
     )
@@ -76,7 +79,7 @@ def place_order(customer_id: int, token: str) -> Order:
             raise signing.BadSignature()
     except (signing.BadSignature, KeyError, TypeError, ValueError) as error:
         raise ShoppingError(
-            "تأیید سفارش نامعتبر یا منقضی است. سبد خرید را تازه کنید."
+            _("تأیید سفارش نامعتبر یا منقضی است. سبد خرید را تازه کنید.")
         ) from error
     Customer.objects.select_for_update().get(pk=customer_id)
     existing = Order.objects.filter(
@@ -92,12 +95,14 @@ def place_order(customer_id: int, token: str) -> Order:
         .order_by("pk")
     }
     if not items or any(item.product_id not in products for item in items):
-        raise ShoppingError("سبد خرید تغییر کرده یا خالی است. آن را بررسی کنید.")
+        raise ShoppingError(_("سبد خرید تغییر کرده یا خالی است. آن را بررسی کنید."))
     for item in items:
         item.product = products[item.product_id]
     if cart_fingerprint(items) != payload["cart"]:
         raise ShoppingError(
-            "سبد خرید یا قیمت تغییر کرده است. مبلغ جدید را بررسی و دوباره تأیید کنید."
+            _(
+                "سبد خرید یا قیمت تغییر کرده است. مبلغ جدید را بررسی و دوباره تأیید کنید."
+            )
         )
     for item in items:
         if (
@@ -106,7 +111,7 @@ def place_order(customer_id: int, token: str) -> Order:
             or item.product.price <= 0
         ):
             raise ShoppingError(
-                "موجودی کافی نیست یا تعداد نامعتبر است. سبد خرید را بررسی کنید."
+                _("موجودی کافی نیست یا تعداد نامعتبر است. سبد خرید را بررسی کنید.")
             )
     total = sum(item.get_total_price() for item in items)
     order = Order.objects.create(

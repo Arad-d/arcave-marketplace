@@ -9,6 +9,7 @@ from django.core.paginator import Paginator
 from django.db import DatabaseError, transaction
 from django.db.models import Q, Sum
 from django.shortcuts import get_object_or_404, redirect, render
+from django.utils.translation import gettext_lazy as _
 from django.views.decorators.http import require_POST
 
 from .forms import MessageForm, ProductForm, QuantityForm
@@ -87,11 +88,11 @@ def add_to_cart(request, pk):
             change_cart(
                 request.user.pk, product_id=pk, quantity=form.cleaned_data["quantity"]
             )
-            messages.success(request, "سبد خرید به‌روزرسانی شد.")
+            messages.success(request, _("سبد خرید به‌روزرسانی شد."))
         except ShoppingError as error:
             messages.error(request, str(error))
     else:
-        messages.error(request, "تعداد باید یک عدد صحیح بین ۱ تا ۵ باشد.")
+        messages.error(request, _("تعداد باید یک عدد صحیح بین ۱ تا ۵ باشد."))
     return redirect("product_detail", pk=pk)
 
 
@@ -129,11 +130,11 @@ def update_cart(request, pk):
             change_cart(
                 request.user.pk, cart_id=pk, quantity=form.cleaned_data["quantity"]
             )
-            messages.success(request, "سبد خرید به‌روزرسانی شد.")
+            messages.success(request, _("سبد خرید به‌روزرسانی شد."))
         except ShoppingError as error:
             messages.error(request, str(error))
     else:
-        messages.error(request, "تعداد باید یک عدد صحیح بین ۱ تا ۵ باشد.")
+        messages.error(request, _("تعداد باید یک عدد صحیح بین ۱ تا ۵ باشد."))
     return redirect("view_cart")
 
 
@@ -142,7 +143,7 @@ def update_cart(request, pk):
 def remove_from_cart(request, pk):
     """Remove an owned item under the same lock used by checkout."""
     change_cart(request.user.pk, cart_id=pk, remove=True)
-    messages.success(request, "مورد از سبد خرید حذف شد.")
+    messages.success(request, _("مورد از سبد خرید حذف شد."))
     return redirect("view_cart")
 
 
@@ -157,9 +158,9 @@ def checkout(request):
         return redirect("view_cart")
     except DatabaseError:
         logger.exception("Checkout transaction failed", extra={"request": request})
-        messages.error(request, "ثبت سفارش انجام نشد. دوباره تلاش کنید.")
+        messages.error(request, _("ثبت سفارش انجام نشد. دوباره تلاش کنید."))
         return redirect("view_cart")
-    messages.success(request, "سفارش ثبت شد. پرداخت آنلاین در این نسخه فعال نیست.")
+    messages.success(request, _("سفارش ثبت شد. پرداخت آنلاین در این نسخه فعال نیست."))
     return redirect("order_detail", number=order.number)
 
 
@@ -201,16 +202,16 @@ def add_comment(request, pk):
     product = get_object_or_404(Product, pk=pk)
 
     if not Purchase.objects.filter(product=product, customer=request.user).exists():
-        raise PermissionDenied("ثبت نظر فقط برای خریداران این محصول مجاز است.")
+        raise PermissionDenied(_("ثبت نظر فقط برای خریداران این محصول مجاز است."))
 
     if request.method == "POST":
         form = MessageForm(request.POST)
         text = form.cleaned_data["text"] if form.is_valid() else ""
         if text:
             Comment.objects.create(product=product, customer=request.user, text=text)
-            messages.success(request, "نظر با موفقیت ثبت شد!")
+            messages.success(request, _("نظر با موفقیت ثبت شد!"))
         else:
-            messages.error(request, "نظر باید بین ۱ تا ۲۰۰۰ نویسه باشد.")
+            messages.error(request, _("نظر باید بین ۱ تا ۲۰۰۰ نویسه باشد."))
 
     return redirect("product_detail", pk=pk)
 
@@ -221,13 +222,13 @@ def shop_owner_dashboard(request):
     shop_owner_id = request.session.get("shop_owner_id")
 
     if not shop_owner_id:
-        messages.error(request, "Please log in as a shop owner.")
+        messages.error(request, _("لطفاً به عنوان فروشنده وارد شوید."))
         return redirect("shop_owner_login")
 
     try:
         shop_owner = ShopOwner.objects.get(id=shop_owner_id)
     except ShopOwner.DoesNotExist:
-        messages.error(request, "Shop owner not found.")
+        messages.error(request, _("فروشنده یافت نشد."))
         return redirect("shop_owner_login")
 
     # Get shop owner's products
@@ -282,13 +283,13 @@ def add_product(request):
     shop_owner_id = request.session.get("shop_owner_id")
 
     if not shop_owner_id:
-        messages.error(request, "Please log in as a shop owner.")
+        messages.error(request, _("لطفاً به عنوان فروشنده وارد شوید."))
         return redirect("shop_owner_login")
 
     try:
         shop_owner = ShopOwner.objects.get(id=shop_owner_id)
     except ShopOwner.DoesNotExist:
-        messages.error(request, "Shop owner not found.")
+        messages.error(request, _("فروشنده یافت نشد."))
         return redirect("shop_owner_login")
 
     form = ProductForm(
@@ -299,7 +300,7 @@ def add_product(request):
             product = form.save(commit=False)
             product.shop_owner = shop_owner
             product.save()
-            messages.success(request, "محصول با موفقیت ذخیره شد.")
+            messages.success(request, _("محصول با موفقیت ذخیره شد."))
             return redirect("shop_owner_dashboard")
         for errors in form.errors.values():
             for error in errors:
@@ -314,13 +315,13 @@ def reply_to_comment(request, comment_id):
     shop_owner_id = request.session.get("shop_owner_id")
 
     if not shop_owner_id:
-        messages.error(request, "Please log in as a shop owner.")
+        messages.error(request, _("لطفاً به عنوان فروشنده وارد شوید."))
         return redirect("shop_owner_login")
 
     try:
         shop_owner = ShopOwner.objects.get(id=shop_owner_id)
     except ShopOwner.DoesNotExist:
-        messages.error(request, "Shop owner not found.")
+        messages.error(request, _("فروشنده یافت نشد."))
         return redirect("shop_owner_login")
 
     comment = get_object_or_404(Comment, id=comment_id, product__shop_owner=shop_owner)
@@ -329,19 +330,19 @@ def reply_to_comment(request, comment_id):
         form = MessageForm(request.POST)
         text = form.cleaned_data["text"] if form.is_valid() else ""
         if text:
-            _, created = Reply.objects.get_or_create(
+            reply, created = Reply.objects.get_or_create(
                 comment=comment, defaults={"shop_owner": shop_owner, "text": text}
             )
             messages.success(
                 request,
                 (
-                    "پاسخ با موفقیت ثبت شد!"
+                    _("پاسخ با موفقیت ثبت شد!")
                     if created
-                    else "این نظر قبلاً پاسخ داده شده است."
+                    else _("این نظر قبلاً پاسخ داده شده است.")
                 ),
             )
         else:
-            messages.error(request, "پاسخ باید بین ۱ تا ۲۰۰۰ نویسه باشد.")
+            messages.error(request, _("پاسخ باید بین ۱ تا ۲۰۰۰ نویسه باشد."))
 
     return redirect("shop_owner_dashboard")
 
@@ -354,20 +355,20 @@ def delete_product(request, pk):
     shop_owner_id = request.session.get("shop_owner_id")
 
     if not shop_owner_id:
-        messages.error(request, "Please log in as a shop owner.")
+        messages.error(request, _("لطفاً به عنوان فروشنده وارد شوید."))
         return redirect("shop_owner_login")
 
     try:
         shop_owner = ShopOwner.objects.get(id=shop_owner_id)
     except ShopOwner.DoesNotExist:
-        messages.error(request, "Shop owner not found.")
+        messages.error(request, _("فروشنده یافت نشد."))
         return redirect("shop_owner_login")
 
     product = get_object_or_404(
         Product.objects.select_for_update(), pk=pk, shop_owner=shop_owner
     )
     product.delete()
-    messages.success(request, "محصول با موفقیت حذف شد!")
+    messages.success(request, _("محصول با موفقیت حذف شد!"))
 
     return redirect("shop_owner_dashboard")
 
@@ -379,13 +380,13 @@ def edit_product(request, pk):
     shop_owner_id = request.session.get("shop_owner_id")
 
     if not shop_owner_id:
-        messages.error(request, "Please log in as a shop owner.")
+        messages.error(request, _("لطفاً به عنوان فروشنده وارد شوید."))
         return redirect("shop_owner_login")
 
     try:
         shop_owner = ShopOwner.objects.get(id=shop_owner_id)
     except ShopOwner.DoesNotExist:
-        messages.error(request, "Shop owner not found.")
+        messages.error(request, _("فروشنده یافت نشد."))
         return redirect("shop_owner_login")
 
     product = get_object_or_404(
@@ -402,7 +403,7 @@ def edit_product(request, pk):
             product = form.save(commit=False)
             product.shop_owner = shop_owner
             product.save()
-            messages.success(request, "محصول با موفقیت ذخیره شد.")
+            messages.success(request, _("محصول با موفقیت ذخیره شد."))
             return redirect("shop_owner_dashboard")
         for errors in form.errors.values():
             for error in errors:
@@ -416,13 +417,13 @@ def product_comments(request, pk):
     shop_owner_id = request.session.get("shop_owner_id")
 
     if not shop_owner_id:
-        messages.error(request, "Please log in as a shop owner.")
+        messages.error(request, _("لطفاً به عنوان فروشنده وارد شوید."))
         return redirect("shop_owner_login")
 
     try:
         shop_owner = ShopOwner.objects.get(id=shop_owner_id)
     except ShopOwner.DoesNotExist:
-        messages.error(request, "Shop owner not found.")
+        messages.error(request, _("فروشنده یافت نشد."))
         return redirect("shop_owner_login")
 
     product = get_object_or_404(Product, pk=pk, shop_owner=shop_owner)

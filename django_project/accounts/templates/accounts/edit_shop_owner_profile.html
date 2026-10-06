@@ -1,22 +1,23 @@
 {% extends 'shop/base.html' %}
+{% load i18n %}
 
-{% block title %}ویرایش پروفایل - {{ shop_owner.store_name }}{% endblock %}
+{% block title %}{% blocktranslate with value0=shop_owner.store_name %}ویرایش پروفایل - {{ value0 }}{% endblocktranslate %}{% endblock %}
 
 {% block content %}
 <div class="container" style="padding: 2rem 0;">
     <div class="dashboard-header">
-        <h1 class="dashboard-title">ویرایش پروفایل</h1>
-        <p class="dashboard-subtitle">اطلاعات فروشگاه خود را به‌روزرسانی کنید</p>
+        <h1 class="dashboard-title">{% translate "ویرایش پروفایل" %}</h1>
+        <p class="dashboard-subtitle">{% translate "اطلاعات فروشگاه خود را به‌روزرسانی کنید" %}</p>
     </div>
     
     <div class="dashboard-grid">
         <!-- Sidebar -->
         <aside class="dashboard-sidebar">
             <ul class="dashboard-nav">
-                <li><a href="{% url 'shop_owner_dashboard' %}">داشبورد</a></li>
-                <li><a href="{% url 'add_product' %}">افزودن محصول</a></li>
-                <li><a href="{% url 'edit_shop_owner_profile' %}" class="active">ویرایش پروفایل</a></li>
-                <li><form method="post" action="{% url 'logout' %}" class="inline-action">{% csrf_token %}<button type="submit" class="navigation-action">خروج</button></form></li>
+                <li><a href="{% url 'shop_owner_dashboard' %}">{% translate "داشبورد" %}</a></li>
+                <li><a href="{% url 'add_product' %}">{% translate "افزودن محصول" %}</a></li>
+                <li><a href="{% url 'edit_shop_owner_profile' %}" class="active">{% translate "ویرایش پروفایل" %}</a></li>
+                <li><form method="post" action="{% url 'logout' %}" class="inline-action">{% csrf_token %}<button type="submit" class="navigation-action">{% translate "خروج" %}</button></form></li>
             </ul>
         </aside>
         
@@ -25,64 +26,64 @@
             <form method="post">
                 {% csrf_token %}
                 
-                <h3 style="margin-bottom: 1.5rem; color: var(--color-brown);">اطلاعات فروشگاه</h3>
+                <h3 style="margin-bottom: 1.5rem; color: var(--color-brown);">{% translate "اطلاعات فروشگاه" %}</h3>
                 
                 <div class="form-group">
-                    <label class="form-label">نام شما (نام کاربری)</label>
+                    <label class="form-label">{% translate "نام شما (نام کاربری)" %}</label>
                     <input type="text" class="form-control" value="{{ shop_owner.name }}" disabled>
                     <small style="color: var(--color-charcoal-light); display: block; margin-top: 0.5rem;">
-                        نام قابل تغییر نیست
+                        {% translate "نام قابل تغییر نیست" %}
                     </small>
                 </div>
                 
                 <div class="form-group">
-                    <label class="form-label" for="store_name">نام فروشگاه</label>
+                    <label class="form-label" for="store_name">{% translate "نام فروشگاه" %}</label>
                     <input type="text" class="form-control" id="store_name" name="store_name" 
                            value="{{ shop_owner.store_name }}" required>
                 </div>
                 
                 <div class="form-group">
-                    <label class="form-label" for="address">آدرس فروشگاه</label>
+                    <label class="form-label" for="address">{% translate "آدرس فروشگاه" %}</label>
                     <textarea class="form-control" id="address" name="address" rows="3" 
-                              placeholder="آدرس فروشگاه خود را وارد کنید">{{ shop_owner.address|default:'' }}</textarea>
+                              placeholder="{% translate "آدرس فروشگاه خود را وارد کنید" %}">{{ shop_owner.address|default:'' }}</textarea>
                 </div>
                 
                 <div class="form-group">
-                    <label class="form-label" for="phone">شماره تلفن</label>
+                    <label class="form-label" for="phone">{% translate "شماره تلفن" %}</label>
                     <input type="tel" class="form-control" id="phone" name="phone" 
                            value="{{ shop_owner.phone|default:'' }}" 
                            placeholder="+989123456789" pattern="^\+[0-9]{10,15}$">
                     <small style="color: var(--color-charcoal-light); display: block; margin-top: 0.5rem;">
-                        فرمت: +989123456789 (با کد کشور)
+                        {% translate "فرمت: +989123456789 (با کد کشور)" %}
                     </small>
                 </div>
                 
-                <h3 style="margin: 2rem 0 1.5rem; color: var(--color-brown);">تغییر رمز عبور (اختیاری)</h3>
+                <h3 style="margin: 2rem 0 1.5rem; color: var(--color-brown);">{% translate "تغییر رمز عبور (اختیاری)" %}</h3>
                 
                 <div class="form-group">
-                    <label class="form-label" for="current_password">رمز عبور فعلی</label>
+                    <label class="form-label" for="current_password">{% translate "رمز عبور فعلی" %}</label>
                     <input type="password" class="form-control" id="current_password" name="current_password" 
-                           placeholder="برای تغییر رمز عبور، رمز فعلی را وارد کنید">
+                           placeholder="{% translate "برای تغییر رمز عبور، رمز فعلی را وارد کنید" %}">
                 </div>
                 
                 <div class="form-group">
-                    <label class="form-label" for="new_password">رمز عبور جدید</label>
+                    <label class="form-label" for="new_password">{% translate "رمز عبور جدید" %}</label>
                     <input type="password" class="form-control" id="new_password" name="new_password" 
-                           placeholder="رمز عبور جدید را وارد کنید">
+                           placeholder="{% translate "رمز عبور جدید را وارد کنید" %}">
                 </div>
                 
                 <div class="form-group">
-                    <label class="form-label" for="confirm_password">تکرار رمز عبور جدید</label>
+                    <label class="form-label" for="confirm_password">{% translate "تکرار رمز عبور جدید" %}</label>
                     <input type="password" class="form-control" id="confirm_password" name="confirm_password" 
-                           placeholder="رمز عبور جدید را تکرار کنید">
+                           placeholder="{% translate "رمز عبور جدید را تکرار کنید" %}">
                 </div>
                 
                 <div style="display: flex; gap: 1rem; margin-top: 2rem;">
                     <button type="submit" class="btn btn-primary">
-                        ذخیره تغییرات
+                        {% translate "ذخیره تغییرات" %}
                     </button>
                     <a href="{% url 'shop_owner_dashboard' %}" class="btn btn-secondary">
-                        انصراف
+                        {% translate "انصراف" %}
                     </a>
                 </div>
             </form>

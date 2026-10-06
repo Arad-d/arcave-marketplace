@@ -1,27 +1,28 @@
 {% extends 'shop/base.html' %}
+{% load i18n %}
 
-{% block title %}محصولات - آرکیو{% endblock %}
+{% block title %}{% translate "محصولات - آرکیو" %}{% endblock %}
 
 {% block content %}
 <!-- Hero Section -->
 <section class="hero" style="padding: 3rem 2rem;">
     <div class="container">
-        <h1 class="hero-title">محصولات شگفت‌انگیز را کشف کنید</h1>
-        <p class="hero-subtitle">از مجموعه محصولات منحصربفرد فروشگاه‌های محلی ما دیدن کنید</p>
+        <h1 class="hero-title">{% translate "محصولات شگفت‌انگیز را کشف کنید" %}</h1>
+        <p class="hero-subtitle">{% translate "از مجموعه محصولات منحصربفرد فروشگاه‌های محلی ما دیدن کنید" %}</p>
         
         <!-- Search and Filter -->
         <div class="search-container">
             <form class="search-form" method="get" style="flex-wrap: wrap; gap: 1rem;">
-                <input type="text" class="search-input" name="q" placeholder="جستجوی محصولات..." value="{{ query }}">
+                <input type="text" class="search-input" name="q" placeholder="{% translate "جستجوی محصولات..." %}" value="{{ query }}">
                 <select name="category" class="form-control" style="min-width: 200px;">
-                    <option value="">همه دسته‌بندی‌ها</option>
+                    <option value="">{% translate "همه دسته‌بندی‌ها" %}</option>
                     {% for value, label in categories %}
                         <option value="{{ value }}" {% if category == value %}selected{% endif %}>{{ label }}</option>
                     {% endfor %}
                 </select>
-                <button type="submit" class="btn btn-primary">جستجو</button>
+                <button type="submit" class="btn btn-primary">{% translate "جستجو" %}</button>
                 {% if query or category %}
-                    <a href="{% url 'product_list' %}" class="btn btn-secondary">پاک کردن فیلترها</a>
+                    <a href="{% url 'product_list' %}" class="btn btn-secondary">{% translate "پاک کردن فیلترها" %}</a>
                 {% endif %}
             </form>
         </div>
@@ -33,9 +34,9 @@
     {% if query %}
         <h2 style="margin-bottom: 1.5rem;">
             {% if page_obj.object_list %}
-                نتایج جستجو برای "{{ query }}"
+                {% blocktranslate with value0=query %}نتایج جستجو برای "{{ value0 }}"{% endblocktranslate %}
             {% else %}
-                نتیجه‌ای برای "{{ query }}" یافت نشد
+                {% blocktranslate with value0=query %}نتیجه‌ای برای "{{ value0 }}" یافت نشد{% endblocktranslate %}
             {% endif %}
         </h2>
     {% endif %}
@@ -54,7 +55,7 @@
                     <div class="card-content">
                         <div style="margin-bottom: 0.5rem;">
                             <span style="background-color: var(--color-brown); color: white; padding: 0.25rem 0.75rem; border-radius: 20px; font-size: 0.75rem; font-weight: 500;">
-                                {% if product.category == 'electronics' %}محصولات الکترونیک{% else %}لوازم جانبی الکترونیک{% endif %}
+                                {% if product.category == 'electronics' %}{% translate "محصولات الکترونیک" %}{% else %}{% translate "لوازم جانبی الکترونیک" %}{% endif %}
                             </span>
                         </div>
                         <h3 class="card-title">{{ product.name }}</h3>
@@ -64,9 +65,9 @@
                                 🏪 {{ product.shop_owner.store_name }}
                             </a>
                         </div>
-                        <div class="card-price">{{ product.price|floatformat:"0" }} ریال</div>
+                        <div class="card-price">{% blocktranslate with value0=product.price|floatformat:"0" %}{{ value0 }} ریال{% endblocktranslate %}</div>
                         <a href="{% url 'product_detail' product.pk %}" class="btn btn-primary" style="width: 100%;">
-                            مشاهده جزئیات
+                            {% translate "مشاهده جزئیات" %}
                         </a>
                     </div>
                 </div>
@@ -77,7 +78,7 @@
         {% if page_obj.has_other_pages %}
             <div class="pagination">
                 {% if page_obj.has_previous %}
-                    <a href="?page={{ page_obj.previous_page_number }}{% if query %}&q={{ query }}{% endif %}{% if category %}&category={{ category }}{% endif %}">→ قبلی</a>
+                    <a href="?page={{ page_obj.previous_page_number }}{% if query %}&q={{ query }}{% endif %}{% if category %}&category={{ category }}{% endif %}">{% translate "→ قبلی" %}</a>
                 {% endif %}
 
                 {% for num in page_obj.paginator.page_range %}
@@ -89,15 +90,15 @@
                 {% endfor %}
 
                 {% if page_obj.has_next %}
-                    <a href="?page={{ page_obj.next_page_number }}{% if query %}&q={{ query }}{% endif %}{% if category %}&category={{ category }}{% endif %}">بعدی ←</a>
+                    <a href="?page={{ page_obj.next_page_number }}{% if query %}&q={{ query }}{% endif %}{% if category %}&category={{ category }}{% endif %}">{% translate "بعدی ←" %}</a>
                 {% endif %}
             </div>
         {% endif %}
     {% else %}
         <div class="empty-state">
             <div class="empty-state-icon">📭</div>
-            <h3>محصولی موجود نیست</h3>
-            <p>بعداً برای محصولات جدید سر بزنید!</p>
+            <h3>{% translate "محصولی موجود نیست" %}</h3>
+            <p>{% translate "بعداً برای محصولات جدید سر بزنید!" %}</p>
         </div>
     {% endif %}
 </div>

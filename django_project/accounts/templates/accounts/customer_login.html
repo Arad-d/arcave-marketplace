@@ -1,45 +1,46 @@
 {% extends 'shop/base.html' %}
+{% load i18n %}
 
-{% block title %}ورود مشتری - آرکیو{% endblock %}
+{% block title %}{% translate "ورود مشتری - آرکیو" %}{% endblock %}
 
 {% block content %}
 <section class="hero" style="padding: 4rem 2rem;">
     <div class="container" style="max-width: 500px;">
-        <h1 class="hero-title" style="font-size: 2rem;">ورود مشتری</h1>
-        <p class="hero-subtitle">خوش آمدید! برای ادامه خرید وارد شوید.</p>
+        <h1 class="hero-title" style="font-size: 2rem;">{% translate "ورود مشتری" %}</h1>
+        <p class="hero-subtitle">{% translate "خوش آمدید! برای ادامه خرید وارد شوید." %}</p>
         
         <div class="card" style="padding: 2rem; margin-top: 2rem;">
             <form method="post">
                 {% csrf_token %}
                 
                 <div class="form-group">
-                    <label class="form-label" for="username">نام کاربری</label>
+                    <label class="form-label" for="username">{% translate "نام کاربری" %}</label>
                     <input type="text" class="form-control" id="username" name="username" required 
-                           placeholder="نام کاربری خود را وارد کنید">
+                           placeholder="{% translate "نام کاربری خود را وارد کنید" %}">
                 </div>
                 
                 <div class="form-group">
-                    <label class="form-label" for="password">رمز عبور</label>
+                    <label class="form-label" for="password">{% translate "رمز عبور" %}</label>
                     <input type="password" class="form-control" id="password" name="password" required 
-                           placeholder="رمز عبور خود را وارد کنید">
+                           placeholder="{% translate "رمز عبور خود را وارد کنید" %}">
                 </div>
                 
                 <div class="form-group" style="display: flex; justify-content: flex-start; margin-top: -0.5rem; margin-bottom: 1rem;">
-                    <a href="{% url 'forgot_password' %}" style="font-size: 0.875rem; color: var(--color-brown);">رمز عبور را فراموش کرده‌اید؟</a>
+                    <a href="{% url 'forgot_password' %}" style="font-size: 0.875rem; color: var(--color-brown);">{% translate "رمز عبور را فراموش کرده‌اید؟" %}</a>
                 </div>
                 
                 <button type="submit" class="btn btn-primary" style="width: 100%;">
-                    ورود
+                    {% translate "ورود" %}
                 </button>
             </form>
             
             <div style="text-align: center; margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid var(--color-cream-dark);">
                 <p style="color: var(--color-charcoal-light);">
-                    حساب کاربری ندارید؟ 
-                    <a href="{% url 'customer_signup' %}">ثبت‌نام کنید</a>
+                    {% translate "حساب کاربری ندارید؟" %}
+                    <a href="{% url 'customer_signup' %}">{% translate "ثبت‌نام کنید" %}</a>
                 </p>
                 <p style="margin-top: 0.5rem;">
-                    <a href="{% url 'landing' %}">→ بازگشت به صفحه اصلی</a>
+                    <a href="{% url 'landing' %}">{% translate "→ بازگشت به صفحه اصلی" %}</a>
                 </p>
             </div>
         </div>

@@ -1,0 +1,15 @@
+{% load i18n %}
+{% get_current_language as current_language %}
+{% url "set_language" as language_url %}
+{% if language_url %}
+<form method="post" action="{{ language_url }}" class="language-switch inline-action">
+    {% csrf_token %}
+    <input type="hidden" name="next" value="{{ request.get_full_path|default:'/' }}">
+    {% if current_language == 'en' %}
+        <button type="submit" name="language" value="fa" lang="fa" dir="rtl" class="navigation-action" aria-label="تغییر زبان به فارسی">فارسی</button>
+    {% else %}
+        <button type="submit" name="language" value="en" lang="en" dir="ltr" class="navigation-action" aria-label="Switch language to English">English</button>
+    {% endif %}
+</form>
+
+{% endif %}

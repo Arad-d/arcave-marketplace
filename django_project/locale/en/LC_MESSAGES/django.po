@@ -1,0 +1,1433 @@
+# English translations for the Arcave website.
+# Copyright (C) 2026 Arcave contributors
+# Distributed under the same terms as the project.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Arcave\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-10-06 23:50+0330\n"
+"PO-Revision-Date: 2026-10-06 20:30+0000\n"
+"Last-Translator: Arcave contributors\n"
+"Language-Team: English\n"
+"Language: en\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+#: django_project/accounts/forms.py:26 django_project/accounts/recovery.py:210
+msgid "رمزهای عبور مطابقت ندارند."
+msgstr "The passwords do not match."
+
+#: django_project/accounts/forms.py:81
+msgid "این نام قبلاً ثبت شده است."
+msgstr "This name is already registered."
+
+#: django_project/accounts/recovery.py:92
+msgid "امکان بازیابی با این اطلاعات وجود ندارد."
+msgstr "We could not recover an account with those details."
+
+#: django_project/accounts/recovery.py:113
+msgid "لطفاً بازیابی رمز عبور را دوباره شروع کنید."
+msgstr "Please start password recovery again."
+
+#: django_project/accounts/recovery.py:149
+msgid "پاسخ نادرست است. بازیابی را دوباره شروع کنید."
+msgstr "Incorrect answer. Please start recovery again."
+
+#: django_project/accounts/recovery.py:192
+msgid "درخواست بازیابی نامعتبر یا منقضی شده است."
+msgstr "Your recovery request is invalid or expired."
+
+#: django_project/accounts/recovery.py:227
+msgid "رمز عبور تغییر کرد. لطفاً دوباره وارد شوید."
+msgstr "Your password was changed. Please sign in again."
+
+#: django_project/accounts/templates/accounts/customer_login.html:4
+msgid "ورود مشتری - آرکیو"
+msgstr "Customer sign in - Arcave"
+
+#: django_project/accounts/templates/accounts/customer_login.html:9
+msgid "ورود مشتری"
+msgstr "Customer sign in"
+
+#: django_project/accounts/templates/accounts/customer_login.html:10
+msgid "خوش آمدید! برای ادامه خرید وارد شوید."
+msgstr "Welcome back! Sign in to continue shopping."
+
+#: django_project/accounts/templates/accounts/customer_login.html:17
+#: django_project/accounts/templates/accounts/customer_signup.html:17
+#: django_project/accounts/templates/accounts/edit_customer_profile.html:32
+#: django_project/accounts/templates/accounts/verify_customer_security.html:51
+msgid "نام کاربری"
+msgstr "Username"
+
+#: django_project/accounts/templates/accounts/customer_login.html:19
+#: django_project/accounts/templates/accounts/verify_customer_security.html:53
+msgid "نام کاربری خود را وارد کنید"
+msgstr "Enter your username"
+
+#: django_project/accounts/templates/accounts/customer_login.html:23
+#: django_project/accounts/templates/accounts/customer_signup.html:29
+#: django_project/accounts/templates/accounts/shop_owner_login.html:23
+#: django_project/accounts/templates/accounts/shop_owner_signup.html:31
+msgid "رمز عبور"
+msgstr "Password"
+
+#: django_project/accounts/templates/accounts/customer_login.html:25
+#: django_project/accounts/templates/accounts/shop_owner_login.html:25
+msgid "رمز عبور خود را وارد کنید"
+msgstr "Enter your password"
+
+#: django_project/accounts/templates/accounts/customer_login.html:29
+#: django_project/accounts/templates/accounts/forgot_password.html:9
+#: django_project/accounts/templates/accounts/shop_owner_login.html:29
+msgid "رمز عبور را فراموش کرده‌اید؟"
+msgstr "Forgot your password?"
+
+#: django_project/accounts/templates/accounts/customer_login.html:33
+#: django_project/accounts/templates/accounts/landing.html:23
+#: django_project/accounts/templates/accounts/landing.html:34
+#: django_project/accounts/templates/accounts/shop_owner_login.html:33
+msgid "ورود"
+msgstr "Sign in"
+
+#: django_project/accounts/templates/accounts/customer_login.html:39
+msgid "حساب کاربری ندارید؟"
+msgstr "Need an account?"
+
+#: django_project/accounts/templates/accounts/customer_login.html:40
+msgid "ثبت‌نام کنید"
+msgstr "Sign up"
+
+#: django_project/accounts/templates/accounts/customer_login.html:43
+#: django_project/accounts/templates/accounts/customer_signup.html:80
+#: django_project/accounts/templates/accounts/forgot_password.html:35
+#: django_project/accounts/templates/accounts/shop_owner_login.html:43
+#: django_project/accounts/templates/accounts/shop_owner_signup.html:94
+#: django_project/accounts/templates/accounts/verify_customer_security.html:26
+#: django_project/accounts/templates/accounts/verify_shop_owner_security.html:26
+msgid "→ بازگشت به صفحه اصلی"
+msgstr "← Back to home"
+
+#: django_project/accounts/templates/accounts/customer_signup.html:4
+msgid "ثبت‌نام مشتری - آرکیو"
+msgstr "Customer registration - Arcave"
+
+#: django_project/accounts/templates/accounts/customer_signup.html:9
+msgid "ایجاد حساب مشتری"
+msgstr "Create a customer account"
+
+#: django_project/accounts/templates/accounts/customer_signup.html:10
+msgid "به آرکیو بپیوندید و شروع به کشف محصولات شگفت‌انگیز کنید."
+msgstr "Join Arcave and start discovering great products."
+
+#: django_project/accounts/templates/accounts/customer_signup.html:19
+msgid "نام کاربری انتخاب کنید"
+msgstr "Choose a username"
+
+#: django_project/accounts/templates/accounts/customer_signup.html:23
+#: django_project/accounts/templates/accounts/edit_customer_profile.html:40
+msgid "ایمیل"
+msgstr "Email"
+
+#: django_project/accounts/templates/accounts/customer_signup.html:25
+msgid "ایمیل خود را وارد کنید"
+msgstr "Enter your email address"
+
+#: django_project/accounts/templates/accounts/customer_signup.html:31
+#: django_project/accounts/templates/accounts/shop_owner_signup.html:33
+msgid "رمز عبور ایجاد کنید"
+msgstr "Create a password"
+
+#: django_project/accounts/templates/accounts/customer_signup.html:35
+#: django_project/accounts/templates/accounts/reset_password.html:26
+#: django_project/accounts/templates/accounts/shop_owner_signup.html:37
+msgid "تکرار رمز عبور"
+msgstr "Confirm password"
+
+#: django_project/accounts/templates/accounts/customer_signup.html:37
+#: django_project/accounts/templates/accounts/shop_owner_signup.html:39
+msgid "رمز عبور را تکرار کنید"
+msgstr "Confirm your password"
+
+#: django_project/accounts/templates/accounts/customer_signup.html:40
+#: django_project/accounts/templates/accounts/shop_owner_signup.html:57
+msgid "سوالات امنیتی"
+msgstr "Security questions"
+
+#: django_project/accounts/templates/accounts/customer_signup.html:42
+msgid "این سوالات در صورت فراموشی رمز عبور به شما کمک می‌کنند."
+msgstr "These questions help you recover your account if you forget your password."
+
+#: django_project/accounts/templates/accounts/customer_signup.html:46
+#: django_project/accounts/templates/accounts/shop_owner_signup.html:60
+#: django_project/accounts/templates/accounts/verify_customer_security.html:64
+#: django_project/accounts/templates/accounts/verify_shop_owner_security.html:70
+msgid "سوال امنیتی ۱"
+msgstr "Security question 1"
+
+#: django_project/accounts/templates/accounts/customer_signup.html:48
+msgid "سوال خود را بنویسید (مثال: نام حیوان خانگی شما چیست؟)"
+msgstr "Write a question (for example: What is the name of your pet?)"
+
+#: django_project/accounts/templates/accounts/customer_signup.html:52
+#: django_project/accounts/templates/accounts/shop_owner_signup.html:66
+msgid "پاسخ ۱"
+msgstr "Answer 1"
+
+#: django_project/accounts/templates/accounts/customer_signup.html:54
+#: django_project/accounts/templates/accounts/customer_signup.html:66
+#: django_project/accounts/templates/accounts/shop_owner_signup.html:68
+#: django_project/accounts/templates/accounts/shop_owner_signup.html:80
+msgid "پاسخ را وارد کنید"
+msgstr "Enter the answer"
+
+#: django_project/accounts/templates/accounts/customer_signup.html:58
+#: django_project/accounts/templates/accounts/shop_owner_signup.html:72
+#: django_project/accounts/templates/accounts/verify_customer_security.html:83
+#: django_project/accounts/templates/accounts/verify_shop_owner_security.html:89
+msgid "سوال امنیتی ۲"
+msgstr "Security question 2"
+
+#: django_project/accounts/templates/accounts/customer_signup.html:60
+msgid "سوال دیگری بنویسید (مثال: در چه شهری به دنیا آمده‌اید؟)"
+msgstr "Write another question (for example: In which city were you born?)"
+
+#: django_project/accounts/templates/accounts/customer_signup.html:64
+#: django_project/accounts/templates/accounts/shop_owner_signup.html:78
+msgid "پاسخ ۲"
+msgstr "Answer 2"
+
+#: django_project/accounts/templates/accounts/customer_signup.html:70
+#: django_project/accounts/templates/accounts/landing.html:24
+msgid "ایجاد حساب کاربری"
+msgstr "Create account"
+
+#: django_project/accounts/templates/accounts/customer_signup.html:76
+msgid "قبلاً حساب دارید؟"
+msgstr "Already have an account?"
+
+#: django_project/accounts/templates/accounts/customer_signup.html:77
+#: django_project/accounts/templates/accounts/shop_owner_signup.html:91
+msgid "وارد شوید"
+msgstr "Sign in"
+
+#: django_project/accounts/templates/accounts/edit_customer_profile.html:4
+#: django_project/accounts/templates/accounts/edit_shop_owner_profile.html:4
+#, python-format
+msgid "ویرایش پروفایل - %(value0)s"
+msgstr "Edit profile - %(value0)s"
+
+#: django_project/accounts/templates/accounts/edit_customer_profile.html:9
+#: django_project/accounts/templates/accounts/edit_customer_profile.html:19
+#: django_project/accounts/templates/accounts/edit_shop_owner_profile.html:9
+#: django_project/accounts/templates/accounts/edit_shop_owner_profile.html:19
+#: django_project/shop/templates/shop/add_product.html:20
+#: django_project/shop/templates/shop/customer_dashboard.html:21
+#: django_project/shop/templates/shop/edit_product.html:20
+#: django_project/shop/templates/shop/product_comments.html:42
+#: django_project/shop/templates/shop/shop_owner_dashboard.html:36
+msgid "ویرایش پروفایل"
+msgstr "Edit profile"
+
+#: django_project/accounts/templates/accounts/edit_customer_profile.html:10
+msgid "اطلاعات حساب کاربری خود را به‌روزرسانی کنید"
+msgstr "Update your account information"
+
+#: django_project/accounts/templates/accounts/edit_customer_profile.html:17
+#: django_project/shop/templates/shop/customer_dashboard.html:18
+#: django_project/shop/templates/shop/order_detail.html:20
+msgid "خریدهای من"
+msgstr "My purchases"
+
+#: django_project/accounts/templates/accounts/edit_customer_profile.html:18
+#: django_project/shop/templates/shop/customer_dashboard.html:19
+msgid "سبد خرید من"
+msgstr "My cart"
+
+#: django_project/accounts/templates/accounts/edit_customer_profile.html:20
+#: django_project/accounts/templates/accounts/edit_shop_owner_profile.html:20
+#: django_project/shop/templates/shop/add_product.html:21
+#: django_project/shop/templates/shop/base.html:34
+#: django_project/shop/templates/shop/base.html:38
+#: django_project/shop/templates/shop/customer_dashboard.html:22
+#: django_project/shop/templates/shop/edit_product.html:21
+#: django_project/shop/templates/shop/product_comments.html:43
+#: django_project/shop/templates/shop/shop_owner_dashboard.html:37
+msgid "خروج"
+msgstr "Sign out"
+
+#: django_project/accounts/templates/accounts/edit_customer_profile.html:29
+msgid "اطلاعات پروفایل"
+msgstr "Profile information"
+
+#: django_project/accounts/templates/accounts/edit_customer_profile.html:35
+msgid "نام کاربری قابل تغییر نیست"
+msgstr "Your username cannot be changed"
+
+#: django_project/accounts/templates/accounts/edit_customer_profile.html:45
+#: django_project/accounts/templates/accounts/edit_shop_owner_profile.html:61
+msgid "تغییر رمز عبور (اختیاری)"
+msgstr "Change password (optional)"
+
+#: django_project/accounts/templates/accounts/edit_customer_profile.html:48
+#: django_project/accounts/templates/accounts/edit_shop_owner_profile.html:64
+msgid "رمز عبور فعلی"
+msgstr "Current password"
+
+#: django_project/accounts/templates/accounts/edit_customer_profile.html:50
+#: django_project/accounts/templates/accounts/edit_shop_owner_profile.html:66
+msgid "برای تغییر رمز عبور، رمز فعلی را وارد کنید"
+msgstr "Enter your current password to change it"
+
+#: django_project/accounts/templates/accounts/edit_customer_profile.html:54
+#: django_project/accounts/templates/accounts/edit_shop_owner_profile.html:70
+#: django_project/accounts/templates/accounts/reset_password.html:17
+msgid "رمز عبور جدید"
+msgstr "New password"
+
+#: django_project/accounts/templates/accounts/edit_customer_profile.html:56
+#: django_project/accounts/templates/accounts/edit_shop_owner_profile.html:72
+#: django_project/accounts/templates/accounts/reset_password.html:19
+msgid "رمز عبور جدید را وارد کنید"
+msgstr "Enter your new password"
+
+#: django_project/accounts/templates/accounts/edit_customer_profile.html:60
+#: django_project/accounts/templates/accounts/edit_shop_owner_profile.html:76
+msgid "تکرار رمز عبور جدید"
+msgstr "Confirm new password"
+
+#: django_project/accounts/templates/accounts/edit_customer_profile.html:62
+#: django_project/accounts/templates/accounts/edit_shop_owner_profile.html:78
+#: django_project/accounts/templates/accounts/reset_password.html:28
+msgid "رمز عبور جدید را تکرار کنید"
+msgstr "Confirm your new password"
+
+#: django_project/accounts/templates/accounts/edit_customer_profile.html:67
+#: django_project/accounts/templates/accounts/edit_shop_owner_profile.html:83
+#: django_project/shop/templates/shop/edit_product.html:87
+msgid "ذخیره تغییرات"
+msgstr "Save changes"
+
+#: django_project/accounts/templates/accounts/edit_customer_profile.html:70
+#: django_project/accounts/templates/accounts/edit_shop_owner_profile.html:86
+#: django_project/shop/templates/shop/add_product.html:79
+#: django_project/shop/templates/shop/edit_product.html:90
+msgid "انصراف"
+msgstr "Cancel"
+
+#: django_project/accounts/templates/accounts/edit_shop_owner_profile.html:10
+msgid "اطلاعات فروشگاه خود را به‌روزرسانی کنید"
+msgstr "Update your store information"
+
+#: django_project/accounts/templates/accounts/edit_shop_owner_profile.html:17
+#: django_project/shop/templates/shop/add_product.html:18
+#: django_project/shop/templates/shop/edit_product.html:18
+#: django_project/shop/templates/shop/product_comments.html:40
+#: django_project/shop/templates/shop/shop_owner_dashboard.html:34
+msgid "داشبورد"
+msgstr "Dashboard"
+
+#: django_project/accounts/templates/accounts/edit_shop_owner_profile.html:18
+#: django_project/shop/templates/shop/add_product.html:19
+#: django_project/shop/templates/shop/add_product.html:76
+#: django_project/shop/templates/shop/edit_product.html:19
+#: django_project/shop/templates/shop/product_comments.html:41
+#: django_project/shop/templates/shop/shop_owner_dashboard.html:35
+#: django_project/shop/templates/shop/shop_owner_dashboard.html:144
+msgid "افزودن محصول"
+msgstr "Add product"
+
+#: django_project/accounts/templates/accounts/edit_shop_owner_profile.html:29
+#: django_project/accounts/templates/accounts/shop_owner_signup.html:16
+msgid "اطلاعات فروشگاه"
+msgstr "Store information"
+
+#: django_project/accounts/templates/accounts/edit_shop_owner_profile.html:32
+msgid "نام شما (نام کاربری)"
+msgstr "Your name (username)"
+
+#: django_project/accounts/templates/accounts/edit_shop_owner_profile.html:35
+msgid "نام قابل تغییر نیست"
+msgstr "Your name cannot be changed"
+
+#: django_project/accounts/templates/accounts/edit_shop_owner_profile.html:40
+#: django_project/accounts/templates/accounts/shop_owner_signup.html:25
+msgid "نام فروشگاه"
+msgstr "Store name"
+
+#: django_project/accounts/templates/accounts/edit_shop_owner_profile.html:46
+#: django_project/accounts/templates/accounts/shop_owner_signup.html:43
+msgid "آدرس فروشگاه"
+msgstr "Store address"
+
+#: django_project/accounts/templates/accounts/edit_shop_owner_profile.html:48
+msgid "آدرس فروشگاه خود را وارد کنید"
+msgstr "Enter your store address"
+
+#: django_project/accounts/templates/accounts/edit_shop_owner_profile.html:52
+#: django_project/accounts/templates/accounts/shop_owner_signup.html:49
+msgid "شماره تلفن"
+msgstr "Phone number"
+
+#: django_project/accounts/templates/accounts/edit_shop_owner_profile.html:57
+#: django_project/accounts/templates/accounts/shop_owner_signup.html:53
+msgid "فرمت: +989123456789 (با کد کشور)"
+msgstr "Format: +989123456789 (include the country code)"
+
+#: django_project/accounts/templates/accounts/forgot_password.html:4
+msgid "فراموشی رمز عبور - آرکیو"
+msgstr "Forgot password - Arcave"
+
+#: django_project/accounts/templates/accounts/forgot_password.html:10
+msgid "نوع حساب کاربری خود را برای بازنشانی رمز عبور انتخاب کنید"
+msgstr "Select your account type to reset your password"
+
+#: django_project/accounts/templates/accounts/forgot_password.html:16
+#: django_project/shop/templates/shop/shop_owner_dashboard.html:52
+msgid "مشتری"
+msgstr "Customer"
+
+#: django_project/accounts/templates/accounts/forgot_password.html:17
+msgid "حساب مشتری دارم"
+msgstr "I have a customer account"
+
+#: django_project/accounts/templates/accounts/forgot_password.html:19
+#: django_project/accounts/templates/accounts/forgot_password.html:29
+#: django_project/accounts/templates/accounts/verify_customer_security.html:56
+#: django_project/accounts/templates/accounts/verify_shop_owner_security.html:62
+msgid "ادامه"
+msgstr "Continue"
+
+#: django_project/accounts/templates/accounts/forgot_password.html:26
+msgid "فروشنده"
+msgstr "Seller"
+
+#: django_project/accounts/templates/accounts/forgot_password.html:27
+msgid "حساب فروشنده دارم"
+msgstr "I have a seller account"
+
+#: django_project/accounts/templates/accounts/landing.html:4
+msgid "خوش آمدید - آرکیو"
+msgstr "Welcome - Arcave"
+
+#: django_project/accounts/templates/accounts/landing.html:10
+msgid "به آرکیو خوش آمدید"
+msgstr "Welcome to Arcave"
+
+#: django_project/accounts/templates/accounts/landing.html:11
+msgid "مقصد شما برای کشف محصولات منحصربفرد از فروشگاه‌های محلی عالی"
+msgstr "Discover unique products from great local stores"
+
+#: django_project/accounts/templates/accounts/landing.html:20
+msgid "مشتری هستم"
+msgstr "I am a customer"
+
+#: django_project/accounts/templates/accounts/landing.html:21
+msgid "محصولات را مرور کنید، خرید کنید و با فروشندگان ارتباط برقرار کنید"
+msgstr "Browse products, shop and connect with sellers"
+
+#: django_project/accounts/templates/accounts/landing.html:31
+msgid "فروشنده هستم"
+msgstr "I am a seller"
+
+#: django_project/accounts/templates/accounts/landing.html:32
+msgid "محصولات خود را بفروشید، موجودی را مدیریت کنید و با مشتریان در ارتباط باشید"
+msgstr "Sell your products, manage inventory and connect with customers"
+
+#: django_project/accounts/templates/accounts/landing.html:35
+#: django_project/accounts/templates/accounts/shop_owner_signup.html:84
+msgid "ثبت فروشگاه"
+msgstr "Register store"
+
+#: django_project/accounts/templates/accounts/reset_password.html:4
+#: django_project/accounts/templates/accounts/reset_password.html:9
+#: django_project/accounts/templates/accounts/reset_password.html:32
+msgid "بازنشانی رمز عبور"
+msgstr "Reset password"
+
+#: django_project/accounts/templates/accounts/reset_password.html:10
+msgid "رمز عبور جدیدی برای حساب کاربری خود ایجاد کنید"
+msgstr "Create a new password for your account"
+
+#: django_project/accounts/templates/accounts/reset_password.html:21
+msgid "یک رمز عبور قوی انتخاب کنید"
+msgstr "Choose a strong password"
+
+#: django_project/accounts/templates/accounts/reset_password.html:39
+#: django_project/accounts/templates/accounts/reset_password.html:41
+msgid "→ بازگشت به صفحه ورود"
+msgstr "← Back to sign in"
+
+#: django_project/accounts/templates/accounts/shop_owner_login.html:4
+msgid "ورود فروشنده - آرکیو"
+msgstr "Seller sign in - Arcave"
+
+#: django_project/accounts/templates/accounts/shop_owner_login.html:9
+msgid "ورود فروشنده"
+msgstr "Seller sign in"
+
+#: django_project/accounts/templates/accounts/shop_owner_login.html:10
+msgid "به داشبورد فروشگاه خود دسترسی پیدا کنید و محصولات خود را مدیریت کنید."
+msgstr "Access your store dashboard and manage your products."
+
+#: django_project/accounts/templates/accounts/shop_owner_login.html:17
+#: django_project/shop/templates/shop/cart.html:16
+msgid "نام"
+msgstr "Name"
+
+#: django_project/accounts/templates/accounts/shop_owner_login.html:19
+msgid "نام خود را وارد کنید"
+msgstr "Enter your name"
+
+#: django_project/accounts/templates/accounts/shop_owner_login.html:39
+msgid "فروشگاه ندارید؟"
+msgstr "Need a store account?"
+
+#: django_project/accounts/templates/accounts/shop_owner_login.html:40
+msgid "فروشگاه خود را ثبت کنید"
+msgstr "Register your store"
+
+#: django_project/accounts/templates/accounts/shop_owner_signup.html:4
+msgid "ثبت‌نام فروشنده - آرکیو"
+msgstr "Seller registration - Arcave"
+
+#: django_project/accounts/templates/accounts/shop_owner_signup.html:9
+msgid "ثبت فروشگاه شما"
+msgstr "Register your store"
+
+#: django_project/accounts/templates/accounts/shop_owner_signup.html:10
+msgid "به عنوان فروشنده به آرکیو بپیوندید و مشتریان بیشتری جذب کنید."
+msgstr "Join Arcave as a seller and reach more customers."
+
+#: django_project/accounts/templates/accounts/shop_owner_signup.html:19
+#: django_project/accounts/templates/accounts/verify_shop_owner_security.html:57
+msgid "نام شما"
+msgstr "Your name"
+
+#: django_project/accounts/templates/accounts/shop_owner_signup.html:21
+msgid "نام کامل خود را وارد کنید"
+msgstr "Enter your full name"
+
+#: django_project/accounts/templates/accounts/shop_owner_signup.html:27
+msgid "نام فروشگاه خود را وارد کنید"
+msgstr "Enter your store name"
+
+#: django_project/accounts/templates/accounts/shop_owner_signup.html:45
+msgid "آدرس فروشگاه خود را وارد کنید (اختیاری)"
+msgstr "Enter your store address (optional)"
+
+#: django_project/accounts/templates/accounts/shop_owner_signup.html:51
+msgid "+989123456789 (اختیاری)"
+msgstr "+989123456789 (optional)"
+
+#: django_project/accounts/templates/accounts/shop_owner_signup.html:62
+msgid "اولین سوال امنیتی خود را وارد کنید"
+msgstr "Enter your first security question"
+
+#: django_project/accounts/templates/accounts/shop_owner_signup.html:74
+msgid "دومین سوال امنیتی خود را وارد کنید"
+msgstr "Enter your second security question"
+
+#: django_project/accounts/templates/accounts/shop_owner_signup.html:90
+msgid "قبلاً فروشگاه دارید؟"
+msgstr "Already have a store?"
+
+#: django_project/accounts/templates/accounts/verify_customer_security.html:4
+msgid "تأیید امنیتی - مشتری"
+msgstr "Security verification - Customer"
+
+#: django_project/accounts/templates/accounts/verify_customer_security.html:9
+#: django_project/accounts/templates/accounts/verify_shop_owner_security.html:9
+msgid "تأیید امنیتی"
+msgstr "Security verification"
+
+#: django_project/accounts/templates/accounts/verify_customer_security.html:10
+#: django_project/accounts/templates/accounts/verify_shop_owner_security.html:10
+msgid "برای بازنشانی رمز عبور به هر دو سوال امنیتی پاسخ دهید"
+msgstr "Answer both security questions to reset your password"
+
+#: django_project/accounts/templates/accounts/verify_customer_security.html:15
+#: django_project/accounts/templates/accounts/verify_shop_owner_security.html:15
+msgid "⏱️ حساب قفل شده"
+msgstr "⏱️ Account locked"
+
+#: django_project/accounts/templates/accounts/verify_customer_security.html:16
+#: django_project/accounts/templates/accounts/verify_shop_owner_security.html:16
+msgid "تلاش‌های ناموفق زیادی انجام شده. لطفاً دوباره امتحان کنید پس از:"
+msgstr "Too many failed attempts. Please try again after:"
+
+#: django_project/accounts/templates/accounts/verify_customer_security.html:21
+#: django_project/accounts/templates/accounts/verify_shop_owner_security.html:21
+msgid "این برای امنیت شماست. لطفاً قبل از تلاش مجدد صبر کنید."
+msgstr "Please wait before trying again to keep your account secure."
+
+#: django_project/accounts/templates/accounts/verify_customer_security.html:69
+#: django_project/accounts/templates/accounts/verify_customer_security.html:88
+#: django_project/accounts/templates/accounts/verify_shop_owner_security.html:75
+#: django_project/accounts/templates/accounts/verify_shop_owner_security.html:94
+msgid "پاسخ خود را وارد کنید"
+msgstr "Enter your answer"
+
+#: django_project/accounts/templates/accounts/verify_customer_security.html:72
+#: django_project/accounts/templates/accounts/verify_customer_security.html:91
+#: django_project/accounts/templates/accounts/verify_shop_owner_security.html:78
+#: django_project/accounts/templates/accounts/verify_shop_owner_security.html:97
+msgid "تأیید"
+msgstr "Confirm"
+
+#: django_project/accounts/templates/accounts/verify_customer_security.html:80
+#: django_project/accounts/templates/accounts/verify_shop_owner_security.html:86
+msgid "پاسخ اول تأیید شد. برای ادامه به سوال دوم پاسخ دهید."
+msgstr "Your first answer was verified. Answer the second question to continue."
+
+#: django_project/accounts/templates/accounts/verify_customer_security.html:98
+#: django_project/accounts/templates/accounts/verify_shop_owner_security.html:104
+msgid "→ بازگشت به انتخاب نوع حساب"
+msgstr "← Back to account selection"
+
+#: django_project/accounts/templates/accounts/verify_shop_owner_security.html:4
+msgid "تأیید امنیتی - فروشنده"
+msgstr "Security verification - Seller"
+
+#: django_project/accounts/templates/accounts/verify_shop_owner_security.html:59
+msgid "نام ثبت‌شده خود را وارد کنید"
+msgstr "Enter your registered name"
+
+#: django_project/accounts/views.py:73 django_project/accounts/views.py:141
+msgid "حساب با موفقیت ایجاد شد. لطفاً وارد شوید."
+msgstr "Your account was created. Please sign in."
+
+#: django_project/accounts/views.py:96 django_project/accounts/views.py:164
+#, python-format
+msgid "حساب کاربری قفل شده است. لطفاً پس از %(value0)s:%(value1)s دوباره تلاش کنید."
+msgstr "Your account is locked. Please try again after %(value0)s:%(value1)s."
+
+#: django_project/accounts/views.py:125 django_project/accounts/views.py:195
+#, python-format
+msgid "تلاش‌های ناموفق زیاد. حساب کاربری برای %(value0)s:%(value1)s قفل شده است."
+msgstr "Too many failed attempts. Your account is locked for %(value0)s:%(value1)s."
+
+#: django_project/accounts/views.py:128 django_project/accounts/views.py:130
+msgid "نام کاربری یا رمز عبور اشتباه است."
+msgstr "The username or password is incorrect."
+
+#: django_project/accounts/views.py:198 django_project/accounts/views.py:200
+msgid "نام یا رمز عبور اشتباه است."
+msgstr "The name or password is incorrect."
+
+#: django_project/accounts/views.py:231
+msgid "این ایمیل قبلاً ثبت شده است."
+msgstr "This email address is already registered."
+
+#: django_project/accounts/views.py:242 django_project/accounts/views.py:313
+msgid "رمز عبور فعلی اشتباه است."
+msgstr "The current password is incorrect."
+
+#: django_project/accounts/views.py:250 django_project/accounts/views.py:321
+msgid "رمزهای عبور جدید مطابقت ندارند."
+msgstr "The new passwords do not match."
+
+#: django_project/accounts/views.py:266 django_project/accounts/views.py:337
+msgid "رمز عبور با موفقیت به‌روزرسانی شد! لطفاً دوباره وارد شوید."
+msgstr "Your password was updated. Please sign in again."
+
+#: django_project/accounts/views.py:273 django_project/accounts/views.py:351
+msgid "پروفایل با موفقیت به‌روزرسانی شد!"
+msgstr "Your profile was updated."
+
+#: django_project/accounts/views.py:287
+msgid "لطفاً به عنوان فروشنده وارد شوید."
+msgstr "Please sign in as a seller."
+
+#: django_project/accounts/views.py:293
+msgid "فروشنده یافت نشد."
+msgstr "Seller not found."
+
+#: django_project/arcave/errors.py:11
+msgid "درخواست قابل پردازش نیست"
+msgstr "We could not process this request"
+
+#: django_project/arcave/errors.py:12
+msgid "لطفاً صفحه را دوباره باز کنید و اطلاعات واردشده را بررسی کنید."
+msgstr "Reopen the page and check the information you entered."
+
+#: django_project/arcave/errors.py:15
+msgid "دسترسی به این صفحه مجاز نیست"
+msgstr "Access to this page is restricted"
+
+#: django_project/arcave/errors.py:16
+msgid "با حساب مناسب وارد شوید و دوباره تلاش کنید."
+msgstr "Sign in with the appropriate account and try again."
+
+#: django_project/arcave/errors.py:19
+msgid "صفحه پیدا نشد"
+msgstr "Page not found"
+
+#: django_project/arcave/errors.py:20
+msgid "ممکن است آدرس تغییر کرده باشد یا محصول دیگر در دسترس نباشد."
+msgstr "The address may have changed, or the product may no longer be available."
+
+#: django_project/arcave/errors.py:23
+msgid "مشکلی پیش آمده است"
+msgstr "Something went wrong"
+
+#: django_project/arcave/errors.py:24
+msgid "لطفاً کمی بعد دوباره تلاش کنید. اگر مشکل ادامه داشت، کد پیگیری را به پشتیبانی بدهید."
+msgstr "Please try again later. If the problem continues, give the reference number to support."
+
+#: django_project/arcave/errors.py:35
+msgid "فرم نیاز به تازه‌سازی دارد"
+msgstr "Please refresh the form"
+
+#: django_project/arcave/errors.py:36
+msgid "صفحه فرم را دوباره باز کنید و اطلاعات را مجدداً ارسال کنید."
+msgstr "Reopen the form and submit your information again."
+
+#: django_project/shop/context_processors.py:9
+msgid "ریال"
+msgstr "IRR"
+
+#: django_project/shop/forms.py:44
+msgid "موجودی تغییر کرده است. صفحه را تازه کنید و دوباره تلاش کنید."
+msgstr "Stock has changed. Refresh the page and try again."
+
+#: django_project/shop/forms.py:54
+msgid "حجم تصویر باید حداکثر ۵ مگابایت باشد."
+msgstr "Images must be no larger than 5 MB."
+
+#: django_project/shop/forms.py:63
+msgid "فقط تصاویر JPG، PNG و WebP مجاز هستند."
+msgstr "Only JPG, PNG and WebP images are allowed."
+
+#: django_project/shop/forms.py:72
+msgid "ابعاد تصویر بیش از حد مجاز است (حداکثر ۴۰۹۶ پیکسل)."
+msgstr "Image dimensions exceed the limit (maximum 4096 pixels)."
+
+#: django_project/shop/forms.py:86
+msgid "حجم تصویر پردازش‌شده بیش از حد مجاز است."
+msgstr "The processed image exceeds the size limit."
+
+#: django_project/shop/forms.py:95
+msgid "فایل تصویر معتبر نیست."
+msgstr "The image file is invalid."
+
+#: django_project/shop/models.py:13
+#: django_project/shop/templates/shop/add_product.html:61
+#: django_project/shop/templates/shop/edit_product.html:61
+#: django_project/shop/templates/shop/product_detail.html:24
+#: django_project/shop/templates/shop/product_list.html:58
+#: django_project/shop/templates/shop/shop_owner_dashboard.html:118
+msgid "محصولات الکترونیک"
+msgstr "Electronics"
+
+#: django_project/shop/models.py:14
+#: django_project/shop/templates/shop/add_product.html:62
+#: django_project/shop/templates/shop/edit_product.html:62
+#: django_project/shop/templates/shop/product_detail.html:24
+#: django_project/shop/templates/shop/product_list.html:58
+#: django_project/shop/templates/shop/shop_owner_dashboard.html:118
+msgid "لوازم جانبی الکترونیک"
+msgstr "Electronic accessories"
+
+#: django_project/shop/models.py:132
+msgid "ثبت‌شده"
+msgstr "Placed"
+
+#: django_project/shop/models.py:133
+msgid "در حال آماده‌سازی"
+msgstr "Processing"
+
+#: django_project/shop/models.py:134
+msgid "تکمیل‌شده"
+msgstr "Completed"
+
+#: django_project/shop/models.py:135
+msgid "خرید پیشین (وضعیت نامشخص)"
+msgstr "Legacy purchase (status unknown)"
+
+#: django_project/shop/services.py:66
+msgid "تعداد باید بین ۱ تا ۵ و حداکثر برابر موجودی محصول باشد."
+msgstr "The quantity must be between 1 and 5 and cannot exceed available stock."
+
+#: django_project/shop/services.py:81
+msgid "تأیید سفارش نامعتبر یا منقضی است. سبد خرید را تازه کنید."
+msgstr "Your checkout confirmation is invalid or expired. Refresh your cart."
+
+#: django_project/shop/services.py:97
+msgid "سبد خرید تغییر کرده یا خالی است. آن را بررسی کنید."
+msgstr "Your cart has changed or is empty. Please review it."
+
+#: django_project/shop/services.py:102
+msgid "سبد خرید یا قیمت تغییر کرده است. مبلغ جدید را بررسی و دوباره تأیید کنید."
+msgstr "Your cart or a price has changed. Review the new total and confirm again."
+
+#: django_project/shop/services.py:111
+msgid "موجودی کافی نیست یا تعداد نامعتبر است. سبد خرید را بررسی کنید."
+msgstr "There is not enough stock, or the quantity is invalid. Please review your cart."
+
+#: django_project/shop/templates/shop/add_product.html:4
+#, python-format
+msgid "افزودن محصول - %(value0)s"
+msgstr "Add product - %(value0)s"
+
+#: django_project/shop/templates/shop/add_product.html:10
+msgid "افزودن محصول جدید"
+msgstr "Add a new product"
+
+#: django_project/shop/templates/shop/add_product.html:11
+msgid "یک مورد جدید در فروشگاه خود ثبت کنید"
+msgstr "Add a new item to your store"
+
+#: django_project/shop/templates/shop/add_product.html:31
+#: django_project/shop/templates/shop/edit_product.html:31
+msgid "نام محصول"
+msgstr "Product name"
+
+#: django_project/shop/templates/shop/add_product.html:33
+#: django_project/shop/templates/shop/edit_product.html:33
+msgid "نام محصول را وارد کنید"
+msgstr "Enter the product name"
+
+#: django_project/shop/templates/shop/add_product.html:37
+#: django_project/shop/templates/shop/edit_product.html:37
+msgid "قیمت (ریال)"
+msgstr "Price (IRR)"
+
+#: django_project/shop/templates/shop/add_product.html:43
+#: django_project/shop/templates/shop/edit_product.html:43
+msgid "توضیحات"
+msgstr "Description"
+
+#: django_project/shop/templates/shop/add_product.html:45
+#: django_project/shop/templates/shop/edit_product.html:45
+msgid "محصول خود را توصیف کنید..."
+msgstr "Describe your product..."
+
+#: django_project/shop/templates/shop/add_product.html:49
+#: django_project/shop/templates/shop/edit_product.html:49
+msgid "تعداد موجودی"
+msgstr "Stock quantity"
+
+#: django_project/shop/templates/shop/add_product.html:51
+#: django_project/shop/templates/shop/edit_product.html:51
+msgid "چند عدد موجود است؟"
+msgstr "How many units are available?"
+
+#: django_project/shop/templates/shop/add_product.html:53
+#: django_project/shop/templates/shop/edit_product.html:53
+msgid "تعداد واحدهای موجود برای فروش"
+msgstr "Number of units available for sale"
+
+#: django_project/shop/templates/shop/add_product.html:58
+#: django_project/shop/templates/shop/edit_product.html:58
+#: django_project/shop/templates/shop/shop_owner_dashboard.html:88
+msgid "دسته‌بندی"
+msgstr "Category"
+
+#: django_project/shop/templates/shop/add_product.html:60
+#: django_project/shop/templates/shop/edit_product.html:60
+msgid "دسته‌بندی را انتخاب کنید"
+msgstr "Select a category"
+
+#: django_project/shop/templates/shop/add_product.html:67
+#: django_project/shop/templates/shop/edit_product.html:68
+msgid "تصویر محصول"
+msgstr "Product image"
+
+#: django_project/shop/templates/shop/add_product.html:70
+#: django_project/shop/templates/shop/edit_product.html:80
+msgid "JPG، PNG یا WebP؛ حداکثر ۵ مگابایت و ۴۰۹۶ پیکسل"
+msgstr "JPG, PNG or WebP; up to 5 MB and 4096 pixels"
+
+#: django_project/shop/templates/shop/base.html:10
+msgid "آرکیو"
+msgstr "Arcave"
+
+#: django_project/shop/templates/shop/base.html:31
+#: django_project/shop/templates/shop/cart.html:8
+msgid "سبد خرید"
+msgstr "Cart"
+
+#: django_project/shop/templates/shop/base.html:33
+msgid "داشبورد من"
+msgstr "My dashboard"
+
+#: django_project/shop/templates/shop/base.html:37
+msgid "داشبورد فروشگاه"
+msgstr "Store dashboard"
+
+#: django_project/shop/templates/shop/base.html:65
+msgid "&copy; 2026 آرکیو. تمامی حقوق محفوظ است."
+msgstr "&copy; 2026 Arcave. All rights reserved."
+
+#: django_project/shop/templates/shop/cart.html:4
+msgid "سبد خرید - آرکیو"
+msgstr "Cart - Arcave"
+
+#: django_project/shop/templates/shop/cart.html:15
+#: django_project/shop/templates/shop/customer_dashboard.html:35
+#: django_project/shop/templates/shop/order_detail.html:12
+#: django_project/shop/templates/shop/shop_owner_dashboard.html:51
+#: django_project/shop/templates/shop/shop_owner_dashboard.html:87
+msgid "محصول"
+msgstr "Product"
+
+#: django_project/shop/templates/shop/cart.html:17
+#: django_project/shop/templates/shop/shop_owner_dashboard.html:89
+msgid "قیمت"
+msgstr "Price"
+
+#: django_project/shop/templates/shop/cart.html:18
+#: django_project/shop/templates/shop/customer_dashboard.html:37
+#: django_project/shop/templates/shop/order_detail.html:12
+#: django_project/shop/templates/shop/shop_owner_dashboard.html:53
+msgid "تعداد"
+msgstr "Quantity"
+
+#: django_project/shop/templates/shop/cart.html:19
+msgid "جمع"
+msgstr "Total"
+
+#: django_project/shop/templates/shop/cart.html:20
+#: django_project/shop/templates/shop/customer_dashboard.html:40
+#: django_project/shop/templates/shop/shop_owner_dashboard.html:92
+msgid "عملیات"
+msgstr "Actions"
+
+#: django_project/shop/templates/shop/cart.html:42
+#: django_project/shop/templates/shop/cart.html:53
+#: django_project/shop/templates/shop/customer_dashboard.html:51
+#: django_project/shop/templates/shop/order_detail.html:15
+#: django_project/shop/templates/shop/order_detail.html:16
+#: django_project/shop/templates/shop/order_detail.html:19
+#: django_project/shop/templates/shop/product_detail.html:28
+#: django_project/shop/templates/shop/product_list.html:68
+#: django_project/shop/templates/shop/shop_owner_dashboard.html:66
+#: django_project/shop/templates/shop/shop_owner_dashboard.html:121
+#: django_project/shop/templates/shop/shop_profile.html:51
+#, python-format
+msgid "%(value0)s ریال"
+msgstr "%(value0)s IRR"
+
+#: django_project/shop/templates/shop/cart.html:55
+msgid "این مورد از سبد خرید حذف شود؟"
+msgstr "Remove this item from your cart?"
+
+#: django_project/shop/templates/shop/cart.html:56
+#: django_project/shop/templates/shop/shop_owner_dashboard.html:131
+msgid "حذف"
+msgstr "Delete"
+
+#: django_project/shop/templates/shop/cart.html:69
+msgid "تعداد کل:"
+msgstr "Total items:"
+
+#: django_project/shop/templates/shop/cart.html:70
+#, python-format
+msgid "جمع کل: %(value0)s ریال"
+msgstr "Grand total: %(value0)s IRR"
+
+#: django_project/shop/templates/shop/cart.html:73
+msgid "ادامه خرید"
+msgstr "Continue shopping"
+
+#: django_project/shop/templates/shop/cart.html:74
+msgid "آیا می‌خواهید خرید را نهایی کنید؟"
+msgstr "Do you want to place this order?"
+
+#: django_project/shop/templates/shop/cart.html:75
+msgid "ثبت سفارش"
+msgstr "Place order"
+
+#: django_project/shop/templates/shop/cart.html:83
+msgid "سبد خرید شما خالی است"
+msgstr "Your cart is empty"
+
+#: django_project/shop/templates/shop/cart.html:84
+msgid "محصولات ما را مرور کنید و موارد مورد نظر را به سبد خرید اضافه کنید."
+msgstr "Browse our products and add the items you want to your cart."
+
+#: django_project/shop/templates/shop/cart.html:86
+#: django_project/shop/templates/shop/customer_dashboard.html:20
+#: django_project/shop/templates/shop/customer_dashboard.html:71
+msgid "مشاهده محصولات"
+msgstr "Browse products"
+
+#: django_project/shop/templates/shop/customer_dashboard.html:4
+msgid "داشبورد من - آرکیو"
+msgstr "My dashboard - Arcave"
+
+#: django_project/shop/templates/shop/customer_dashboard.html:10
+#, python-format
+msgid "خوش آمدید، %(value0)s!"
+msgstr "Welcome, %(value0)s!"
+
+#: django_project/shop/templates/shop/customer_dashboard.html:11
+msgid "خریدهای خود را مدیریت کنید و محصولات جدید کشف کنید"
+msgstr "Manage your purchases and discover new products"
+
+#: django_project/shop/templates/shop/customer_dashboard.html:28
+msgid "تاریخچه خرید من"
+msgstr "My purchase history"
+
+#: django_project/shop/templates/shop/customer_dashboard.html:36
+#: django_project/shop/templates/shop/order_detail.html:12
+msgid "فروشگاه"
+msgstr "Store"
+
+#: django_project/shop/templates/shop/customer_dashboard.html:38
+#: django_project/shop/templates/shop/shop_owner_dashboard.html:54
+msgid "قیمت کل"
+msgstr "Total price"
+
+#: django_project/shop/templates/shop/customer_dashboard.html:39
+#: django_project/shop/templates/shop/shop_owner_dashboard.html:55
+msgid "تاریخ"
+msgstr "Date"
+
+#: django_project/shop/templates/shop/customer_dashboard.html:51
+#: django_project/shop/templates/shop/order_detail.html:15
+#: django_project/shop/templates/shop/order_detail.html:16
+#: django_project/shop/templates/shop/order_detail.html:19
+#: django_project/shop/templates/shop/shop_owner_dashboard.html:66
+msgid "نامشخص"
+msgstr "Unknown"
+
+#: django_project/shop/templates/shop/customer_dashboard.html:58
+msgid "مشاهده محصول"
+msgstr "View product"
+
+#: django_project/shop/templates/shop/customer_dashboard.html:58
+msgid "محصول حذف شده است"
+msgstr "This product has been deleted"
+
+#: django_project/shop/templates/shop/customer_dashboard.html:68
+msgid "هنوز خریدی نکرده‌اید"
+msgstr "No purchases yet"
+
+#: django_project/shop/templates/shop/customer_dashboard.html:69
+msgid "محصولات ما را کشف کنید و موارد مورد نظر را به سبد خرید خود اضافه کنید!"
+msgstr "Discover our products and add your favorites to your cart!"
+
+#: django_project/shop/templates/shop/edit_product.html:4
+#, python-format
+msgid "ویرایش محصول - %(value0)s"
+msgstr "Edit product - %(value0)s"
+
+#: django_project/shop/templates/shop/edit_product.html:10
+msgid "ویرایش محصول"
+msgstr "Edit product"
+
+#: django_project/shop/templates/shop/edit_product.html:11
+#, python-format
+msgid "به‌روزرسانی جزئیات %(value0)s"
+msgstr "Update details for %(value0)s"
+
+#: django_project/shop/templates/shop/edit_product.html:71
+msgid "تصویر فعلی:"
+msgstr "Current image:"
+
+#: django_project/shop/templates/shop/edit_product.html:78
+msgid "برای جایگزینی تصویر فعلی، تصویر جدید آپلود کنید (اختیاری)"
+msgstr "Upload a new image to replace the current one (optional)"
+
+#: django_project/shop/templates/shop/order_detail.html:3
+#: django_project/shop/templates/shop/order_detail.html:6
+msgid "رسید سفارش"
+msgstr "Order receipt"
+
+#: django_project/shop/templates/shop/order_detail.html:8
+#, python-format
+msgid "وضعیت: %(value0)s"
+msgstr "Status: %(value0)s"
+
+#: django_project/shop/templates/shop/order_detail.html:10
+msgid "این رسید تأیید پرداخت نیست. پرداخت آنلاین در این نسخه فعال نیست."
+msgstr "This receipt is not proof of payment. Online payments are not available in this version."
+
+#: django_project/shop/templates/shop/order_detail.html:12
+msgid "قیمت واحد"
+msgstr "Unit price"
+
+#: django_project/shop/templates/shop/order_detail.html:12
+msgid "مبلغ"
+msgstr "Amount"
+
+#: django_project/shop/templates/shop/order_detail.html:19
+msgid "جمع کل:"
+msgstr "Grand total:"
+
+#: django_project/shop/templates/shop/product_comments.html:4
+#, python-format
+msgid "نظرات محصول - %(value0)s"
+msgstr "Product reviews - %(value0)s"
+
+#: django_project/shop/templates/shop/product_comments.html:10
+msgid "نظرات محصول"
+msgstr "Product reviews"
+
+#: django_project/shop/templates/shop/product_comments.html:11
+#, python-format
+msgid "مشاهده و پاسخ به نظرات %(value0)s"
+msgstr "View and reply to reviews for %(value0)s"
+
+#: django_project/shop/templates/shop/product_comments.html:27
+#, python-format
+msgid "%(value0)s ریال | موجودی: %(value1)s عدد | نظرات: %(value2)s"
+msgstr "%(value0)s IRR | Stock: %(value1)s | Reviews: %(value2)s"
+
+#: django_project/shop/templates/shop/product_comments.html:30
+msgid "مشاهده محصول در سایت"
+msgstr "View product on site"
+
+#: django_project/shop/templates/shop/product_comments.html:49
+#: django_project/shop/templates/shop/product_detail.html:92
+#, python-format
+msgid "نظرات مشتریان (%(value0)s)"
+msgstr "Customer reviews (%(value0)s)"
+
+#: django_project/shop/templates/shop/product_comments.html:65
+msgid "✓ پاسخ داده شده"
+msgstr "✓ Replied"
+
+#: django_project/shop/templates/shop/product_comments.html:69
+msgid "⏳ در انتظار پاسخ"
+msgstr "⏳ Awaiting reply"
+
+#: django_project/shop/templates/shop/product_comments.html:83
+msgid "↳ پاسخ شما"
+msgstr "↳ Your reply"
+
+#: django_project/shop/templates/shop/product_comments.html:97
+msgid "پاسخ به این نظر:"
+msgstr "Reply to this review:"
+
+#: django_project/shop/templates/shop/product_comments.html:99
+msgid "پاسخ خود را بنویسید..."
+msgstr "Write your reply..."
+
+#: django_project/shop/templates/shop/product_comments.html:102
+msgid "ارسال پاسخ"
+msgstr "Send reply"
+
+#: django_project/shop/templates/shop/product_comments.html:113
+#: django_project/shop/templates/shop/product_detail.html:137
+msgid "هنوز نظری ثبت نشده"
+msgstr "No reviews yet"
+
+#: django_project/shop/templates/shop/product_comments.html:114
+msgid "هنوز مشتری نظری برای این محصول ثبت نکرده است."
+msgstr "No customers have reviewed this product yet."
+
+#: django_project/shop/templates/shop/product_comments.html:121
+msgid "← بازگشت به داشبورد"
+msgstr "← Back to dashboard"
+
+#: django_project/shop/templates/shop/product_detail.html:4
+#, python-format
+msgid "%(value0)s - آرکیو"
+msgstr "%(value0)s - Arcave"
+
+#: django_project/shop/templates/shop/product_detail.html:34
+#, python-format
+msgid "✓ موجود در انبار (%(value0)s عدد موجود)"
+msgstr "✓ In stock (%(value0)s units available)"
+
+#: django_project/shop/templates/shop/product_detail.html:38
+#: django_project/shop/templates/shop/shop_profile.html:56
+msgid "✗ ناموجود"
+msgstr "✗ Out of stock"
+
+#: django_project/shop/templates/shop/product_detail.html:45
+msgid "فروشنده:"
+msgstr "Seller:"
+
+#: django_project/shop/templates/shop/product_detail.html:55
+#, python-format
+msgid "✓ شما %(value0)s عدد از این محصول را دارید"
+msgstr "✓ You purchased %(value0)s units of this product"
+
+#: django_project/shop/templates/shop/product_detail.html:63
+msgid "تعداد:"
+msgstr "Quantity:"
+
+#: django_project/shop/templates/shop/product_detail.html:71
+msgid "(حداکثر ۵ عدد در هر سفارش)"
+msgstr "(Maximum 5 units per order)"
+
+#: django_project/shop/templates/shop/product_detail.html:74
+#, python-format
+msgid "افزودن به سبد خرید - %(value0)s ریال"
+msgstr "Add to cart - %(value0)s IRR"
+
+#: django_project/shop/templates/shop/product_detail.html:79
+msgid "ناموجود"
+msgstr "Out of stock"
+
+#: django_project/shop/templates/shop/product_detail.html:84
+msgid "برای خرید وارد شوید"
+msgstr "Sign in to shop"
+
+#: django_project/shop/templates/shop/product_detail.html:97
+msgid "نوشتن نظر"
+msgstr "Write a review"
+
+#: django_project/shop/templates/shop/product_detail.html:101
+msgid "تجربه خود را با این محصول به اشتراک بگذارید..."
+msgstr "Share your experience with this product..."
+
+#: django_project/shop/templates/shop/product_detail.html:103
+msgid "ارسال نظر"
+msgstr "Submit review"
+
+#: django_project/shop/templates/shop/product_detail.html:108
+msgid "برای ارسال نظر، این محصول را خریداری کنید."
+msgstr "Purchase this product to leave a review."
+
+#: django_project/shop/templates/shop/product_detail.html:127
+#, python-format
+msgid "↳ پاسخ از %(value0)s"
+msgstr "↳ Reply from %(value0)s"
+
+#: django_project/shop/templates/shop/product_detail.html:138
+msgid "اولین نفری باشید که نظر می‌دهد!"
+msgstr "Be the first to leave a review!"
+
+#: django_project/shop/templates/shop/product_list.html:4
+msgid "محصولات - آرکیو"
+msgstr "Products - Arcave"
+
+#: django_project/shop/templates/shop/product_list.html:10
+msgid "محصولات شگفت‌انگیز را کشف کنید"
+msgstr "Discover great products"
+
+#: django_project/shop/templates/shop/product_list.html:11
+msgid "از مجموعه محصولات منحصربفرد فروشگاه‌های محلی ما دیدن کنید"
+msgstr "Explore unique products from our local stores"
+
+#: django_project/shop/templates/shop/product_list.html:16
+msgid "جستجوی محصولات..."
+msgstr "Search products..."
+
+#: django_project/shop/templates/shop/product_list.html:18
+msgid "همه دسته‌بندی‌ها"
+msgstr "All categories"
+
+#: django_project/shop/templates/shop/product_list.html:23
+msgid "جستجو"
+msgstr "Search"
+
+#: django_project/shop/templates/shop/product_list.html:25
+msgid "پاک کردن فیلترها"
+msgstr "Clear filters"
+
+#: django_project/shop/templates/shop/product_list.html:37
+#, python-format
+msgid "نتایج جستجو برای \"%(value0)s\""
+msgstr "Search results for \"%(value0)s\""
+
+#: django_project/shop/templates/shop/product_list.html:39
+#, python-format
+msgid "نتیجه‌ای برای \"%(value0)s\" یافت نشد"
+msgstr "No results found for \"%(value0)s\""
+
+#: django_project/shop/templates/shop/product_list.html:70
+#: django_project/shop/templates/shop/shop_profile.html:60
+msgid "مشاهده جزئیات"
+msgstr "View details"
+
+#: django_project/shop/templates/shop/product_list.html:81
+msgid "→ قبلی"
+msgstr "← Previous"
+
+#: django_project/shop/templates/shop/product_list.html:93
+msgid "بعدی ←"
+msgstr "Next →"
+
+#: django_project/shop/templates/shop/product_list.html:100
+msgid "محصولی موجود نیست"
+msgstr "No products available"
+
+#: django_project/shop/templates/shop/product_list.html:101
+msgid "بعداً برای محصولات جدید سر بزنید!"
+msgstr "Check back later for new products!"
+
+#: django_project/shop/templates/shop/shop_owner_dashboard.html:4
+#, python-format
+msgid "داشبورد فروشگاه - %(value0)s"
+msgstr "Store dashboard - %(value0)s"
+
+#: django_project/shop/templates/shop/shop_owner_dashboard.html:11
+#, python-format
+msgid "خوش آمدید، %(value0)s! محصولات خود را مدیریت کنید و با مشتریان در ارتباط باشید."
+msgstr "Welcome, %(value0)s! Manage your products and connect with customers."
+
+#: django_project/shop/templates/shop/shop_owner_dashboard.html:18
+msgid "محصولات"
+msgstr "Products"
+
+#: django_project/shop/templates/shop/shop_owner_dashboard.html:22
+msgid "محصولات فروخته‌شده"
+msgstr "Products sold"
+
+#: django_project/shop/templates/shop/shop_owner_dashboard.html:26
+msgid "نظرات کل"
+msgstr "Total reviews"
+
+#: django_project/shop/templates/shop/shop_owner_dashboard.html:44
+#, python-format
+msgid "محصولات فروخته‌شده (%(value0)s)"
+msgstr "Products sold (%(value0)s)"
+
+#: django_project/shop/templates/shop/shop_owner_dashboard.html:75
+msgid "هنوز محصولی فروخته نشده. با افزودن محصولات عالی، مشتریان را جذب کنید!"
+msgstr "No products sold yet. Add great products to attract customers!"
+
+#: django_project/shop/templates/shop/shop_owner_dashboard.html:80
+msgid "محصولات من"
+msgstr "My products"
+
+#: django_project/shop/templates/shop/shop_owner_dashboard.html:90
+#: django_project/shop/templates/shop/shop_owner_dashboard.html:129
+msgid "نظرات"
+msgstr "Reviews"
+
+#: django_project/shop/templates/shop/shop_owner_dashboard.html:91
+msgid "تاریخ افزودن"
+msgstr "Date added"
+
+#: django_project/shop/templates/shop/shop_owner_dashboard.html:111
+#, python-format
+msgid "موجودی: %(value0)s"
+msgstr "Stock: %(value0)s"
+
+#: django_project/shop/templates/shop/shop_owner_dashboard.html:127
+msgid "ویرایش"
+msgstr "Edit"
+
+#: django_project/shop/templates/shop/shop_owner_dashboard.html:131
+msgid "آیا مطمئنید که می‌خواهید این محصول را حذف کنید؟"
+msgstr "Are you sure you want to delete this product?"
+
+#: django_project/shop/templates/shop/shop_owner_dashboard.html:141
+msgid "هنوز محصولی ندارید"
+msgstr "You have no products yet"
+
+#: django_project/shop/templates/shop/shop_owner_dashboard.html:142
+msgid "با افزودن اولین محصول، فروش را شروع کنید!"
+msgstr "Start selling by adding your first product!"
+
+#: django_project/shop/templates/shop/shop_profile.html:4
+#, python-format
+msgid "%(value0)s - پروفایل فروشگاه"
+msgstr "%(value0)s - Store profile"
+
+#: django_project/shop/templates/shop/shop_profile.html:11
+#, python-format
+msgid "مالک: %(value0)s"
+msgstr "Owner: %(value0)s"
+
+#: django_project/shop/templates/shop/shop_profile.html:17
+msgid "📍 آدرس:"
+msgstr "📍 Address:"
+
+#: django_project/shop/templates/shop/shop_profile.html:24
+msgid "📞 تلفن:"
+msgstr "📞 Phone:"
+
+#: django_project/shop/templates/shop/shop_profile.html:29
+msgid "اطلاعات تماسی ثبت نشده است."
+msgstr "No contact information has been provided."
+
+#: django_project/shop/templates/shop/shop_profile.html:35
+#, python-format
+msgid "محصولات (%(value0)s)"
+msgstr "Products (%(value0)s)"
+
+#: django_project/shop/templates/shop/shop_profile.html:54
+#, python-format
+msgid "✓ موجود (%(value0)s عدد)"
+msgstr "✓ In stock (%(value0)s units)"
+
+#: django_project/shop/templates/shop/shop_profile.html:69
+msgid "هنوز محصولی ندارد"
+msgstr "No products yet"
+
+#: django_project/shop/templates/shop/shop_profile.html:70
+msgid "این فروشگاه هنوز محصولی اضافه نکرده است."
+msgstr "This store has not added any products yet."
+
+#: django_project/shop/templates/shop/shop_profile.html:76
+msgid "→ بازگشت به محصولات"
+msgstr "← Back to products"
+
+#: django_project/shop/views.py:92 django_project/shop/views.py:134
+msgid "سبد خرید به‌روزرسانی شد."
+msgstr "Your cart was updated."
+
+#: django_project/shop/views.py:96 django_project/shop/views.py:138
+msgid "تعداد باید یک عدد صحیح بین ۱ تا ۵ باشد."
+msgstr "Enter a whole number between 1 and 5."
+
+#: django_project/shop/views.py:147
+msgid "مورد از سبد خرید حذف شد."
+msgstr "The item was removed from your cart."
+
+#: django_project/shop/views.py:162
+msgid "ثبت سفارش انجام نشد. دوباره تلاش کنید."
+msgstr "We could not place your order. Please try again."
+
+#: django_project/shop/views.py:164
+msgid "سفارش ثبت شد. پرداخت آنلاین در این نسخه فعال نیست."
+msgstr "Your order was placed. Online payments are not available in this version."
+
+#: django_project/shop/views.py:206
+msgid "ثبت نظر فقط برای خریداران این محصول مجاز است."
+msgstr "Only customers who purchased this product can leave a review."
+
+#: django_project/shop/views.py:213
+msgid "نظر با موفقیت ثبت شد!"
+msgstr "Your review was submitted."
+
+#: django_project/shop/views.py:215
+msgid "نظر باید بین ۱ تا ۲۰۰۰ نویسه باشد."
+msgstr "Reviews must contain between 1 and 2000 characters."
+
+#: django_project/shop/views.py:304 django_project/shop/views.py:407
+msgid "محصول با موفقیت ذخیره شد."
+msgstr "The product was saved."
+
+#: django_project/shop/views.py:340
+msgid "پاسخ با موفقیت ثبت شد!"
+msgstr "Your reply was submitted."
+
+#: django_project/shop/views.py:342
+msgid "این نظر قبلاً پاسخ داده شده است."
+msgstr "This review already has a reply."
+
+#: django_project/shop/views.py:346
+msgid "پاسخ باید بین ۱ تا ۲۰۰۰ نویسه باشد."
+msgstr "Replies must contain between 1 and 2000 characters."
+
+#: django_project/shop/views.py:372
+msgid "محصول با موفقیت حذف شد!"
+msgstr "The product was deleted."
+
+#: django_project/templates/errors/error.html:9
+#, python-format
+msgid "%(value0)s — آرکیو"
+msgstr "%(value0)s — Arcave"
+
+#: django_project/templates/errors/error.html:27
+msgid "آرکیو / Arcave"
+msgstr "Arcave"
+
+#: django_project/templates/errors/error.html:31
+msgid "بازگشت به صفحه اصلی"
+msgstr "Back to home"
+
+#: django_project/templates/errors/error.html:32
+msgid "کد پیگیری"
+msgstr "Reference number"

@@ -11,6 +11,7 @@ from django.http import HttpRequest, HttpResponse
 from django.shortcuts import redirect, render
 from django.utils import timezone
 from django.utils.crypto import constant_time_compare
+from django.utils.translation import gettext_lazy as _
 from django.views.decorators.http import require_http_methods
 
 from .models import Customer, ShopOwner
@@ -87,7 +88,7 @@ def verify_security(request: HttpRequest, user_type: str) -> HttpResponse:
             **{identity_field: request.POST[identity_field]}
         ).first()
         if account is None or (user_type == "customer" and not account.is_active):
-            messages.error(request, "امکان بازیابی با این اطلاعات وجود ندارد.")
+            messages.error(request, _("امکان بازیابی با این اطلاعات وجود ندارد."))
             return render(request, template, {"step": 1})
         remaining = recovery_remaining(account)
         if remaining:
@@ -108,7 +109,7 @@ def verify_security(request: HttpRequest, user_type: str) -> HttpResponse:
     challenge = challenge_payload(request, user_type)
     if challenge is None:
         if request.method == "POST":
-            messages.error(request, "لطفاً بازیابی رمز عبور را دوباره شروع کنید.")
+            messages.error(request, _("لطفاً بازیابی رمز عبور را دوباره شروع کنید."))
         return render(request, template, {"step": 1})
 
     with transaction.atomic():
@@ -144,7 +145,7 @@ def verify_security(request: HttpRequest, user_type: str) -> HttpResponse:
         ):
             record_recovery_failure(account)
             clear_recovery(request)
-            messages.error(request, "پاسخ نادرست است. بازیابی را دوباره شروع کنید.")
+            messages.error(request, _("پاسخ نادرست است. بازیابی را دوباره شروع کنید."))
             remaining = recovery_remaining(account)
             return render(
                 request,
@@ -187,7 +188,7 @@ def reset_password(request: HttpRequest, user_type: str, user_id: int) -> HttpRe
         or grant.get("id") != user_id
     ):
         clear_recovery(request)
-        messages.error(request, "درخواست بازیابی نامعتبر یا منقضی شده است.")
+        messages.error(request, _("درخواست بازیابی نامعتبر یا منقضی شده است."))
         return redirect("forgot_password")
     model = Customer if user_type == "customer" else ShopOwner
     with transaction.atomic():
@@ -205,7 +206,7 @@ def reset_password(request: HttpRequest, user_type: str, user_id: int) -> HttpRe
         if request.method == "POST":
             password = request.POST.get("new_password", "")
             if password != request.POST.get("confirm_password", ""):
-                messages.error(request, "رمزهای عبور مطابقت ندارند.")
+                messages.error(request, _("رمزهای عبور مطابقت ندارند."))
             elif password_is_valid(request, password, account):
                 account.set_password(password)
                 account.failed_attempts = 0
@@ -222,6 +223,8 @@ def reset_password(request: HttpRequest, user_type: str, user_id: int) -> HttpRe
                     ]
                 )
                 clear_recovery(request)
-                messages.success(request, "رمز عبور تغییر کرد. لطفاً دوباره وارد شوید.")
+                messages.success(
+                    request, _("رمز عبور تغییر کرد. لطفاً دوباره وارد شوید.")
+                )
                 return redirect(f"{user_type}_login")
     return render(request, "accounts/reset_password.html", {"user_type": user_type})

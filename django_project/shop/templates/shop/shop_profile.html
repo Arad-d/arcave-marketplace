@@ -1,37 +1,38 @@
 {% extends 'shop/base.html' %}
+{% load i18n %}
 
-{% block title %}{{ shop_owner.store_name }} - پروفایل فروشگاه{% endblock %}
+{% block title %}{% blocktranslate with value0=shop_owner.store_name %}{{ value0 }} - پروفایل فروشگاه{% endblocktranslate %}{% endblock %}
 
 {% block content %}
 <div class="container" style="padding: 2rem 0;">
     <!-- Shop Header -->
     <div class="dashboard-header" style="margin-bottom: 2rem;">
         <h1 class="dashboard-title">{{ shop_owner.store_name }}</h1>
-        <p class="dashboard-subtitle">مالک: {{ shop_owner.name }}</p>
+        <p class="dashboard-subtitle">{% blocktranslate with value0=shop_owner.name %}مالک: {{ value0 }}{% endblocktranslate %}</p>
         
         <!-- Shop Contact Info -->
         <div style="margin-top: 1.5rem; padding: 1.5rem; background-color: var(--color-cream); border-radius: var(--radius-md);">
             {% if shop_owner.address %}
                 <div style="margin-bottom: 1rem;">
-                    <strong>📍 آدرس:</strong><br>
+                    <strong>{% translate "📍 آدرس:" %}</strong><br>
                     <span style="white-space: pre-line;">{{ shop_owner.address }}</span>
                 </div>
             {% endif %}
             
             {% if shop_owner.phone %}
                 <div>
-                    <strong>📞 تلفن:</strong> {{ shop_owner.phone }}
+                    <strong>{% translate "📞 تلفن:" %}</strong> {{ shop_owner.phone }}
                 </div>
             {% endif %}
             
             {% if not shop_owner.address and not shop_owner.phone %}
-                <p style="color: var(--color-charcoal-light); margin: 0;">اطلاعات تماسی ثبت نشده است.</p>
+                <p style="color: var(--color-charcoal-light); margin: 0;">{% translate "اطلاعات تماسی ثبت نشده است." %}</p>
             {% endif %}
         </div>
     </div>
     
     <!-- Products Section -->
-    <h2 style="margin-bottom: 1.5rem;">محصولات ({{ products|length }})</h2>
+    <h2 style="margin-bottom: 1.5rem;">{% blocktranslate with value0=products|length %}محصولات ({{ value0 }}){% endblocktranslate %}</h2>
     
     {% if products %}
         <div class="product-grid">
@@ -47,16 +48,16 @@
                     <div class="card-content">
                         <h3 class="card-title">{{ product.name }}</h3>
                         <p class="card-text">{{ product.description|truncatewords:15 }}</p>
-                        <div class="card-price">{{ product.price|floatformat:"0" }} ریال</div>
+                        <div class="card-price">{% blocktranslate with value0=product.price|floatformat:"0" %}{{ value0 }} ریال{% endblocktranslate %}</div>
                         <div style="margin-bottom: 1rem;">
                             {% if product.is_in_stock %}
-                                <span style="color: var(--color-success); font-size: 0.875rem;">✓ موجود ({{ product.stock }} عدد)</span>
+                                <span style="color: var(--color-success); font-size: 0.875rem;">{% blocktranslate with value0=product.stock %}✓ موجود ({{ value0 }} عدد){% endblocktranslate %}</span>
                             {% else %}
-                                <span style="color: var(--color-error); font-size: 0.875rem;">✗ ناموجود</span>
+                                <span style="color: var(--color-error); font-size: 0.875rem;">{% translate "✗ ناموجود" %}</span>
                             {% endif %}
                         </div>
                         <a href="{% url 'product_detail' product.pk %}" class="btn btn-primary" style="width: 100%;">
-                            مشاهده جزئیات
+                            {% translate "مشاهده جزئیات" %}
                         </a>
                     </div>
                 </div>
@@ -65,14 +66,14 @@
     {% else %}
         <div class="empty-state">
             <div class="empty-state-icon">📦</div>
-            <h3>هنوز محصولی ندارد</h3>
-            <p>این فروشگاه هنوز محصولی اضافه نکرده است.</p>
+            <h3>{% translate "هنوز محصولی ندارد" %}</h3>
+            <p>{% translate "این فروشگاه هنوز محصولی اضافه نکرده است." %}</p>
         </div>
     {% endif %}
     
     <!-- Back Button -->
     <div style="margin-top: 2rem; text-align: center;">
-        <a href="{% url 'product_list' %}" class="btn btn-secondary">→ بازگشت به محصولات</a>
+        <a href="{% url 'product_list' %}" class="btn btn-secondary">{% translate "→ بازگشت به محصولات" %}</a>
     </div>
 </div>
 {% endblock %}

@@ -1,0 +1,9 @@
+{% extends "admin/base_site.html" %}
+{% block userlinks %}
+    {{ block.super }}
+    {% include "includes/language_switch.html" %}
+{% endblock %}
+{% block branding %}
+    {{ block.super }}
+    {% if not user.is_authenticated %}{% include "includes/language_switch.html" %}{% endif %}
+{% endblock %}

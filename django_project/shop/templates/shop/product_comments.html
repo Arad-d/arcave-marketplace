@@ -1,13 +1,14 @@
 {% extends 'shop/base.html' %}
+{% load i18n %}
 
-{% block title %}نظرات محصول - {{ product.name }}{% endblock %}
+{% block title %}{% blocktranslate with value0=product.name %}نظرات محصول - {{ value0 }}{% endblocktranslate %}{% endblock %}
 
 {% block content %}
 <div class="container" style="padding: 2rem 0;">
     <!-- Dashboard Header -->
     <div class="dashboard-header">
-        <h1 class="dashboard-title">نظرات محصول</h1>
-        <p class="dashboard-subtitle">مشاهده و پاسخ به نظرات {{ product.name }}</p>
+        <h1 class="dashboard-title">{% translate "نظرات محصول" %}</h1>
+        <p class="dashboard-subtitle">{% blocktranslate with value0=product.name %}مشاهده و پاسخ به نظرات {{ value0 }}{% endblocktranslate %}</p>
     </div>
     
     <!-- Product Info Card -->
@@ -23,12 +24,10 @@
             <div>
                 <h2 style="margin: 0;">{{ product.name }}</h2>
                 <p style="color: var(--color-charcoal-light); margin: 0.5rem 0;">
-                    {{ product.price|floatformat:"0" }} ریال | 
-                    موجودی: {{ product.stock }} عدد |
-                    نظرات: {{ comments|length }}
+                    {% blocktranslate with value0=product.price|floatformat:"0" value1=product.stock value2=comments|length %}{{ value0 }} ریال | موجودی: {{ value1 }} عدد | نظرات: {{ value2 }}{% endblocktranslate %}
                 </p>
                 <a href="{% url 'product_detail' product.pk %}" class="btn btn-secondary btn-sm" target="_blank">
-                    مشاهده محصول در سایت
+                    {% translate "مشاهده محصول در سایت" %}
                 </a>
             </div>
         </div>
@@ -38,16 +37,16 @@
         <!-- Sidebar -->
         <aside class="dashboard-sidebar">
             <ul class="dashboard-nav">
-                <li><a href="{% url 'shop_owner_dashboard' %}">داشبورد</a></li>
-                <li><a href="{% url 'add_product' %}">افزودن محصول</a></li>
-                <li><a href="{% url 'edit_shop_owner_profile' %}">ویرایش پروفایل</a></li>
-                <li><form method="post" action="{% url 'logout' %}" class="inline-action">{% csrf_token %}<button type="submit" class="navigation-action">خروج</button></form></li>
+                <li><a href="{% url 'shop_owner_dashboard' %}">{% translate "داشبورد" %}</a></li>
+                <li><a href="{% url 'add_product' %}">{% translate "افزودن محصول" %}</a></li>
+                <li><a href="{% url 'edit_shop_owner_profile' %}">{% translate "ویرایش پروفایل" %}</a></li>
+                <li><form method="post" action="{% url 'logout' %}" class="inline-action">{% csrf_token %}<button type="submit" class="navigation-action">{% translate "خروج" %}</button></form></li>
             </ul>
         </aside>
         
         <!-- Main Content -->
         <div class="dashboard-content">
-            <h2 style="margin-bottom: 1.5rem;">نظرات مشتریان ({{ comments|length }})</h2>
+            <h2 style="margin-bottom: 1.5rem;">{% blocktranslate with value0=comments|length %}نظرات مشتریان ({{ value0 }}){% endblocktranslate %}</h2>
             
             {% if comments %}
                 <div style="display: flex; flex-direction: column; gap: 1.5rem;">
@@ -63,11 +62,11 @@
                                     </div>
                                     {% if comment.reply %}
                                         <span style="background-color: var(--color-success); color: white; padding: 0.25rem 0.75rem; border-radius: 12px; font-size: 0.75rem;">
-                                            ✓ پاسخ داده شده
+                                            {% translate "✓ پاسخ داده شده" %}
                                         </span>
                                     {% else %}
                                         <span style="background-color: orange; color: white; padding: 0.25rem 0.75rem; border-radius: 12px; font-size: 0.75rem;">
-                                            ⏳ در انتظار پاسخ
+                                            {% translate "⏳ در انتظار پاسخ" %}
                                         </span>
                                     {% endif %}
                                 </div>
@@ -81,7 +80,7 @@
                                 <!-- Existing Reply -->
                                 <div class="reply" style="margin-right: 2rem; background-color: var(--color-brown-light, #E8D5C4); padding: 1rem; border-radius: 8px; border-right: 3px solid var(--color-brown);">
                                     <div class="reply-header" style="font-weight: 600; color: var(--color-brown); margin-bottom: 0.5rem;">
-                                        ↳ پاسخ شما
+                                        {% translate "↳ پاسخ شما" %}
                                     </div>
                                     <div>{{ comment.reply.text }}</div>
                                     <small style="color: var(--color-charcoal-light); display: block; margin-top: 0.5rem;">
@@ -95,12 +94,12 @@
                                         {% csrf_token %}
                                         <div class="form-group">
                                             <label class="form-label" style="font-weight: 600; color: var(--color-brown);">
-                                                پاسخ به این نظر:
+                                                {% translate "پاسخ به این نظر:" %}
                                             </label>
-                                            <textarea class="form-control" name="text" rows="3" placeholder="پاسخ خود را بنویسید..." required></textarea>
+                                            <textarea class="form-control" name="text" rows="3" placeholder="{% translate "پاسخ خود را بنویسید..." %}" required></textarea>
                                         </div>
                                         <button type="submit" class="btn btn-primary btn-sm">
-                                            ارسال پاسخ
+                                            {% translate "ارسال پاسخ" %}
                                         </button>
                                     </form>
                                 </div>
@@ -111,15 +110,15 @@
             {% else %}
                 <div class="empty-state">
                     <div class="empty-state-icon">💬</div>
-                    <h3>هنوز نظری ثبت نشده</h3>
-                    <p>هنوز مشتری نظری برای این محصول ثبت نکرده است.</p>
+                    <h3>{% translate "هنوز نظری ثبت نشده" %}</h3>
+                    <p>{% translate "هنوز مشتری نظری برای این محصول ثبت نکرده است." %}</p>
                 </div>
             {% endif %}
             
             <!-- Back Button -->
             <div style="margin-top: 2rem;">
                 <a href="{% url 'shop_owner_dashboard' %}" class="btn btn-secondary">
-                    ← بازگشت به داشبورد
+                    {% translate "← بازگشت به داشبورد" %}
                 </a>
             </div>
         </div>

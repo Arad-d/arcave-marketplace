@@ -9,6 +9,7 @@ from django import forms
 from django.conf import settings
 from django.core.files.base import ContentFile
 from django.core.files.uploadedfile import UploadedFile
+from django.utils.translation import gettext_lazy as _
 from PIL import Image, UnidentifiedImageError
 
 from .models import Product
@@ -39,7 +40,7 @@ class ProductForm(forms.ModelForm):
         cleaned = super().clean()
         if self.instance.pk and cleaned.get("original_stock") != self.instance.stock:
             raise forms.ValidationError(
-                "موجودی تغییر کرده است. صفحه را تازه کنید و دوباره تلاش کنید."
+                _("موجودی تغییر کرده است. صفحه را تازه کنید و دوباره تلاش کنید.")
             )
         return cleaned
 
@@ -49,7 +50,7 @@ class ProductForm(forms.ModelForm):
         if not isinstance(upload, UploadedFile):
             return upload
         if upload.size > settings.PRODUCT_IMAGE_MAX_BYTES:
-            raise forms.ValidationError("حجم تصویر باید حداکثر ۵ مگابایت باشد.")
+            raise forms.ValidationError(_("حجم تصویر باید حداکثر ۵ مگابایت باشد."))
         try:
             with warnings.catch_warnings():
                 warnings.simplefilter("error", Image.DecompressionBombWarning)
@@ -58,7 +59,7 @@ class ProductForm(forms.ModelForm):
                     image_format = image.format
                     if image_format not in {"JPEG", "PNG", "WEBP"}:
                         raise forms.ValidationError(
-                            "فقط تصاویر JPG، PNG و WebP مجاز هستند."
+                            _("فقط تصاویر JPG، PNG و WebP مجاز هستند.")
                         )
                     if (
                         image.width > 4096
@@ -67,7 +68,7 @@ class ProductForm(forms.ModelForm):
                         > settings.PRODUCT_IMAGE_MAX_PIXELS
                     ):
                         raise forms.ValidationError(
-                            "ابعاد تصویر بیش از حد مجاز است (حداکثر ۴۰۹۶ پیکسل)."
+                            _("ابعاد تصویر بیش از حد مجاز است (حداکثر ۴۰۹۶ پیکسل).")
                         )
                     image.verify()
                 upload.seek(0)
@@ -81,7 +82,9 @@ class ProductForm(forms.ModelForm):
                     output = BytesIO()
                     clean.save(output, format=image_format)
             if output.tell() > settings.PRODUCT_IMAGE_MAX_BYTES:
-                raise forms.ValidationError("حجم تصویر پردازش‌شده بیش از حد مجاز است.")
+                raise forms.ValidationError(
+                    _("حجم تصویر پردازش‌شده بیش از حد مجاز است.")
+                )
         except (
             UnidentifiedImageError,
             OSError,
@@ -90,7 +93,7 @@ class ProductForm(forms.ModelForm):
             Image.DecompressionBombError,
             Image.DecompressionBombWarning,
         ) as error:
-            raise forms.ValidationError("فایل تصویر معتبر نیست.") from error
+            raise forms.ValidationError(_("فایل تصویر معتبر نیست.")) from error
         suffix = {"JPEG": "jpg", "PNG": "png", "WEBP": "webp"}[image_format]
         return ContentFile(output.getvalue(), name=f"{uuid4().hex}.{suffix}")
 

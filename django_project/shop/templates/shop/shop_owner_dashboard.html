@@ -1,28 +1,29 @@
 {% extends 'shop/base.html' %}
+{% load i18n %}
 
-{% block title %}داشبورد فروشگاه - {{ shop_owner.store_name }}{% endblock %}
+{% block title %}{% blocktranslate with value0=shop_owner.store_name %}داشبورد فروشگاه - {{ value0 }}{% endblocktranslate %}{% endblock %}
 
 {% block content %}
 <div class="container" style="padding: 2rem 0;">
     <!-- Dashboard Header -->
     <div class="dashboard-header">
         <h1 class="dashboard-title">{{ shop_owner.store_name }}</h1>
-        <p class="dashboard-subtitle">خوش آمدید، {{ shop_owner.name }}! محصولات خود را مدیریت کنید و با مشتریان در ارتباط باشید.</p>
+        <p class="dashboard-subtitle">{% blocktranslate with value0=shop_owner.name %}خوش آمدید، {{ value0 }}! محصولات خود را مدیریت کنید و با مشتریان در ارتباط باشید.{% endblocktranslate %}</p>
     </div>
     
     <!-- Stats -->
     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; margin-bottom: 2rem;">
         <div class="stat-card">
             <div class="stat-value">{{ products|length }}</div>
-            <div class="stat-label">محصولات</div>
+            <div class="stat-label">{% translate "محصولات" %}</div>
         </div>
         <div class="stat-card">
             <div class="stat-value">{{ total_products_sold }}</div>
-            <div class="stat-label">محصولات فروخته‌شده</div>
+            <div class="stat-label">{% translate "محصولات فروخته‌شده" %}</div>
         </div>
         <div class="stat-card">
             <div class="stat-value">{{ all_comments|length }}</div>
-            <div class="stat-label">نظرات کل</div>
+            <div class="stat-label">{% translate "نظرات کل" %}</div>
         </div>
     </div>
     
@@ -30,28 +31,28 @@
         <!-- Sidebar -->
         <aside class="dashboard-sidebar">
             <ul class="dashboard-nav">
-                <li><a href="{% url 'shop_owner_dashboard' %}" class="active">داشبورد</a></li>
-                <li><a href="{% url 'add_product' %}">افزودن محصول</a></li>
-                <li><a href="{% url 'edit_shop_owner_profile' %}">ویرایش پروفایل</a></li>
-                <li><form method="post" action="{% url 'logout' %}" class="inline-action">{% csrf_token %}<button type="submit" class="navigation-action">خروج</button></form></li>
+                <li><a href="{% url 'shop_owner_dashboard' %}" class="active">{% translate "داشبورد" %}</a></li>
+                <li><a href="{% url 'add_product' %}">{% translate "افزودن محصول" %}</a></li>
+                <li><a href="{% url 'edit_shop_owner_profile' %}">{% translate "ویرایش پروفایل" %}</a></li>
+                <li><form method="post" action="{% url 'logout' %}" class="inline-action">{% csrf_token %}<button type="submit" class="navigation-action">{% translate "خروج" %}</button></form></li>
             </ul>
         </aside>
         
         <!-- Main Content -->
         <div class="dashboard-content">
             <!-- Products Sold Section -->
-            <h2 style="margin-bottom: 1.5rem;">محصولات فروخته‌شده ({{ total_products_sold }})</h2>
+            <h2 style="margin-bottom: 1.5rem;">{% blocktranslate with value0=total_products_sold %}محصولات فروخته‌شده ({{ value0 }}){% endblocktranslate %}</h2>
             
             {% if products_sold %}
                 <div style="overflow-x: auto; margin-bottom: 2rem;">
                     <table class="table">
                         <thead>
                             <tr>
-                                <th>محصول</th>
-                                <th>مشتری</th>
-                                <th>تعداد</th>
-                                <th>قیمت کل</th>
-                                <th>تاریخ</th>
+                                <th>{% translate "محصول" %}</th>
+                                <th>{% translate "مشتری" %}</th>
+                                <th>{% translate "تعداد" %}</th>
+                                <th>{% translate "قیمت کل" %}</th>
+                                <th>{% translate "تاریخ" %}</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -62,7 +63,7 @@
                                     </td>
                                     <td>{{ purchase.customer.username }}</td>
                                     <td>{{ purchase.quantity }}</td>
-                                    <td>{% if purchase.total_price != None %}{{ purchase.total_price|floatformat:"0" }} ریال{% else %}نامشخص{% endif %}</td>
+                                    <td>{% if purchase.total_price != None %}{% blocktranslate with value0=purchase.total_price|floatformat:"0" %}{{ value0 }} ریال{% endblocktranslate %}{% else %}{% translate "نامشخص" %}{% endif %}</td>
                                     <td>{{ purchase.created_at|date:"Y/m/d" }}</td>
                                 </tr>
                             {% endfor %}
@@ -71,24 +72,24 @@
                 </div>
             {% else %}
                 <div class="alert" style="background-color: var(--color-cream-dark); margin-bottom: 2rem;">
-                    هنوز محصولی فروخته نشده. با افزودن محصولات عالی، مشتریان را جذب کنید!
+                    {% translate "هنوز محصولی فروخته نشده. با افزودن محصولات عالی، مشتریان را جذب کنید!" %}
                 </div>
             {% endif %}
             
             <!-- My Products Section -->
-            <h2 style="margin: 3rem 0 1.5rem;">محصولات من</h2>
+            <h2 style="margin: 3rem 0 1.5rem;">{% translate "محصولات من" %}</h2>
             
             {% if products %}
                 <div style="overflow-x: auto;">
                     <table class="table">
                         <thead>
                             <tr>
-                                <th>محصول</th>
-                                <th>دسته‌بندی</th>
-                                <th>قیمت</th>
-                                <th>نظرات</th>
-                                <th>تاریخ افزودن</th>
-                                <th>عملیات</th>
+                                <th>{% translate "محصول" %}</th>
+                                <th>{% translate "دسته‌بندی" %}</th>
+                                <th>{% translate "قیمت" %}</th>
+                                <th>{% translate "نظرات" %}</th>
+                                <th>{% translate "تاریخ افزودن" %}</th>
+                                <th>{% translate "عملیات" %}</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -107,27 +108,27 @@
                                                 <strong>{{ product.name }}</strong>
                                                 <br>
                                                 <small style="{% if product.stock == 0 %}color: var(--color-error);{% elif product.stock < 5 %}color: orange;{% else %}color: var(--color-success);{% endif %}">
-                                                    موجودی: {{ product.stock }}
+                                                    {% blocktranslate with value0=product.stock %}موجودی: {{ value0 }}{% endblocktranslate %}
                                                 </small>
                                             </div>
                                         </div>
                                     </td>
                                     <td>
                                         <span style="background-color: var(--color-cream-dark); padding: 0.25rem 0.5rem; border-radius: 12px; font-size: 0.75rem;">
-                                            {% if product.category == 'electronics' %}محصولات الکترونیک{% else %}لوازم جانبی الکترونیک{% endif %}
+                                            {% if product.category == 'electronics' %}{% translate "محصولات الکترونیک" %}{% else %}{% translate "لوازم جانبی الکترونیک" %}{% endif %}
                                         </span>
                                     </td>
-                                    <td>{{ product.price|floatformat:"0" }} ریال</td>
+                                    <td>{% blocktranslate with value0=product.price|floatformat:"0" %}{{ value0 }} ریال{% endblocktranslate %}</td>
                                     <td>{{ product.comments.count }}</td>
                                     <td>
                                         {{ product.created_at|date:"Y/m/d" }}
                                     </td>
                                     <td>
-                                        <a href="{% url 'edit_product' product.pk %}" class="btn btn-sm btn-secondary">ویرایش</a>
+                                        <a href="{% url 'edit_product' product.pk %}" class="btn btn-sm btn-secondary">{% translate "ویرایش" %}</a>
                                         <a href="{% url 'product_comments' product.pk %}" class="btn btn-sm btn-primary">
-                                            نظرات {% if product.comments.count > 0 %}({{ product.comments.count }}){% endif %}
+                                            {% translate "نظرات" %} {% if product.comments.count > 0 %}({{ product.comments.count }}){% endif %}
                                         </a>
-                                        <form method="post" action="{% url 'delete_product' product.pk %}" class="inline-action">{% csrf_token %}<button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('آیا مطمئنید که می‌خواهید این محصول را حذف کنید؟');">حذف</button></form>
+                                        <form method="post" action="{% url 'delete_product' product.pk %}" class="inline-action">{% csrf_token %}<button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('{% translate "آیا مطمئنید که می‌خواهید این محصول را حذف کنید؟" %}');">{% translate "حذف" %}</button></form>
                                     </td>
                                 </tr>
                             {% endfor %}
@@ -137,10 +138,10 @@
             {% else %}
                 <div class="empty-state">
                     <div class="empty-state-icon">📦</div>
-                    <h3>هنوز محصولی ندارید</h3>
-                    <p>با افزودن اولین محصول، فروش را شروع کنید!</p>
+                    <h3>{% translate "هنوز محصولی ندارید" %}</h3>
+                    <p>{% translate "با افزودن اولین محصول، فروش را شروع کنید!" %}</p>
                     <a href="{% url 'add_product' %}" class="btn btn-primary" style="margin-top: 1rem;">
-                        افزودن محصول
+                        {% translate "افزودن محصول" %}
                     </a>
                 </div>
             {% endif %}

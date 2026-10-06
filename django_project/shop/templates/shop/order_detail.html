@@ -1,21 +1,22 @@
 {% extends 'shop/base.html' %}
-{% block title %}رسید سفارش{% endblock %}
+{% load i18n %}
+{% block title %}{% translate "رسید سفارش" %}{% endblock %}
 {% block content %}
 <div class="container">
-    <h1>رسید سفارش</h1>
+    <h1>{% translate "رسید سفارش" %}</h1>
     <p dir="ltr">{{ order }}</p>
-    <p>وضعیت: {{ order.get_status_display }}</p>
+    <p>{% blocktranslate with value0=order.get_status_display %}وضعیت: {{ value0 }}{% endblocktranslate %}</p>
     <p>{{ order.created_at|date:"Y/m/d H:i" }}</p>
-    <p>این رسید تأیید پرداخت نیست. پرداخت آنلاین در این نسخه فعال نیست.</p>
+    <p>{% translate "این رسید تأیید پرداخت نیست. پرداخت آنلاین در این نسخه فعال نیست." %}</p>
     <table class="table">
-        <thead><tr><th>محصول</th><th>فروشگاه</th><th>تعداد</th><th>قیمت واحد</th><th>مبلغ</th></tr></thead>
+        <thead><tr><th>{% translate "محصول" %}</th><th>{% translate "فروشگاه" %}</th><th>{% translate "تعداد" %}</th><th>{% translate "قیمت واحد" %}</th><th>{% translate "مبلغ" %}</th></tr></thead>
         <tbody>{% for item in order.items.all %}<tr>
             <td>{{ item.product_name }}</td><td>{{ item.store_name }}</td><td>{{ item.quantity }}</td>
-            <td>{% if item.unit_price != None %}{{ item.unit_price|floatformat:"0" }} ریال{% else %}نامشخص{% endif %}</td>
-            <td>{% if item.total_price != None %}{{ item.total_price|floatformat:"0" }} ریال{% else %}نامشخص{% endif %}</td>
+            <td>{% if item.unit_price != None %}{% blocktranslate with value0=item.unit_price|floatformat:"0" %}{{ value0 }} ریال{% endblocktranslate %}{% else %}{% translate "نامشخص" %}{% endif %}</td>
+            <td>{% if item.total_price != None %}{% blocktranslate with value0=item.total_price|floatformat:"0" %}{{ value0 }} ریال{% endblocktranslate %}{% else %}{% translate "نامشخص" %}{% endif %}</td>
         </tr>{% endfor %}</tbody>
     </table>
-    <p>جمع کل: {% if order.total_price != None %}{{ order.total_price|floatformat:"0" }} ریال{% else %}نامشخص{% endif %}</p>
-    <a href="{% url 'customer_dashboard' %}" class="btn btn-secondary">خریدهای من</a>
+    <p>{% translate "جمع کل:" %} {% if order.total_price != None %}{% blocktranslate with value0=order.total_price|floatformat:"0" %}{{ value0 }} ریال{% endblocktranslate %}{% else %}{% translate "نامشخص" %}{% endif %}</p>
+    <a href="{% url 'customer_dashboard' %}" class="btn btn-secondary">{% translate "خریدهای من" %}</a>
 </div>
 {% endblock %}

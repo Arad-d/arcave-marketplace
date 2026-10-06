@@ -1,82 +1,83 @@
 {% extends 'shop/base.html' %}
+{% load i18n %}
 
-{% block title %}ثبت‌نام مشتری - آرکیو{% endblock %}
+{% block title %}{% translate "ثبت‌نام مشتری - آرکیو" %}{% endblock %}
 
 {% block content %}
 <section class="hero" style="padding: 4rem 2rem;">
     <div class="container" style="max-width: 500px;">
-        <h1 class="hero-title" style="font-size: 2rem;">ایجاد حساب مشتری</h1>
-        <p class="hero-subtitle">به آرکیو بپیوندید و شروع به کشف محصولات شگفت‌انگیز کنید.</p>
+        <h1 class="hero-title" style="font-size: 2rem;">{% translate "ایجاد حساب مشتری" %}</h1>
+        <p class="hero-subtitle">{% translate "به آرکیو بپیوندید و شروع به کشف محصولات شگفت‌انگیز کنید." %}</p>
         
         <div class="card" style="padding: 2rem; margin-top: 2rem;">
             <form method="post">
                 {% csrf_token %}
                 
                 <div class="form-group">
-                    <label class="form-label" for="username">نام کاربری</label>
+                    <label class="form-label" for="username">{% translate "نام کاربری" %}</label>
                     <input type="text" class="form-control" id="username" name="username" required 
-                           placeholder="نام کاربری انتخاب کنید">
+                           placeholder="{% translate "نام کاربری انتخاب کنید" %}">
                 </div>
                 
                 <div class="form-group">
-                    <label class="form-label" for="email">ایمیل</label>
+                    <label class="form-label" for="email">{% translate "ایمیل" %}</label>
                     <input type="email" class="form-control" id="email" name="email" required 
-                           placeholder="ایمیل خود را وارد کنید">
+                           placeholder="{% translate "ایمیل خود را وارد کنید" %}">
                 </div>
                 
                 <div class="form-group">
-                    <label class="form-label" for="password">رمز عبور</label>
+                    <label class="form-label" for="password">{% translate "رمز عبور" %}</label>
                     <input type="password" class="form-control" id="password" name="password" required 
-                           placeholder="رمز عبور ایجاد کنید">
+                           placeholder="{% translate "رمز عبور ایجاد کنید" %}">
                 </div>
                 
                 <div class="form-group">
-                    <label class="form-label" for="password2">تکرار رمز عبور</label>
+                    <label class="form-label" for="password2">{% translate "تکرار رمز عبور" %}</label>
                     <input type="password" class="form-control" id="password2" name="password2" required 
-                           placeholder="رمز عبور را تکرار کنید">
+                           placeholder="{% translate "رمز عبور را تکرار کنید" %}">
                 </div>
                 
-                <h3 style="margin: 2rem 0 1.5rem; color: var(--color-brown);">سوالات امنیتی</h3>
+                <h3 style="margin: 2rem 0 1.5rem; color: var(--color-brown);">{% translate "سوالات امنیتی" %}</h3>
                 <p style="color: var(--color-charcoal-light); margin-bottom: 1.5rem; font-size: 0.9rem;">
-                    این سوالات در صورت فراموشی رمز عبور به شما کمک می‌کنند.
+                    {% translate "این سوالات در صورت فراموشی رمز عبور به شما کمک می‌کنند." %}
                 </p>
                 
                 <div class="form-group">
-                    <label class="form-label" for="security_question1">سوال امنیتی ۱</label>
+                    <label class="form-label" for="security_question1">{% translate "سوال امنیتی ۱" %}</label>
                     <input type="text" class="form-control" id="security_question1" name="security_question1" required 
-                           placeholder="سوال خود را بنویسید (مثال: نام حیوان خانگی شما چیست؟)">
+                           placeholder="{% translate "سوال خود را بنویسید (مثال: نام حیوان خانگی شما چیست؟)" %}">
                 </div>
                 
                 <div class="form-group">
-                    <label class="form-label" for="security_answer1">پاسخ ۱</label>
+                    <label class="form-label" for="security_answer1">{% translate "پاسخ ۱" %}</label>
                     <input type="text" class="form-control" id="security_answer1" name="security_answer1" required 
-                           placeholder="پاسخ را وارد کنید">
+                           placeholder="{% translate "پاسخ را وارد کنید" %}">
                 </div>
                 
                 <div class="form-group">
-                    <label class="form-label" for="security_question2">سوال امنیتی ۲</label>
+                    <label class="form-label" for="security_question2">{% translate "سوال امنیتی ۲" %}</label>
                     <input type="text" class="form-control" id="security_question2" name="security_question2" required 
-                           placeholder="سوال دیگری بنویسید (مثال: در چه شهری به دنیا آمده‌اید؟)">
+                           placeholder="{% translate "سوال دیگری بنویسید (مثال: در چه شهری به دنیا آمده‌اید؟)" %}">
                 </div>
                 
                 <div class="form-group">
-                    <label class="form-label" for="security_answer2">پاسخ ۲</label>
+                    <label class="form-label" for="security_answer2">{% translate "پاسخ ۲" %}</label>
                     <input type="text" class="form-control" id="security_answer2" name="security_answer2" required 
-                           placeholder="پاسخ را وارد کنید">
+                           placeholder="{% translate "پاسخ را وارد کنید" %}">
                 </div>
                 
                 <button type="submit" class="btn btn-primary" style="width: 100%;">
-                    ایجاد حساب کاربری
+                    {% translate "ایجاد حساب کاربری" %}
                 </button>
             </form>
             
             <div style="text-align: center; margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid var(--color-cream-dark);">
                 <p style="color: var(--color-charcoal-light);">
-                    قبلاً حساب دارید؟ 
-                    <a href="{% url 'customer_login' %}">وارد شوید</a>
+                    {% translate "قبلاً حساب دارید؟" %}
+                    <a href="{% url 'customer_login' %}">{% translate "وارد شوید" %}</a>
                 </p>
                 <p style="margin-top: 0.5rem;">
-                    <a href="{% url 'landing' %}">→ بازگشت به صفحه اصلی</a>
+                    <a href="{% url 'landing' %}">{% translate "→ بازگشت به صفحه اصلی" %}</a>
                 </p>
             </div>
         </div>

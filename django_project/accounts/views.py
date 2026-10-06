@@ -8,6 +8,7 @@ from django.http import HttpRequest, HttpResponse
 from django.middleware.csrf import rotate_token
 from django.shortcuts import redirect, render
 from django.utils import timezone
+from django.utils.translation import gettext_lazy as _
 from django.views.decorators.http import require_POST
 
 from .forms import CustomerSignupForm, ShopOwnerSignupForm
@@ -68,7 +69,7 @@ def customer_signup(request: HttpRequest) -> HttpResponse:
     if request.method == "POST":
         if form.is_valid():
             form.save()
-            messages.success(request, "حساب با موفقیت ایجاد شد. لطفاً وارد شوید.")
+            messages.success(request, _("حساب با موفقیت ایجاد شد. لطفاً وارد شوید."))
             return redirect("customer_login")
         for errors in form.errors.values():
             for error in errors:
@@ -91,7 +92,10 @@ def customer_login(request):
                 seconds = remaining % 60
                 messages.error(
                     request,
-                    f"حساب کاربری قفل شده است. لطفاً پس از {minutes}:{seconds:02d} دوباره تلاش کنید.",
+                    _(
+                        "حساب کاربری قفل شده است. لطفاً پس از %(value0)s:%(value1)s دوباره تلاش کنید."
+                    )
+                    % {"value0": f"{minutes}", "value1": f"{seconds:02d}"},
                 )
                 return render(request, "accounts/customer_login.html")
         except Customer.DoesNotExist:
@@ -120,12 +124,15 @@ def customer_login(request):
                     seconds = remaining % 60
                     messages.error(
                         request,
-                        f"تلاش‌های ناموفق زیاد. حساب کاربری برای {minutes}:{seconds:02d} قفل شده است.",
+                        _(
+                            "تلاش‌های ناموفق زیاد. حساب کاربری برای %(value0)s:%(value1)s قفل شده است."
+                        )
+                        % {"value0": f"{minutes}", "value1": f"{seconds:02d}"},
                     )
                 else:
-                    messages.error(request, "نام کاربری یا رمز عبور اشتباه است.")
+                    messages.error(request, _("نام کاربری یا رمز عبور اشتباه است."))
             except Customer.DoesNotExist:
-                messages.error(request, "نام کاربری یا رمز عبور اشتباه است.")
+                messages.error(request, _("نام کاربری یا رمز عبور اشتباه است."))
 
     return render(request, "accounts/customer_login.html")
 
@@ -136,7 +143,7 @@ def shop_owner_signup(request: HttpRequest) -> HttpResponse:
     if request.method == "POST":
         if form.is_valid():
             form.save()
-            messages.success(request, "حساب با موفقیت ایجاد شد. لطفاً وارد شوید.")
+            messages.success(request, _("حساب با موفقیت ایجاد شد. لطفاً وارد شوید."))
             return redirect("shop_owner_login")
         for errors in form.errors.values():
             for error in errors:
@@ -159,7 +166,10 @@ def shop_owner_login(request):
                 seconds = remaining % 60
                 messages.error(
                     request,
-                    f"حساب کاربری قفل شده است. لطفاً پس از {minutes}:{seconds:02d} دوباره تلاش کنید.",
+                    _(
+                        "حساب کاربری قفل شده است. لطفاً پس از %(value0)s:%(value1)s دوباره تلاش کنید."
+                    )
+                    % {"value0": f"{minutes}", "value1": f"{seconds:02d}"},
                 )
                 return render(request, "accounts/shop_owner_login.html")
         except ShopOwner.DoesNotExist:
@@ -190,12 +200,15 @@ def shop_owner_login(request):
                     seconds = remaining % 60
                     messages.error(
                         request,
-                        f"تلاش‌های ناموفق زیاد. حساب کاربری برای {minutes}:{seconds:02d} قفل شده است.",
+                        _(
+                            "تلاش‌های ناموفق زیاد. حساب کاربری برای %(value0)s:%(value1)s قفل شده است."
+                        )
+                        % {"value0": f"{minutes}", "value1": f"{seconds:02d}"},
                     )
                 else:
-                    messages.error(request, "نام یا رمز عبور اشتباه است.")
+                    messages.error(request, _("نام یا رمز عبور اشتباه است."))
             except ShopOwner.DoesNotExist:
-                messages.error(request, "نام یا رمز عبور اشتباه است.")
+                messages.error(request, _("نام یا رمز عبور اشتباه است."))
 
     return render(request, "accounts/shop_owner_login.html")
 
@@ -226,7 +239,7 @@ def edit_customer_profile(request):
         # Update email
         if email and email != customer.email:
             if Customer.objects.filter(email=email).exclude(pk=customer.pk).exists():
-                messages.error(request, "این ایمیل قبلاً ثبت شده است.")
+                messages.error(request, _("این ایمیل قبلاً ثبت شده است."))
                 return render(
                     request,
                     "accounts/edit_customer_profile.html",
@@ -237,7 +250,7 @@ def edit_customer_profile(request):
         # Update password if provided
         if current_password or new_password or confirm_password:
             if not customer.check_password(current_password):
-                messages.error(request, "رمز عبور فعلی اشتباه است.")
+                messages.error(request, _("رمز عبور فعلی اشتباه است."))
                 return render(
                     request,
                     "accounts/edit_customer_profile.html",
@@ -245,7 +258,7 @@ def edit_customer_profile(request):
                 )
 
             if new_password != confirm_password:
-                messages.error(request, "رمزهای عبور جدید مطابقت ندارند.")
+                messages.error(request, _("رمزهای عبور جدید مطابقت ندارند."))
                 return render(
                     request,
                     "accounts/edit_customer_profile.html",
@@ -261,14 +274,14 @@ def edit_customer_profile(request):
 
             customer.set_password(new_password)
             messages.success(
-                request, "رمز عبور با موفقیت به‌روزرسانی شد! لطفاً دوباره وارد شوید."
+                request, _("رمز عبور با موفقیت به‌روزرسانی شد! لطفاً دوباره وارد شوید.")
             )
             customer.save()
             logout(request)
             return redirect("customer_login")
 
         customer.save()
-        messages.success(request, "پروفایل با موفقیت به‌روزرسانی شد!")
+        messages.success(request, _("پروفایل با موفقیت به‌روزرسانی شد!"))
         return redirect("customer_dashboard")
 
     return render(
@@ -282,13 +295,13 @@ def edit_shop_owner_profile(request):
     shop_owner_id = request.session.get("shop_owner_id")
 
     if not shop_owner_id:
-        messages.error(request, "لطفاً به عنوان فروشنده وارد شوید.")
+        messages.error(request, _("لطفاً به عنوان فروشنده وارد شوید."))
         return redirect("shop_owner_login")
 
     try:
         shop_owner = ShopOwner.objects.get(id=shop_owner_id)
     except ShopOwner.DoesNotExist:
-        messages.error(request, "فروشنده یافت نشد.")
+        messages.error(request, _("فروشنده یافت نشد."))
         return redirect("shop_owner_login")
 
     if request.method == "POST":
@@ -308,7 +321,7 @@ def edit_shop_owner_profile(request):
         # Update password if provided
         if current_password or new_password or confirm_password:
             if not shop_owner.check_password(current_password):
-                messages.error(request, "رمز عبور فعلی اشتباه است.")
+                messages.error(request, _("رمز عبور فعلی اشتباه است."))
                 return render(
                     request,
                     "accounts/edit_shop_owner_profile.html",
@@ -316,7 +329,7 @@ def edit_shop_owner_profile(request):
                 )
 
             if new_password != confirm_password:
-                messages.error(request, "رمزهای عبور جدید مطابقت ندارند.")
+                messages.error(request, _("رمزهای عبور جدید مطابقت ندارند."))
                 return render(
                     request,
                     "accounts/edit_shop_owner_profile.html",
@@ -332,7 +345,7 @@ def edit_shop_owner_profile(request):
 
             shop_owner.set_password(new_password)
             messages.success(
-                request, "رمز عبور با موفقیت به‌روزرسانی شد! لطفاً دوباره وارد شوید."
+                request, _("رمز عبور با موفقیت به‌روزرسانی شد! لطفاً دوباره وارد شوید.")
             )
             shop_owner.save()
             logout(request)
@@ -346,7 +359,7 @@ def edit_shop_owner_profile(request):
         shop_owner.save()
         # Update session store name
         request.session["shop_owner_store"] = shop_owner.store_name
-        messages.success(request, "پروفایل با موفقیت به‌روزرسانی شد!")
+        messages.success(request, _("پروفایل با موفقیت به‌روزرسانی شد!"))
         return redirect("shop_owner_dashboard")
     return render(
         request, "accounts/edit_shop_owner_profile.html", {"shop_owner": shop_owner}

@@ -1,24 +1,28 @@
 """Database-independent Persian error responses for production requests."""
 
 from django.http import HttpRequest, HttpResponse
+from django.middleware.csrf import get_token
 from django.template.loader import render_to_string
+from django.utils.translation import gettext_lazy as _
 
 COPY = {
     400: (
-        "درخواست قابل پردازش نیست",
-        "لطفاً صفحه را دوباره باز کنید و اطلاعات واردشده را بررسی کنید.",
+        _("درخواست قابل پردازش نیست"),
+        _("لطفاً صفحه را دوباره باز کنید و اطلاعات واردشده را بررسی کنید."),
     ),
     403: (
-        "دسترسی به این صفحه مجاز نیست",
-        "با حساب مناسب وارد شوید و دوباره تلاش کنید.",
+        _("دسترسی به این صفحه مجاز نیست"),
+        _("با حساب مناسب وارد شوید و دوباره تلاش کنید."),
     ),
     404: (
-        "صفحه پیدا نشد",
-        "ممکن است آدرس تغییر کرده باشد یا محصول دیگر در دسترس نباشد.",
+        _("صفحه پیدا نشد"),
+        _("ممکن است آدرس تغییر کرده باشد یا محصول دیگر در دسترس نباشد."),
     ),
     500: (
-        "مشکلی پیش آمده است",
-        "لطفاً کمی بعد دوباره تلاش کنید. اگر مشکل ادامه داشت، کد پیگیری را به پشتیبانی بدهید.",
+        _("مشکلی پیش آمده است"),
+        _(
+            "لطفاً کمی بعد دوباره تلاش کنید. اگر مشکل ادامه داشت، کد پیگیری را به پشتیبانی بدهید."
+        ),
     ),
 }
 
@@ -29,12 +33,13 @@ def error_response(
     """Render without request processors, session access or database dependencies."""
     title, message = COPY[status]
     if csrf:
-        title = "فرم نیاز به تازه‌سازی دارد"
-        message = "صفحه فرم را دوباره باز کنید و اطلاعات را مجدداً ارسال کنید."
+        title = _("فرم نیاز به تازه‌سازی دارد")
+        message = _("صفحه فرم را دوباره باز کنید و اطلاعات را مجدداً ارسال کنید.")
     content = render_to_string(
         "errors/error.html",
         {
             "status": status,
+            "csrf_token": get_token(request),
             "title": title,
             "message": message,
             "reference": getattr(request, "error_reference", ""),

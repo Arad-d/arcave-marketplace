@@ -1,23 +1,24 @@
 {% extends 'shop/base.html' %}
+{% load i18n l10n %}
 
-{% block title %}افزودن محصول - {{ request.session.shop_owner_store }}{% endblock %}
+{% block title %}{% blocktranslate with value0=request.session.shop_owner_store %}افزودن محصول - {{ value0 }}{% endblocktranslate %}{% endblock %}
 
 {% block content %}
 <div class="container" style="padding: 2rem 0;">
     <!-- Dashboard Header -->
     <div class="dashboard-header">
-        <h1 class="dashboard-title">افزودن محصول جدید</h1>
-        <p class="dashboard-subtitle">یک مورد جدید در فروشگاه خود ثبت کنید</p>
+        <h1 class="dashboard-title">{% translate "افزودن محصول جدید" %}</h1>
+        <p class="dashboard-subtitle">{% translate "یک مورد جدید در فروشگاه خود ثبت کنید" %}</p>
     </div>
     
     <div class="dashboard-grid">
         <!-- Sidebar -->
         <aside class="dashboard-sidebar">
             <ul class="dashboard-nav">
-                <li><a href="{% url 'shop_owner_dashboard' %}">داشبورد</a></li>
-                <li><a href="{% url 'add_product' %}" class="active">افزودن محصول</a></li>
-                <li><a href="{% url 'edit_shop_owner_profile' %}">ویرایش پروفایل</a></li>
-                <li><form method="post" action="{% url 'logout' %}" class="inline-action">{% csrf_token %}<button type="submit" class="navigation-action">خروج</button></form></li>
+                <li><a href="{% url 'shop_owner_dashboard' %}">{% translate "داشبورد" %}</a></li>
+                <li><a href="{% url 'add_product' %}" class="active">{% translate "افزودن محصول" %}</a></li>
+                <li><a href="{% url 'edit_shop_owner_profile' %}">{% translate "ویرایش پروفایل" %}</a></li>
+                <li><form method="post" action="{% url 'logout' %}" class="inline-action">{% csrf_token %}<button type="submit" class="navigation-action">{% translate "خروج" %}</button></form></li>
             </ul>
         </aside>
         
@@ -27,55 +28,55 @@
                 {% csrf_token %}
                 
                 <div class="form-group">
-                    <label class="form-label" for="name">نام محصول</label>
+                    <label class="form-label" for="name">{% translate "نام محصول" %}</label>
                     <input type="text" class="form-control" id="name" name="name" required 
-                           placeholder="نام محصول را وارد کنید">
+                           placeholder="{% translate "نام محصول را وارد کنید" %}">
                 </div>
                 
                 <div class="form-group">
-                    <label class="form-label" for="price">قیمت (ریال)</label>
+                    <label class="form-label" for="price">{% translate "قیمت (ریال)" %}</label>
                     <input type="number" class="form-control" id="price" name="price" step="0.01" min="0" required 
                            placeholder="0.00">
                 </div>
                 
                 <div class="form-group">
-                    <label class="form-label" for="description">توضیحات</label>
+                    <label class="form-label" for="description">{% translate "توضیحات" %}</label>
                     <textarea class="form-control" id="description" name="description" rows="5" required 
-                              placeholder="محصول خود را توصیف کنید..."></textarea>
+                              placeholder="{% translate "محصول خود را توصیف کنید..." %}"></textarea>
                 </div>
                 
                 <div class="form-group">
-                    <label class="form-label" for="stock">تعداد موجودی</label>
+                    <label class="form-label" for="stock">{% translate "تعداد موجودی" %}</label>
                     <input type="number" class="form-control" id="stock" name="stock" min="0" required 
-                           placeholder="چند عدد موجود است؟" value="0">
+                           placeholder="{% translate "چند عدد موجود است؟" %}" value="0">
                     <small style="color: var(--color-charcoal-light); display: block; margin-top: 0.5rem;">
-                        تعداد واحدهای موجود برای فروش
+                        {% translate "تعداد واحدهای موجود برای فروش" %}
                     </small>
                 </div>
 
                 <div class="form-group">
-                    <label class="form-label" for="category">دسته‌بندی</label>
+                    <label class="form-label" for="category">{% translate "دسته‌بندی" %}</label>
                     <select class="form-control" id="category" name="category" required>
-                        <option value="">دسته‌بندی را انتخاب کنید</option>
-                        <option value="electronics">محصولات الکترونیک</option>
-                        <option value="accessories">لوازم جانبی الکترونیک</option>
+                        <option value="">{% translate "دسته‌بندی را انتخاب کنید" %}</option>
+                        <option value="electronics">{% translate "محصولات الکترونیک" %}</option>
+                        <option value="accessories">{% translate "لوازم جانبی الکترونیک" %}</option>
                     </select>
                 </div>
 
                 <div class="form-group">
-                    <label class="form-label" for="image">تصویر محصول</label>
+                    <label class="form-label" for="image">{% translate "تصویر محصول" %}</label>
                     <input type="file" class="form-control" id="image" name="image" accept="image/jpeg,image/png,image/webp">
                     <small style="color: var(--color-charcoal-light); display: block; margin-top: 0.5rem;">
-                        JPG، PNG یا WebP؛ حداکثر ۵ مگابایت و ۴۰۹۶ پیکسل
+                        {% translate "JPG، PNG یا WebP؛ حداکثر ۵ مگابایت و ۴۰۹۶ پیکسل" %}
                     </small>
                 </div>
                 
                 <div style="display: flex; gap: 1rem; margin-top: 2rem;">
                     <button type="submit" class="btn btn-primary">
-                        افزودن محصول
+                        {% translate "افزودن محصول" %}
                     </button>
                     <a href="{% url 'shop_owner_dashboard' %}" class="btn btn-secondary">
-                        انصراف
+                        {% translate "انصراف" %}
                     </a>
                 </div>
             </form>

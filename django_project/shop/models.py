@@ -2,14 +2,15 @@ from uuid import uuid4
 
 from accounts.models import Customer, ShopOwner
 from django.db import models
+from django.utils.translation import gettext_lazy as _
 
 
 class Product(models.Model):
     """Product/commodity model with inventory tracking."""
 
     CATEGORY_CHOICES = [
-        ("electronics", "محصولات الکترونیک"),
-        ("accessories", "لوازم جانبی الکترونیک"),
+        ("electronics", _("محصولات الکترونیک")),
+        ("accessories", _("لوازم جانبی الکترونیک")),
     ]
 
     shop_owner = models.ForeignKey(
@@ -127,10 +128,10 @@ class Order(models.Model):
     """A checkout receipt; placed does not imply that payment was collected."""
 
     class Status(models.TextChoices):
-        PLACED = "placed", "ثبت‌شده"
-        PROCESSING = "processing", "در حال آماده‌سازی"
-        COMPLETED = "completed", "تکمیل‌شده"
-        LEGACY = "legacy", "خرید پیشین (وضعیت نامشخص)"
+        PLACED = "placed", _("ثبت‌شده")
+        PROCESSING = "processing", _("در حال آماده‌سازی")
+        COMPLETED = "completed", _("تکمیل‌شده")
+        LEGACY = "legacy", _("خرید پیشین (وضعیت نامشخص)")
 
     number = models.UUIDField(default=uuid4, unique=True, editable=False)
     checkout_key = models.UUIDField(default=uuid4, unique=True, editable=False)

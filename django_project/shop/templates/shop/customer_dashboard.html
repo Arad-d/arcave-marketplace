@@ -1,42 +1,43 @@
 {% extends 'shop/base.html' %}
+{% load i18n %}
 
-{% block title %}داشبورد من - آرکیو{% endblock %}
+{% block title %}{% translate "داشبورد من - آرکیو" %}{% endblock %}
 
 {% block content %}
 <div class="container" style="padding: 2rem 0;">
     <!-- Dashboard Header -->
     <div class="dashboard-header">
-        <h1 class="dashboard-title">خوش آمدید، {{ user.username }}!</h1>
-        <p class="dashboard-subtitle">خریدهای خود را مدیریت کنید و محصولات جدید کشف کنید</p>
+        <h1 class="dashboard-title">{% blocktranslate with value0=user.username %}خوش آمدید، {{ value0 }}!{% endblocktranslate %}</h1>
+        <p class="dashboard-subtitle">{% translate "خریدهای خود را مدیریت کنید و محصولات جدید کشف کنید" %}</p>
     </div>
     
     <div class="dashboard-grid">
         <!-- Sidebar -->
         <aside class="dashboard-sidebar">
             <ul class="dashboard-nav">
-                <li><a href="{% url 'customer_dashboard' %}" class="active">خریدهای من</a></li>
-                <li><a href="{% url 'view_cart' %}">سبد خرید من</a></li>
-                <li><a href="{% url 'product_list' %}">مشاهده محصولات</a></li>
-                <li><a href="{% url 'edit_customer_profile' %}">ویرایش پروفایل</a></li>
-                <li><form method="post" action="{% url 'logout' %}" class="inline-action">{% csrf_token %}<button type="submit" class="navigation-action">خروج</button></form></li>
+                <li><a href="{% url 'customer_dashboard' %}" class="active">{% translate "خریدهای من" %}</a></li>
+                <li><a href="{% url 'view_cart' %}">{% translate "سبد خرید من" %}</a></li>
+                <li><a href="{% url 'product_list' %}">{% translate "مشاهده محصولات" %}</a></li>
+                <li><a href="{% url 'edit_customer_profile' %}">{% translate "ویرایش پروفایل" %}</a></li>
+                <li><form method="post" action="{% url 'logout' %}" class="inline-action">{% csrf_token %}<button type="submit" class="navigation-action">{% translate "خروج" %}</button></form></li>
             </ul>
         </aside>
         
         <!-- Main Content -->
         <div class="dashboard-content">
-            <h2 style="margin-bottom: 1.5rem;">تاریخچه خرید من</h2>
+            <h2 style="margin-bottom: 1.5rem;">{% translate "تاریخچه خرید من" %}</h2>
             
             {% if purchases %}
                 <div style="overflow-x: auto;">
                     <table class="table">
                         <thead>
                             <tr>
-                                <th>محصول</th>
-                                <th>فروشگاه</th>
-                                <th>تعداد</th>
-                                <th>قیمت کل</th>
-                                <th>تاریخ</th>
-                                <th>عملیات</th>
+                                <th>{% translate "محصول" %}</th>
+                                <th>{% translate "فروشگاه" %}</th>
+                                <th>{% translate "تعداد" %}</th>
+                                <th>{% translate "قیمت کل" %}</th>
+                                <th>{% translate "تاریخ" %}</th>
+                                <th>{% translate "عملیات" %}</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -47,14 +48,14 @@
                                     </td>
                                     <td>{{ purchase.store_name }}</td>
                                     <td>{{ purchase.quantity }}</td>
-                                    <td>{% if purchase.total_price != None %}{{ purchase.total_price|floatformat:"0" }} ریال{% else %}نامشخص{% endif %}</td>
+                                    <td>{% if purchase.total_price != None %}{% blocktranslate with value0=purchase.total_price|floatformat:"0" %}{{ value0 }} ریال{% endblocktranslate %}{% else %}{% translate "نامشخص" %}{% endif %}</td>
                                     <td>
                                         {{ purchase.created_at|date:"Y/m/d" }}
                                     </td>
                                     <td>
                                         <a href="{% url 'order_detail' purchase.order.number %}">{{ purchase.order }}</a>
                                         <p>{{ purchase.order.get_status_display }}</p>
-                                        {% if purchase.product_id %}<a href="{% url 'product_detail' purchase.product_id %}">مشاهده محصول</a>{% else %}محصول حذف شده است{% endif %}
+                                        {% if purchase.product_id %}<a href="{% url 'product_detail' purchase.product_id %}">{% translate "مشاهده محصول" %}</a>{% else %}{% translate "محصول حذف شده است" %}{% endif %}
                                     </td>
                                 </tr>
                             {% endfor %}
@@ -64,10 +65,10 @@
             {% else %}
                 <div class="empty-state">
                     <div class="empty-state-icon">🛍️</div>
-                    <h3>هنوز خریدی نکرده‌اید</h3>
-                    <p>محصولات ما را کشف کنید و موارد مورد نظر را به سبد خرید خود اضافه کنید!</p>
+                    <h3>{% translate "هنوز خریدی نکرده‌اید" %}</h3>
+                    <p>{% translate "محصولات ما را کشف کنید و موارد مورد نظر را به سبد خرید خود اضافه کنید!" %}</p>
                     <a href="{% url 'product_list' %}" class="btn btn-primary" style="margin-top: 1rem;">
-                        مشاهده محصولات
+                        {% translate "مشاهده محصولات" %}
                     </a>
                 </div>
             {% endif %}

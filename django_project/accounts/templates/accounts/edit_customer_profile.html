@@ -1,22 +1,23 @@
 {% extends 'shop/base.html' %}
+{% load i18n %}
 
-{% block title %}ویرایش پروفایل - {{ customer.username }}{% endblock %}
+{% block title %}{% blocktranslate with value0=customer.username %}ویرایش پروفایل - {{ value0 }}{% endblocktranslate %}{% endblock %}
 
 {% block content %}
 <div class="container" style="padding: 2rem 0;">
     <div class="dashboard-header">
-        <h1 class="dashboard-title">ویرایش پروفایل</h1>
-        <p class="dashboard-subtitle">اطلاعات حساب کاربری خود را به‌روزرسانی کنید</p>
+        <h1 class="dashboard-title">{% translate "ویرایش پروفایل" %}</h1>
+        <p class="dashboard-subtitle">{% translate "اطلاعات حساب کاربری خود را به‌روزرسانی کنید" %}</p>
     </div>
     
     <div class="dashboard-grid">
         <!-- Sidebar -->
         <aside class="dashboard-sidebar">
             <ul class="dashboard-nav">
-                <li><a href="{% url 'customer_dashboard' %}">خریدهای من</a></li>
-                <li><a href="{% url 'view_cart' %}">سبد خرید من</a></li>
-                <li><a href="{% url 'edit_customer_profile' %}" class="active">ویرایش پروفایل</a></li>
-                <li><form method="post" action="{% url 'logout' %}" class="inline-action">{% csrf_token %}<button type="submit" class="navigation-action">خروج</button></form></li>
+                <li><a href="{% url 'customer_dashboard' %}">{% translate "خریدهای من" %}</a></li>
+                <li><a href="{% url 'view_cart' %}">{% translate "سبد خرید من" %}</a></li>
+                <li><a href="{% url 'edit_customer_profile' %}" class="active">{% translate "ویرایش پروفایل" %}</a></li>
+                <li><form method="post" action="{% url 'logout' %}" class="inline-action">{% csrf_token %}<button type="submit" class="navigation-action">{% translate "خروج" %}</button></form></li>
             </ul>
         </aside>
         
@@ -25,48 +26,48 @@
             <form method="post">
                 {% csrf_token %}
                 
-                <h3 style="margin-bottom: 1.5rem; color: var(--color-brown);">اطلاعات پروفایل</h3>
+                <h3 style="margin-bottom: 1.5rem; color: var(--color-brown);">{% translate "اطلاعات پروفایل" %}</h3>
                 
                 <div class="form-group">
-                    <label class="form-label">نام کاربری</label>
+                    <label class="form-label">{% translate "نام کاربری" %}</label>
                     <input type="text" class="form-control" value="{{ customer.username }}" disabled>
                     <small style="color: var(--color-charcoal-light); display: block; margin-top: 0.5rem;">
-                        نام کاربری قابل تغییر نیست
+                        {% translate "نام کاربری قابل تغییر نیست" %}
                     </small>
                 </div>
                 
                 <div class="form-group">
-                    <label class="form-label" for="email">ایمیل</label>
+                    <label class="form-label" for="email">{% translate "ایمیل" %}</label>
                     <input type="email" class="form-control" id="email" name="email" 
                            value="{{ customer.email }}" required>
                 </div>
                 
-                <h3 style="margin: 2rem 0 1.5rem; color: var(--color-brown);">تغییر رمز عبور (اختیاری)</h3>
+                <h3 style="margin: 2rem 0 1.5rem; color: var(--color-brown);">{% translate "تغییر رمز عبور (اختیاری)" %}</h3>
                 
                 <div class="form-group">
-                    <label class="form-label" for="current_password">رمز عبور فعلی</label>
+                    <label class="form-label" for="current_password">{% translate "رمز عبور فعلی" %}</label>
                     <input type="password" class="form-control" id="current_password" name="current_password" 
-                           placeholder="برای تغییر رمز عبور، رمز فعلی را وارد کنید">
+                           placeholder="{% translate "برای تغییر رمز عبور، رمز فعلی را وارد کنید" %}">
                 </div>
                 
                 <div class="form-group">
-                    <label class="form-label" for="new_password">رمز عبور جدید</label>
+                    <label class="form-label" for="new_password">{% translate "رمز عبور جدید" %}</label>
                     <input type="password" class="form-control" id="new_password" name="new_password" 
-                           placeholder="رمز عبور جدید را وارد کنید">
+                           placeholder="{% translate "رمز عبور جدید را وارد کنید" %}">
                 </div>
                 
                 <div class="form-group">
-                    <label class="form-label" for="confirm_password">تکرار رمز عبور جدید</label>
+                    <label class="form-label" for="confirm_password">{% translate "تکرار رمز عبور جدید" %}</label>
                     <input type="password" class="form-control" id="confirm_password" name="confirm_password" 
-                           placeholder="رمز عبور جدید را تکرار کنید">
+                           placeholder="{% translate "رمز عبور جدید را تکرار کنید" %}">
                 </div>
                 
                 <div style="display: flex; gap: 1rem; margin-top: 2rem;">
                     <button type="submit" class="btn btn-primary">
-                        ذخیره تغییرات
+                        {% translate "ذخیره تغییرات" %}
                     </button>
                     <a href="{% url 'customer_dashboard' %}" class="btn btn-secondary">
-                        انصراف
+                        {% translate "انصراف" %}
                     </a>
                 </div>
             </form>

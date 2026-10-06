@@ -60,6 +60,12 @@ jobs:
           cache-dependency-path: 'django_project/requirements*.txt'
       - name: Install dependencies
         run: python -m pip install -r requirements-dev.txt
+      - name: Validate English translation catalog
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y gettext
+          msgfmt --check --check-format locale/en/LC_MESSAGES/django.po -o /tmp/arcave-django.mo
+          cmp locale/en/LC_MESSAGES/django.mo /tmp/arcave-django.mo
       - name: Validate application and migration state
         run: |
           python manage.py check

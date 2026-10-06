@@ -1,9 +1,12 @@
+{% load i18n %}
 <!doctype html>
-<html lang="fa" dir="rtl">
+{% get_current_language as LANGUAGE_CODE %}
+{% get_current_language_bidi as LANGUAGE_BIDI %}
+<html lang="{{ LANGUAGE_CODE }}" dir="{{ LANGUAGE_BIDI|yesno:'rtl,ltr' }}">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{{ title }} — آرکیو</title>
+    <title>{% blocktranslate with value0=title %}{{ value0 }} — آرکیو{% endblocktranslate %}</title>
     <style>
         * { box-sizing: border-box; }
         body { margin: 0; min-height: 100vh; display: grid; place-items: center; padding: 24px; background: #f6f1e9; color: #322a24; font-family: Tahoma, sans-serif; line-height: 1.9; }
@@ -15,17 +18,18 @@
         a { display: inline-block; margin-top: 16px; padding: 10px 20px; border-radius: 8px; background: #604331; color: white; text-decoration: none; }
         a:focus-visible { outline: 3px solid #a66b2b; outline-offset: 4px; }
         .reference { margin-top: 28px; padding-top: 16px; border-top: 1px solid #e4d7c7; font-size: 12px; overflow-wrap: anywhere; }
-        code { display: block; direction: ltr; text-align: right; }
+        code { display: block; direction: ltr; text-align: start; }
     </style>
 </head>
 <body>
 <main aria-labelledby="error-title">
-    <div class="brand">آرکیو / Arcave</div>
+    {% include "includes/language_switch.html" %}
+    <div class="brand">{% translate "آرکیو / Arcave" %}</div>
     <p class="status">{{ status }}</p>
     <h1 id="error-title">{{ title }}</h1>
     <p>{{ message }}</p>
-    <a href="/">بازگشت به صفحه اصلی</a>
-    {% if reference %}<p class="reference">کد پیگیری<code>{{ reference }}</code></p>{% endif %}
+    <a href="/">{% translate "بازگشت به صفحه اصلی" %}</a>
+    {% if reference %}<p class="reference">{% translate "کد پیگیری" %}<code>{{ reference }}</code></p>{% endif %}
 </main>
 </body>
 </html>

@@ -1,22 +1,23 @@
 {% extends 'shop/base.html' %}
+{% load i18n %}
 
-{% block title %}سبد خرید - آرکیو{% endblock %}
+{% block title %}{% translate "سبد خرید - آرکیو" %}{% endblock %}
 
 {% block content %}
 <div class="container" style="padding: 2rem 0;">
-    <h1 style="margin-bottom: 2rem; font-family: var(--font-display);">سبد خرید</h1>
+    <h1 style="margin-bottom: 2rem; font-family: var(--font-display);">{% translate "سبد خرید" %}</h1>
     
     {% if cart_items %}
         <div class="card" style="overflow: hidden;">
             <table class="table" style="margin-bottom: 0;">
                 <thead>
                     <tr>
-                        <th style="width: 100px;">محصول</th>
-                        <th>نام</th>
-                        <th>قیمت</th>
-                        <th>تعداد</th>
-                        <th>جمع</th>
-                        <th>عملیات</th>
+                        <th style="width: 100px;">{% translate "محصول" %}</th>
+                        <th>{% translate "نام" %}</th>
+                        <th>{% translate "قیمت" %}</th>
+                        <th>{% translate "تعداد" %}</th>
+                        <th>{% translate "جمع" %}</th>
+                        <th>{% translate "عملیات" %}</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -38,7 +39,7 @@
                                     {{ item.product.shop_owner.store_name }}
                                 </a>
                             </td>
-                            <td>{{ item.product.price|floatformat:"0" }} ریال</td>
+                            <td>{% blocktranslate with value0=item.product.price|floatformat:"0" %}{{ value0 }} ریال{% endblocktranslate %}</td>
                             <td>
                                 <form action="{% url 'update_cart' item.pk %}" method="post" style="display: flex; align-items: center; gap: 0.5rem;">
                                     {% csrf_token %}
@@ -49,10 +50,10 @@
                                     </select>
                                 </form>
                             </td>
-                            <td><strong>{{ item.get_total_price|floatformat:"0" }} ریال</strong></td>
+                            <td><strong>{% blocktranslate with value0=item.get_total_price|floatformat:"0" %}{{ value0 }} ریال{% endblocktranslate %}</strong></td>
                             <td>
-                                <form method="post" action="{% url 'remove_from_cart' item.pk %}" class="inline-action">{% csrf_token %}<button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('این مورد از سبد خرید حذف شود؟');">
-                                    حذف
+                                <form method="post" action="{% url 'remove_from_cart' item.pk %}" class="inline-action">{% csrf_token %}<button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('{% translate "این مورد از سبد خرید حذف شود؟" %}');">
+                                    {% translate "حذف" %}
                                 </button></form>
                             </td>
                         </tr>
@@ -65,13 +66,13 @@
         <div class="card" style="margin-top: 2rem; padding: 2rem;">
             <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
                 <div>
-                    <p style="color: var(--color-charcoal-light); margin-bottom: 0.5rem;">تعداد کل: <strong>{{ total_items }}</strong></p>
-                    <h2 style="margin: 0; color: var(--color-brown);">جمع کل: {{ total_price|floatformat:"0" }} ریال</h2>
+                    <p style="color: var(--color-charcoal-light); margin-bottom: 0.5rem;">{% translate "تعداد کل:" %} <strong>{{ total_items }}</strong></p>
+                    <h2 style="margin: 0; color: var(--color-brown);">{% blocktranslate with value0=total_price|floatformat:"0" %}جمع کل: {{ value0 }} ریال{% endblocktranslate %}</h2>
                 </div>
                 <div style="display: flex; gap: 1rem;">
-                    <a href="{% url 'product_list' %}" class="btn btn-secondary">ادامه خرید</a>
-                    <form method="post" action="{% url 'checkout' %}" class="inline-action">{% csrf_token %}<input type="hidden" name="checkout_token" value="{{ checkout_token }}"><button type="submit" class="btn btn-primary btn-lg" onclick="return confirm('آیا می‌خواهید خرید را نهایی کنید؟');">
-                        ثبت سفارش
+                    <a href="{% url 'product_list' %}" class="btn btn-secondary">{% translate "ادامه خرید" %}</a>
+                    <form method="post" action="{% url 'checkout' %}" class="inline-action">{% csrf_token %}<input type="hidden" name="checkout_token" value="{{ checkout_token }}"><button type="submit" class="btn btn-primary btn-lg" onclick="return confirm('{% translate "آیا می‌خواهید خرید را نهایی کنید؟" %}');">
+                        {% translate "ثبت سفارش" %}
                     </button></form>
                 </div>
             </div>
@@ -79,10 +80,10 @@
     {% else %}
         <div class="empty-state">
             <div class="empty-state-icon">🛒</div>
-            <h3>سبد خرید شما خالی است</h3>
-            <p>محصولات ما را مرور کنید و موارد مورد نظر را به سبد خرید اضافه کنید.</p>
+            <h3>{% translate "سبد خرید شما خالی است" %}</h3>
+            <p>{% translate "محصولات ما را مرور کنید و موارد مورد نظر را به سبد خرید اضافه کنید." %}</p>
             <a href="{% url 'product_list' %}" class="btn btn-primary" style="margin-top: 1rem;">
-                مشاهده محصولات
+                {% translate "مشاهده محصولات" %}
             </a>
         </div>
     {% endif %}
