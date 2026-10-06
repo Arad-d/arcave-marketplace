@@ -52,6 +52,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    "arcave.observability.RequestReferenceMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -67,7 +68,7 @@ ROOT_URLCONF = "arcave.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [],
+        "DIRS": [BASE_DIR / "templates"],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -147,6 +148,7 @@ CURRENCY_SYMBOL = "ریال"
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
 STATIC_URL = "static/"
+STATIC_ROOT = BASE_DIR / "staticfiles"
 STATICFILES_DIRS = [BASE_DIR / "static"]
 
 # Media files (uploaded images)
@@ -221,3 +223,27 @@ FILE_UPLOAD_MAX_MEMORY_SIZE = 1024 * 1024
 DATA_UPLOAD_MAX_NUMBER_FILES = 1
 PRODUCT_IMAGE_MAX_BYTES = 5 * 1024 * 1024
 PRODUCT_IMAGE_MAX_PIXELS = 16_000_000
+
+
+CSRF_FAILURE_VIEW = "arcave.errors.csrf_failure"
+
+# Only selected metadata reaches stderr; no request bodies, SQL or exception values.
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "formatters": {"safe_json": {"()": "arcave.observability.SafeJsonFormatter"}},
+    "handlers": {
+        "console": {"class": "logging.StreamHandler", "formatter": "safe_json"}
+    },
+    "root": {"handlers": ["console"], "level": "WARNING"},
+    "loggers": {
+        "django": {"handlers": ["console"], "level": "WARNING", "propagate": False},
+        "django.server": {
+            "handlers": ["console"],
+            "level": "WARNING",
+            "propagate": False,
+        },
+        "shop": {"handlers": ["console"], "level": "WARNING", "propagate": False},
+        "accounts": {"handlers": ["console"], "level": "WARNING", "propagate": False},
+    },
+}

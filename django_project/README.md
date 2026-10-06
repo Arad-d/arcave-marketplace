@@ -1,154 +1,59 @@
-# آرکیو - پلتفرم خرید و فروش آنلاین
+# آرکیو — راه‌اندازی و نگهداری
 
-## راه‌اندازی سریع
+وب‌سایت اصلی با Django 5.2 و PostgreSQL ساخته شده است. پیش‌نیازها: Python 3.10 تا 3.14 و PostgreSQL؛ آزمون‌های GitHub روی PostgreSQL 17 اجرا می‌شوند. فایل `main.py` در پوشه اصلی نسخه قدیمی خط فرمان است.
 
-**برای اجرای برنامه، لطفاً فایل `setup.sh` را اجرا کنید:**
+## راه‌اندازی در macOS و Linux
 
-```bash
-chmod +x setup.sh
-./setup.sh
-```
-
-## پیش‌نیازها
-
-- Python 3.8 یا بالاتر
-- pip
-
-## راه‌اندازی دستی
-
-اگر می‌خواهید به صورت دستی نصب کنید:
-
-### ۱. ایجاد محیط مجازی
-```bash
-python3 -m venv venv
-source venv/bin/activate  # macOS/Linux
-# یا
-venv\Scripts\activate  # Windows
-```
-
-### ۲. نصب وابستگی‌ها
-```bash
-pip install -r requirements.txt
-```
-
-### ۳. اجرای مهاجرت‌ها
-```bash
-python3 manage.py migrate
-```
-
-### ۵. اجرای سرور
-```bash
-python manage.py runserver
-```
-
-برنامه در آدرس `http://127.0.0.1:8000` در دسترس خواهد بود.
-
-## ساختار پروژه
-
-```
-django_project/
-├── accounts/                 # اپلیکیشن احراز هویت
-├── shop/                     # اپلیکیشن اصلی فروشگاه
-├── arcave/                   # تنظیمات پروژه
-├── static/                   # فایل‌های CSS و استاتیک
-├── media/                    # تصاویر آپلود شده
-├── setup.sh                  # اسکریپت نصب خودکار
-└── manage.py
-```
-
-## ویژگی‌ها
-
-### امکانات مشتری:
-- ثبت‌نام و ورود
-- مشاهده و جستجوی محصولات
-- خرید محصولات
-- ثبت نظر برای محصولات خریداری شده
-- مشاهده تاریخچه خرید
-
-### امکانات فروشنده:
-- ثبت‌نام فروشگاه با سوالات امنیتی
-- افزودن محصول با تصویر
-- مدیریت محصولات
-- مشاهده و پاسخ به نظرات مشتریان
-- داشبورد با آمار
-
-## پشتیبانی
-
-در صورت بروز مشکل، لطفاً از طریق Issues گیت‌هاب مطرح کنید.
-
----
-
-# Arcave - Online Marketplace Platform
-
-## Quick Setup
-
-**To run the application, please execute the `setup.sh` file:**
+از پوشه اصلی مخزن اجرا کنید:
 
 ```bash
-chmod +x setup.sh
-./setup.sh
+bash django_project/setup.sh
 ```
 
-## Prerequisites
+این اسکریپت محیط `.venv` و وابستگی‌ها را آماده می‌کند. اگر `.env` وجود نداشته باشد، آن را با یک کلید محرمانه جدید می‌سازد. تنظیمات موجود و پایگاه داده را تغییر نمی‌دهد.
 
-- Python 3.8 or higher
-- PostgreSQL
-- pip
+در `django_project/.env` مقدارهای `DB_NAME`، `DB_USER`، `DB_PASSWORD`، `DB_HOST` و `DB_PORT` را تنظیم کنید. برای توسعه محلی `DJANGO_DEBUG=True` باشد. پایگاه داده را با حساب مدیر PostgreSQL بسازید؛ برای نمونه:
 
-## Manual Setup
-
-If you prefer manual installation:
-
-### 1. Create Virtual Environment
 ```bash
-python3 -m venv venv
-source venv/bin/activate  # macOS/Linux
-# or
-venv\Scripts\activate  # Windows
-```
-
-### 2. Install Dependencies
-```bash
-pip install -r requirements.txt
-```
-
-### 3. Database Setup
-```bash
-# Create database in PostgreSQL
-psql -U postgres
-CREATE DATABASE arcave_db;
-\q
-```
-
-### 4. Run Migrations
-```bash
-python manage.py makemigrations
+createdb -h localhost -U postgres arcave_db
+cd django_project
+source .venv/bin/activate
 python manage.py migrate
-```
-
-### 5. Run Server
-```bash
 python manage.py runserver
 ```
 
-The application will be available at `http://127.0.0.1:8000`.
+نام پایگاه داده و حساب را با تنظیمات خود هماهنگ کنید. پیش از اجرای migration روی داده‌های موجود، نسخه پشتیبان بگیرید و صحت آن را بررسی کنید. وب‌سایت در http://127.0.0.1:8000 باز می‌شود. برای ایجاد مدیر از `python manage.py createsuperuser` استفاده کنید.
 
-## Features
+## نصب دستی و Windows
 
-### Customer Features:
-- User registration and login
-- Browse and search products
-- Purchase products
-- Leave reviews on purchased products
-- View purchase history
+```bash
+cd django_project
+python -m venv .venv
+```
 
-### Shop Owner Features:
-- Store registration with security questions
-- Add products with images
-- Manage products
-- View and reply to customer reviews
-- Dashboard with statistics
+در Windows محیط را با `.venv\Scripts\activate` و در macOS/Linux با `source .venv/bin/activate` فعال کنید. سپس:
 
-## Support
+```bash
+python -m pip install -r requirements-dev.txt
+python -c "from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())"
+```
 
-If you encounter any issues, please open an issue on GitHub.
+فقط اگر `.env` ندارید، یک کپی از `.env.example` با نام `.env` بسازید. کلید تولیدشده را در `DJANGO_SECRET_KEY` قرار دهید و تنظیمات PostgreSQL را کامل کنید. پس از ایجاد پایگاه داده، دستورات `migrate` و `runserver` بالا را اجرا کنید. فایل `.env`، تصاویر کاربران و پایگاه داده را در Git قرار ندهید.
+
+## آزمون‌ها
+
+حساب PostgreSQL آزمون‌ها باید مجوز `CREATEDB` داشته باشد. Django یک پایگاه جدا با نام `TEST_DB_NAME` (پیش‌فرض `test_arcave`) می‌سازد و پس از آزمون حذف می‌کند. این نام باید با `test_` شروع شود و با `DB_NAME` تفاوت داشته باشد.
+
+```bash
+python manage.py check
+python manage.py makemigrations --check --dry-run
+python manage.py test accounts shop arcave --settings=arcave.test_settings
+```
+
+برای راه‌اندازی وب‌سایت از تنظیمات آزمون استفاده نکنید. تست خرید هم‌زمان به PostgreSQL واقعی نیاز دارد. GitHub همین آزمون‌ها را در هر push و pull request اجرا می‌کند.
+
+## خطاها و استقرار
+
+در حالت تولید (`DJANGO_DEBUG=False`) صفحه خطای فارسی همراه کد پیگیری نمایش داده می‌شود. گزارش‌های JSON در stderr همین کد را دارند و متن رمزها، فرم‌ها و خطاهای پایگاه داده در آن‌ها ثبت نمی‌شود. تنظیمات HTTPS و دامنه تولید را طبق راهنمای امنیت تکمیل کنید.
+
+راهنماهای اصلی: [نصب و معرفی پروژه](../README.md)، [امنیت](../SECURITY.md)، [قابلیت اطمینان خرید](../SHOPPING.md)، [آزمون‌ها و نگهداری](../MAINTENANCE.md).

@@ -38,7 +38,7 @@ Run the full suite against a dedicated PostgreSQL test database:
 
 ```bash
 cd django_project
-python manage.py test accounts shop
+python manage.py test accounts shop arcave --settings=arcave.test_settings
 ```
 
 Tests cover competing buyers, repeated confirmations, separate browser tabs, concurrent replies, cart/price changes, expired confirmations, rollback after database failure, ownership, deleted listings, seller/admin stale inventory edits, database constraints and legacy receipt migration.

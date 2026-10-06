@@ -4,10 +4,10 @@ from accounts.middleware import shop_owner_required
 from accounts.models import ShopOwner
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.core.exceptions import PermissionDenied
 from django.core.paginator import Paginator
 from django.db import DatabaseError, transaction
 from django.db.models import Q, Sum
-from django.http import HttpResponseForbidden
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views.decorators.http import require_POST
 
@@ -156,7 +156,7 @@ def checkout(request):
         messages.error(request, str(error))
         return redirect("view_cart")
     except DatabaseError:
-        logger.exception("Checkout transaction failed")
+        logger.exception("Checkout transaction failed", extra={"request": request})
         messages.error(request, "ثبت سفارش انجام نشد. دوباره تلاش کنید.")
         return redirect("view_cart")
     messages.success(request, "سفارش ثبت شد. پرداخت آنلاین در این نسخه فعال نیست.")
@@ -201,7 +201,7 @@ def add_comment(request, pk):
     product = get_object_or_404(Product, pk=pk)
 
     if not Purchase.objects.filter(product=product, customer=request.user).exists():
-        return HttpResponseForbidden("ثبت نظر فقط برای خریداران این محصول مجاز است.")
+        raise PermissionDenied("ثبت نظر فقط برای خریداران این محصول مجاز است.")
 
     if request.method == "POST":
         form = MessageForm(request.POST)

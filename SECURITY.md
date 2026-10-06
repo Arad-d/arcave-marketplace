@@ -21,7 +21,7 @@ Back up the database with a `pg_dump` version at least as new as the PostgreSQL 
 ```bash
 cd django_project
 python manage.py migrate
-python manage.py test accounts shop
+python manage.py test accounts shop arcave --settings=arcave.test_settings
 ```
 
 The database user running the tests needs permission to create a separate test database. The concurrent recovery tests require PostgreSQL; they are skipped on backends without row-level locking.

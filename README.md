@@ -15,24 +15,26 @@ A Persian-language marketplace prototype built with Python and Django. Sellers m
 
 - `django_project/`: Django website, with `accounts` and `shop` applications.
 - `main.py`: original SQLite-based terminal prototype, retained to show the project's evolution.
-- `AGENTS.md`: development guidance originally written for the terminal prototype.
+- `AGENTS.md`: development guidance for the Django application.
+- `MAINTENANCE.md`: test commands, CI, error pages and logging.
 
 The website uses Django templates, CSS, PostgreSQL, and Pillow for product images. Local databases, uploaded files, credentials, and generated files are excluded from version control.
 
 ## Run the website locally
 
-Use Python 3.10 or newer and a local PostgreSQL installation. Choose a Django release compatible with your Python version.
+Use Python 3.10–3.14, Django 5.2 and PostgreSQL 17 (the version used in CI). The dependency file keeps Django within its 5.2 series.
 
 ```bash
 cd django_project
 python3 -m venv .venv
 source .venv/bin/activate
-pip install -r requirements.txt
+python -m pip install -r requirements-dev.txt
+# For a new checkout only; preserve any existing .env.
 cp .env.example .env
 python -c "from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())"
 ```
 
-Paste the generated key into `DJANGO_SECRET_KEY` in `.env`, configure your PostgreSQL credentials, and create a database matching `DB_NAME`. The example uses `arcave_db`. Keep `.env` private.
+Paste the generated key into `DJANGO_SECRET_KEY` in `.env`, configure your PostgreSQL credentials, and create a database matching `DB_NAME`. The example uses `arcave_db`. Keep `.env` private. With your PostgreSQL administrator account, you can create the development database using `createdb -h localhost -U postgres arcave_db`; adjust the host and role to match your installation. Keep `DJANGO_DEBUG=True` for local development. Back up and verify an existing database before applying migrations.
 
 ```bash
 python manage.py migrate
@@ -43,7 +45,9 @@ Open http://127.0.0.1:8000 and register a customer or shop owner. Uploaded produ
 
 On Windows, activate the environment with `.venv\Scripts\activate`.
 
-The existing `setup.sh` and nested README are legacy setup instructions; follow the environment-based instructions above for this published version.
+On macOS/Linux, `bash django_project/setup.sh` from the repository root can prepare `.venv`, install the development dependencies, and create a private `.env` with a generated secret if one does not exist. It preserves existing configuration and prints the database/migration steps for you to complete. Persian setup instructions are in [django_project/README.md](django_project/README.md).
+
+For a deployed environment, install `requirements.txt`, follow [SECURITY.md](SECURITY.md), collect static assets with `python manage.py collectstatic --noinput`, and serve the resulting `django_project/staticfiles/` through your hosting setup.
 
 ## Current status and planned improvements
 
@@ -57,8 +61,10 @@ Account security, credential migration, and shopping reliability are covered by 
 
 ```bash
 cd django_project
-python manage.py test accounts shop
+python manage.py test accounts shop arcave --settings=arcave.test_settings
 ```
+
+GitHub runs the complete PostgreSQL suite on every push and pull request using Python 3.10 and 3.14. [MAINTENANCE.md](MAINTENANCE.md) contains the completed maintenance checklist, database permissions for tests, coverage commands, and how to investigate errors using request references.
 
 Remaining work:
 

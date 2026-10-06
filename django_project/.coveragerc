@@ -1,0 +1,8 @@
+[report]
+# Report application coverage without inflating it with tests or generated migrations.
+omit =
+    */test*.py
+    */migrations/*
+    */asgi.py
+    */wsgi.py
+show_missing = True

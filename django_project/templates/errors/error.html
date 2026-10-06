@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{ title }} — آرکیو</title>
+    <style>
+        * { box-sizing: border-box; }
+        body { margin: 0; min-height: 100vh; display: grid; place-items: center; padding: 24px; background: #f6f1e9; color: #322a24; font-family: Tahoma, sans-serif; line-height: 1.9; }
+        main { width: min(100%, 560px); padding: clamp(24px, 6vw, 48px); background: #fffdfa; border: 1px solid #e4d7c7; border-radius: 20px; }
+        .brand { font-size: 24px; font-weight: bold; color: #70523d; }
+        .status { color: #70523d; font-size: 14px; margin-top: 28px; }
+        h1 { font-size: clamp(22px, 5vw, 30px); line-height: 1.5; }
+        p { margin: 16px 0; }
+        a { display: inline-block; margin-top: 16px; padding: 10px 20px; border-radius: 8px; background: #604331; color: white; text-decoration: none; }
+        a:focus-visible { outline: 3px solid #a66b2b; outline-offset: 4px; }
+        .reference { margin-top: 28px; padding-top: 16px; border-top: 1px solid #e4d7c7; font-size: 12px; overflow-wrap: anywhere; }
+        code { display: block; direction: ltr; text-align: right; }
+    </style>
+</head>
+<body>
+<main aria-labelledby="error-title">
+    <div class="brand">آرکیو / Arcave</div>
+    <p class="status">{{ status }}</p>
+    <h1 id="error-title">{{ title }}</h1>
+    <p>{{ message }}</p>
+    <a href="/">بازگشت به صفحه اصلی</a>
+    {% if reference %}<p class="reference">کد پیگیری<code>{{ reference }}</code></p>{% endif %}
+</main>
+</body>
+</html>
