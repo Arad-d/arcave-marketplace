@@ -71,9 +71,6 @@ def customer_signup(request: HttpRequest) -> HttpResponse:
             form.save()
             messages.success(request, _("حساب با موفقیت ایجاد شد. لطفاً وارد شوید."))
             return redirect("customer_login")
-        for errors in form.errors.values():
-            for error in errors:
-                messages.error(request, error)
     return render(request, "accounts/customer_signup.html", {"form": form})
 
 
@@ -145,9 +142,6 @@ def shop_owner_signup(request: HttpRequest) -> HttpResponse:
             form.save()
             messages.success(request, _("حساب با موفقیت ایجاد شد. لطفاً وارد شوید."))
             return redirect("shop_owner_login")
-        for errors in form.errors.values():
-            for error in errors:
-                messages.error(request, error)
     return render(request, "accounts/shop_owner_signup.html", {"form": form})
 
 

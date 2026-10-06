@@ -45,14 +45,14 @@
             
             {% if products_sold %}
                 <div style="overflow-x: auto; margin-bottom: 2rem;">
-                    <table class="table">
+                    <div class="table-scroll" role="region" tabindex="0" aria-label="{% translate 'جدول؛ برای دیدن ستون‌ها پیمایش کنید' %}"><table class="table">
                         <thead>
                             <tr>
-                                <th>{% translate "محصول" %}</th>
-                                <th>{% translate "مشتری" %}</th>
-                                <th>{% translate "تعداد" %}</th>
-                                <th>{% translate "قیمت کل" %}</th>
-                                <th>{% translate "تاریخ" %}</th>
+                                <th scope="col">{% translate "محصول" %}</th>
+                                <th scope="col">{% translate "مشتری" %}</th>
+                                <th scope="col">{% translate "تعداد" %}</th>
+                                <th scope="col">{% translate "قیمت کل" %}</th>
+                                <th scope="col">{% translate "تاریخ" %}</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -68,7 +68,7 @@
                                 </tr>
                             {% endfor %}
                         </tbody>
-                    </table>
+                    </table></div>
                 </div>
             {% else %}
                 <div class="alert" style="background-color: var(--color-cream-dark); margin-bottom: 2rem;">
@@ -81,15 +81,15 @@
             
             {% if products %}
                 <div style="overflow-x: auto;">
-                    <table class="table">
+                    <div class="table-scroll" role="region" tabindex="0" aria-label="{% translate 'جدول؛ برای دیدن ستون‌ها پیمایش کنید' %}"><table class="table">
                         <thead>
                             <tr>
-                                <th>{% translate "محصول" %}</th>
-                                <th>{% translate "دسته‌بندی" %}</th>
-                                <th>{% translate "قیمت" %}</th>
-                                <th>{% translate "نظرات" %}</th>
-                                <th>{% translate "تاریخ افزودن" %}</th>
-                                <th>{% translate "عملیات" %}</th>
+                                <th scope="col">{% translate "محصول" %}</th>
+                                <th scope="col">{% translate "دسته‌بندی" %}</th>
+                                <th scope="col">{% translate "قیمت" %}</th>
+                                <th scope="col">{% translate "نظرات" %}</th>
+                                <th scope="col">{% translate "تاریخ افزودن" %}</th>
+                                <th scope="col">{% translate "عملیات" %}</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -133,7 +133,7 @@
                                 </tr>
                             {% endfor %}
                         </tbody>
-                    </table>
+                    </table></div>
                 </div>
             {% else %}
                 <div class="empty-state">

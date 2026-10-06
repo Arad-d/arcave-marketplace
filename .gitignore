@@ -25,3 +25,6 @@ htmlcov/
 .idea/
 .vscode/
 .DS_Store
+
+# Isolated fictional showcase media
+django_project/.demo-media/

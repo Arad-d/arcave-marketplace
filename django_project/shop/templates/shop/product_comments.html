@@ -93,10 +93,10 @@
                                     <form action="{% url 'reply_to_comment' comment.id %}" method="post">
                                         {% csrf_token %}
                                         <div class="form-group">
-                                            <label class="form-label" style="font-weight: 600; color: var(--color-brown);">
+                                            <label for="reply-{{ comment.pk }}" class="form-label" style="font-weight: 600; color: var(--color-brown);">
                                                 {% translate "پاسخ به این نظر:" %}
                                             </label>
-                                            <textarea class="form-control" name="text" rows="3" placeholder="{% translate "پاسخ خود را بنویسید..." %}" required></textarea>
+                                            <textarea id="reply-{{ comment.pk }}" maxlength="2000" class="form-control" name="text" rows="3" placeholder="{% translate "پاسخ خود را بنویسید..." %}" required></textarea>
                                         </div>
                                         <button type="submit" class="btn btn-primary btn-sm">
                                             {% translate "ارسال پاسخ" %}

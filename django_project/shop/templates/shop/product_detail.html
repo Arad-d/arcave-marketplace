@@ -60,8 +60,8 @@
                     <form action="{% url 'add_to_cart' product.pk %}" method="post">
                         {% csrf_token %}
                         <div class="form-group" style="display: flex; gap: 1rem; align-items: center; margin-bottom: 1rem;">
-                            <label class="form-label" style="margin-bottom: 0;">{% translate "تعداد:" %}</label>
-                            <select name="quantity" class="form-control" style="width: 80px;">
+                            <label for="quantity" class="form-label" style="margin-bottom: 0;">{% translate "تعداد:" %}</label>
+                            <select id="quantity" name="quantity" class="form-control" style="width: 80px;">
                                 {% for i in "12345"|make_list %}
                                     {% if forloop.counter <= product.stock %}
                                         <option value="{{ i }}">{{ i }}</option>
@@ -98,7 +98,7 @@
                 <form action="{% url 'add_comment' product.pk %}" method="post">
                     {% csrf_token %}
                     <div class="form-group">
-                        <textarea class="form-control" name="text" rows="4" placeholder="{% translate "تجربه خود را با این محصول به اشتراک بگذارید..." %}" required></textarea>
+                        <label class="form-label" for="review-text">{% translate "نوشتن نظر" %}</label><textarea id="review-text" maxlength="2000" class="form-control" name="text" rows="4" placeholder="{% translate "تجربه خود را با این محصول به اشتراک بگذارید..." %}" required></textarea>
                     </div>
                     <button type="submit" class="btn btn-primary">{% translate "ارسال نظر" %}</button>
                 </form>

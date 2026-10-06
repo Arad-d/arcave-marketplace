@@ -29,15 +29,15 @@
             
             {% if purchases %}
                 <div style="overflow-x: auto;">
-                    <table class="table">
+                    <div class="table-scroll" role="region" tabindex="0" aria-label="{% translate 'جدول؛ برای دیدن ستون‌ها پیمایش کنید' %}"><table class="table">
                         <thead>
                             <tr>
-                                <th>{% translate "محصول" %}</th>
-                                <th>{% translate "فروشگاه" %}</th>
-                                <th>{% translate "تعداد" %}</th>
-                                <th>{% translate "قیمت کل" %}</th>
-                                <th>{% translate "تاریخ" %}</th>
-                                <th>{% translate "عملیات" %}</th>
+                                <th scope="col">{% translate "محصول" %}</th>
+                                <th scope="col">{% translate "فروشگاه" %}</th>
+                                <th scope="col">{% translate "تعداد" %}</th>
+                                <th scope="col">{% translate "قیمت کل" %}</th>
+                                <th scope="col">{% translate "تاریخ" %}</th>
+                                <th scope="col">{% translate "عملیات" %}</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -60,7 +60,7 @@
                                 </tr>
                             {% endfor %}
                         </tbody>
-                    </table>
+                    </table></div>
                 </div>
             {% else %}
                 <div class="empty-state">

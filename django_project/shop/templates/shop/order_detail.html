@@ -4,18 +4,19 @@
 {% block content %}
 <div class="container">
     <h1>{% translate "رسید سفارش" %}</h1>
-    <p dir="ltr">{{ order }}</p>
+    <div class="alert alert-success" role="status">{% translate "سفارش شما ثبت شده است. وضعیت آن را در خریدهای من دنبال کنید." %}</div>
+    <p dir="ltr" class="order-reference">{{ order }}</p>
     <p>{% blocktranslate with value0=order.get_status_display %}وضعیت: {{ value0 }}{% endblocktranslate %}</p>
     <p>{{ order.created_at|date:"Y/m/d H:i" }}</p>
     <p>{% translate "این رسید تأیید پرداخت نیست. پرداخت آنلاین در این نسخه فعال نیست." %}</p>
-    <table class="table">
-        <thead><tr><th>{% translate "محصول" %}</th><th>{% translate "فروشگاه" %}</th><th>{% translate "تعداد" %}</th><th>{% translate "قیمت واحد" %}</th><th>{% translate "مبلغ" %}</th></tr></thead>
+    <div class="table-scroll" role="region" tabindex="0" aria-label="{% translate 'جدول؛ برای دیدن ستون‌ها پیمایش کنید' %}"><table class="table">
+        <thead><tr><th scope="col">{% translate "محصول" %}</th><th scope="col">{% translate "فروشگاه" %}</th><th scope="col">{% translate "تعداد" %}</th><th scope="col">{% translate "قیمت واحد" %}</th><th scope="col">{% translate "مبلغ" %}</th></tr></thead>
         <tbody>{% for item in order.items.all %}<tr>
             <td>{{ item.product_name }}</td><td>{{ item.store_name }}</td><td>{{ item.quantity }}</td>
             <td>{% if item.unit_price != None %}{% blocktranslate with value0=item.unit_price|floatformat:"0" %}{{ value0 }} ریال{% endblocktranslate %}{% else %}{% translate "نامشخص" %}{% endif %}</td>
             <td>{% if item.total_price != None %}{% blocktranslate with value0=item.total_price|floatformat:"0" %}{{ value0 }} ریال{% endblocktranslate %}{% else %}{% translate "نامشخص" %}{% endif %}</td>
         </tr>{% endfor %}</tbody>
-    </table>
+    </table></div>
     <p>{% translate "جمع کل:" %} {% if order.total_price != None %}{% blocktranslate with value0=order.total_price|floatformat:"0" %}{{ value0 }} ریال{% endblocktranslate %}{% else %}{% translate "نامشخص" %}{% endif %}</p>
     <a href="{% url 'customer_dashboard' %}" class="btn btn-secondary">{% translate "خریدهای من" %}</a>
 </div>

@@ -25,30 +25,26 @@
         <!-- Main Content -->
         <div class="dashboard-content">
             <form method="post" enctype="multipart/form-data">
-                {% csrf_token %}{{ form.original_stock }}
+                {% csrf_token %}{% include "includes/form_errors.html" %}{{ form.original_stock }}
                 
                 <div class="form-group">
                     <label class="form-label" for="name">{% translate "نام محصول" %}</label>
-                    <input type="text" class="form-control" id="name" name="name" required 
-                           value="{{ product.name }}" placeholder="{% translate "نام محصول را وارد کنید" %}">
+                    {{ form.name }}{{ form.name.errors }}
                 </div>
                 
                 <div class="form-group">
                     <label class="form-label" for="price">{% translate "قیمت (ریال)" %}</label>
-                    <input type="number" class="form-control" id="price" name="price" step="0.01" min="0" required 
-                           value="{{ product.price|unlocalize }}" placeholder="0.00">
+                    {{ form.price }}{{ form.price.errors }}
                 </div>
                 
                 <div class="form-group">
                     <label class="form-label" for="description">{% translate "توضیحات" %}</label>
-                    <textarea class="form-control" id="description" name="description" rows="5" required 
-                              placeholder="{% translate "محصول خود را توصیف کنید..." %}">{{ product.description }}</textarea>
+                    {{ form.description }}{{ form.description.errors }}
                 </div>
                 
                 <div class="form-group">
                     <label class="form-label" for="stock">{% translate "تعداد موجودی" %}</label>
-                    <input type="number" class="form-control" id="stock" name="stock" min="0" required 
-                           value="{{ product.stock }}" placeholder="{% translate "چند عدد موجود است؟" %}">
+                    {{ form.stock }}{{ form.stock.errors }}
                     <small style="color: var(--color-charcoal-light); display: block; margin-top: 0.5rem;">
                         {% translate "تعداد واحدهای موجود برای فروش" %}
                     </small>
@@ -56,12 +52,7 @@
 
                 <div class="form-group">
                     <label class="form-label" for="category">{% translate "دسته‌بندی" %}</label>
-                    <select class="form-control" id="category" name="category" required>
-                        <option value="">{% translate "دسته‌بندی را انتخاب کنید" %}</option>
-                        <option value="electronics" {% if product.category == 'electronics' %}selected{% endif %}>{% translate "محصولات الکترونیک" %}</option>
-                        <option value="accessories" {% if product.category == 'accessories' %}selected{% endif %}>{% translate "لوازم جانبی الکترونیک" %}</option>
-                        
-                    </select>
+                    {{ form.category }}{{ form.category.errors }}
                 </div>
 
                 <div class="form-group">
@@ -72,7 +63,7 @@
                             <img src="{{ product.image.url }}" alt="{{ product.name }}" style="max-width: 200px; max-height: 200px; border-radius: 8px;">
                         </div>
                     {% endif %}
-                    <input type="file" class="form-control" id="image" name="image" accept="image/jpeg,image/png,image/webp">
+                    {{ form.image }}{{ form.image.errors }}
                     <small style="color: var(--color-charcoal-light); display: block; margin-top: 0.5rem;">
                         {% if product.image %}
                             {% translate "برای جایگزینی تصویر فعلی، تصویر جدید آپلود کنید (اختیاری)" %}

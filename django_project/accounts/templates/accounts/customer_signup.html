@@ -11,30 +11,26 @@
         
         <div class="card" style="padding: 2rem; margin-top: 2rem;">
             <form method="post">
-                {% csrf_token %}
+                {% csrf_token %}{% include "includes/form_errors.html" %}
                 
                 <div class="form-group">
                     <label class="form-label" for="username">{% translate "نام کاربری" %}</label>
-                    <input type="text" class="form-control" id="username" name="username" required 
-                           placeholder="{% translate "نام کاربری انتخاب کنید" %}">
+                    {{ form.username }}{{ form.username.errors }}
                 </div>
                 
                 <div class="form-group">
                     <label class="form-label" for="email">{% translate "ایمیل" %}</label>
-                    <input type="email" class="form-control" id="email" name="email" required 
-                           placeholder="{% translate "ایمیل خود را وارد کنید" %}">
+                    {{ form.email }}{{ form.email.errors }}
                 </div>
                 
                 <div class="form-group">
                     <label class="form-label" for="password">{% translate "رمز عبور" %}</label>
-                    <input type="password" class="form-control" id="password" name="password" required 
-                           placeholder="{% translate "رمز عبور ایجاد کنید" %}">
+                    {{ form.password }}{{ form.password.errors }}
                 </div>
                 
                 <div class="form-group">
                     <label class="form-label" for="password2">{% translate "تکرار رمز عبور" %}</label>
-                    <input type="password" class="form-control" id="password2" name="password2" required 
-                           placeholder="{% translate "رمز عبور را تکرار کنید" %}">
+                    {{ form.password2 }}{{ form.password2.errors }}
                 </div>
                 
                 <h3 style="margin: 2rem 0 1.5rem; color: var(--color-brown);">{% translate "سوالات امنیتی" %}</h3>
@@ -44,26 +40,22 @@
                 
                 <div class="form-group">
                     <label class="form-label" for="security_question1">{% translate "سوال امنیتی ۱" %}</label>
-                    <input type="text" class="form-control" id="security_question1" name="security_question1" required 
-                           placeholder="{% translate "سوال خود را بنویسید (مثال: نام حیوان خانگی شما چیست؟)" %}">
+                    {{ form.security_question1 }}{{ form.security_question1.errors }}
                 </div>
                 
                 <div class="form-group">
                     <label class="form-label" for="security_answer1">{% translate "پاسخ ۱" %}</label>
-                    <input type="text" class="form-control" id="security_answer1" name="security_answer1" required 
-                           placeholder="{% translate "پاسخ را وارد کنید" %}">
+                    {{ form.security_answer1 }}{{ form.security_answer1.errors }}
                 </div>
                 
                 <div class="form-group">
                     <label class="form-label" for="security_question2">{% translate "سوال امنیتی ۲" %}</label>
-                    <input type="text" class="form-control" id="security_question2" name="security_question2" required 
-                           placeholder="{% translate "سوال دیگری بنویسید (مثال: در چه شهری به دنیا آمده‌اید؟)" %}">
+                    {{ form.security_question2 }}{{ form.security_question2.errors }}
                 </div>
                 
                 <div class="form-group">
                     <label class="form-label" for="security_answer2">{% translate "پاسخ ۲" %}</label>
-                    <input type="text" class="form-control" id="security_answer2" name="security_answer2" required 
-                           placeholder="{% translate "پاسخ را وارد کنید" %}">
+                    {{ form.security_answer2 }}{{ form.security_answer2.errors }}
                 </div>
                 
                 <button type="submit" class="btn btn-primary" style="width: 100%;">

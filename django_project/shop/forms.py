@@ -5,6 +5,7 @@ from decimal import Decimal
 from io import BytesIO
 from uuid import uuid4
 
+from accounts.presentation import style_public_form
 from django import forms
 from django.conf import settings
 from django.core.files.base import ContentFile
@@ -31,6 +32,9 @@ class ProductForm(forms.ModelForm):
     def __init__(self, *args: object, **kwargs: object) -> None:
         """Require the stock value seen when opening an existing product."""
         super().__init__(*args, **kwargs)
+        style_public_form(self)
+        self.fields["name"].label = _("نام محصول")
+        self.fields["image"].widget.attrs["accept"] = "image/jpeg,image/png,image/webp"
         if self.instance.pk:
             self.fields["original_stock"].required = True
             self.initial["original_stock"] = self.instance.stock

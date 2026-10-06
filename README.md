@@ -76,6 +76,10 @@ Remaining work:
 
 These improvements will be tracked through subsequent commits. Embedded configuration credentials have been moved into a local, ignored `.env` file before the initial publication.
 
+## User experience and portfolio
+
+The catalog supports browsing before sign-in, responsive RTL/LTR layouts, clearer cart review, accessible field errors and retained form values. An isolated fictional demo includes six products, sample accounts, a receipt and reviews. See [USER_EXPERIENCE.md](USER_EXPERIENCE.md) for setup, verification and the remaining publishing steps, or open the [portfolio case study and screenshots](docs/portfolio/README.md).
+
 ## Languages
 
 Use the English / فارسی button in the header (next to the customer cart) to switch languages while staying on the current page. Your choice is stored for one year; without a saved choice, the browser language is used when supported, with Persian as the fallback. Labels, forms, messages, categories, order status and error pages are translated. User-entered product descriptions, reviews, store names and security questions remain in their original language. Prices stay in Iranian rials; English displays the `IRR` label.

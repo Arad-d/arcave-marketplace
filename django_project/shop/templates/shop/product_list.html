@@ -13,8 +13,10 @@
         <!-- Search and Filter -->
         <div class="search-container">
             <form class="search-form" method="get" style="flex-wrap: wrap; gap: 1rem;">
-                <input type="text" class="search-input" name="q" placeholder="{% translate "جستجوی محصولات..." %}" value="{{ query }}">
-                <select name="category" class="form-control" style="min-width: 200px;">
+                <label class="sr-only" for="product-search">{% translate "جستجوی محصولات..." %}</label>
+                <input id="product-search" type="search" class="search-input" name="q" placeholder="{% translate "جستجوی محصولات..." %}" value="{{ query }}">
+                <label class="sr-only" for="category-filter">{% translate "دسته‌بندی" %}</label>
+                <select id="category-filter" name="category" class="form-control" style="min-width: 200px;">
                     <option value="">{% translate "همه دسته‌بندی‌ها" %}</option>
                     {% for value, label in categories %}
                         <option value="{{ value }}" {% if category == value %}selected{% endif %}>{{ label }}</option>
@@ -78,19 +80,19 @@
         {% if page_obj.has_other_pages %}
             <div class="pagination">
                 {% if page_obj.has_previous %}
-                    <a href="?page={{ page_obj.previous_page_number }}{% if query %}&q={{ query }}{% endif %}{% if category %}&category={{ category }}{% endif %}">{% translate "→ قبلی" %}</a>
+                    <a href="?page={{ page_obj.previous_page_number }}{% if query %}&q={{ query|urlencode }}{% endif %}{% if category %}&category={{ category }}{% endif %}">{% translate "→ قبلی" %}</a>
                 {% endif %}
 
                 {% for num in page_obj.paginator.page_range %}
                     {% if page_obj.number == num %}
-                        <span class="current">{{ num }}</span>
+                        <span class="current" aria-current="page">{{ num }}</span>
                     {% else %}
-                        <a href="?page={{ num }}{% if query %}&q={{ query }}{% endif %}{% if category %}&category={{ category }}{% endif %}">{{ num }}</a>
+                        <a href="?page={{ num }}{% if query %}&q={{ query|urlencode }}{% endif %}{% if category %}&category={{ category }}{% endif %}">{{ num }}</a>
                     {% endif %}
                 {% endfor %}
 
                 {% if page_obj.has_next %}
-                    <a href="?page={{ page_obj.next_page_number }}{% if query %}&q={{ query }}{% endif %}{% if category %}&category={{ category }}{% endif %}">{% translate "بعدی ←" %}</a>
+                    <a href="?page={{ page_obj.next_page_number }}{% if query %}&q={{ query|urlencode }}{% endif %}{% if category %}&category={{ category }}{% endif %}">{% translate "بعدی ←" %}</a>
                 {% endif %}
             </div>
         {% endif %}
@@ -98,7 +100,10 @@
         <div class="empty-state">
             <div class="empty-state-icon">📭</div>
             <h3>{% translate "محصولی موجود نیست" %}</h3>
-            <p>{% translate "بعداً برای محصولات جدید سر بزنید!" %}</p>
+            {% if query or category %}
+            <p>{% translate "عبارت دیگری جستجو کنید یا فیلترها را پاک کنید." %}</p>
+            <a class="btn btn-primary" href="{% url 'product_list' %}">{% translate "پاک کردن فیلترها" %}</a>
+            {% else %}<p>{% translate "بعداً برای محصولات جدید سر بزنید!" %}</p>{% endif %}
         </div>
     {% endif %}
 </div>

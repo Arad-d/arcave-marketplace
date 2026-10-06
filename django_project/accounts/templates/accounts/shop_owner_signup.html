@@ -11,44 +11,38 @@
         
         <div class="card" style="padding: 2rem; margin-top: 2rem;">
             <form method="post">
-                {% csrf_token %}
+                {% csrf_token %}{% include "includes/form_errors.html" %}
                 
                 <h3 style="margin-bottom: 1.5rem; color: var(--color-brown);">{% translate "اطلاعات فروشگاه" %}</h3>
                 
                 <div class="form-group">
                     <label class="form-label" for="name">{% translate "نام شما" %}</label>
-                    <input type="text" class="form-control" id="name" name="name" required 
-                           placeholder="{% translate "نام کامل خود را وارد کنید" %}">
+                    {{ form.name }}{{ form.name.errors }}
                 </div>
                 
                 <div class="form-group">
                     <label class="form-label" for="store_name">{% translate "نام فروشگاه" %}</label>
-                    <input type="text" class="form-control" id="store_name" name="store_name" required 
-                           placeholder="{% translate "نام فروشگاه خود را وارد کنید" %}">
+                    {{ form.store_name }}{{ form.store_name.errors }}
                 </div>
                 
                 <div class="form-group">
                     <label class="form-label" for="password">{% translate "رمز عبور" %}</label>
-                    <input type="password" class="form-control" id="password" name="password" required 
-                           placeholder="{% translate "رمز عبور ایجاد کنید" %}">
+                    {{ form.password }}{{ form.password.errors }}
                 </div>
                 
                 <div class="form-group">
                     <label class="form-label" for="password2">{% translate "تکرار رمز عبور" %}</label>
-                    <input type="password" class="form-control" id="password2" name="password2" required 
-                           placeholder="{% translate "رمز عبور را تکرار کنید" %}">
+                    {{ form.password2 }}{{ form.password2.errors }}
                 </div>
                 
                 <div class="form-group">
                     <label class="form-label" for="address">{% translate "آدرس فروشگاه" %}</label>
-                    <textarea class="form-control" id="address" name="address" rows="3" 
-                              placeholder="{% translate "آدرس فروشگاه خود را وارد کنید (اختیاری)" %}"></textarea>
+                    {{ form.address }}{{ form.address.errors }}
                 </div>
                 
                 <div class="form-group">
                     <label class="form-label" for="phone">{% translate "شماره تلفن" %}</label>
-                    <input type="tel" class="form-control" id="phone" name="phone" 
-                           placeholder="{% translate "+989123456789 (اختیاری)" %}" pattern="^\+[0-9]{10,15}$">
+                    {{ form.phone }}{{ form.phone.errors }}
                     <small style="color: var(--color-charcoal-light); display: block; margin-top: 0.5rem;">
                         {% translate "فرمت: +989123456789 (با کد کشور)" %}
                     </small>
@@ -58,26 +52,22 @@
                 
                 <div class="form-group">
                     <label class="form-label" for="security_question1">{% translate "سوال امنیتی ۱" %}</label>
-                    <input type="text" class="form-control" id="security_question1" name="security_question1" required 
-                           placeholder="{% translate "اولین سوال امنیتی خود را وارد کنید" %}">
+                    {{ form.security_question1 }}{{ form.security_question1.errors }}
                 </div>
                 
                 <div class="form-group">
                     <label class="form-label" for="security_answer1">{% translate "پاسخ ۱" %}</label>
-                    <input type="text" class="form-control" id="security_answer1" name="security_answer1" required 
-                           placeholder="{% translate "پاسخ را وارد کنید" %}">
+                    {{ form.security_answer1 }}{{ form.security_answer1.errors }}
                 </div>
                 
                 <div class="form-group">
                     <label class="form-label" for="security_question2">{% translate "سوال امنیتی ۲" %}</label>
-                    <input type="text" class="form-control" id="security_question2" name="security_question2" required 
-                           placeholder="{% translate "دومین سوال امنیتی خود را وارد کنید" %}">
+                    {{ form.security_question2 }}{{ form.security_question2.errors }}
                 </div>
                 
                 <div class="form-group">
                     <label class="form-label" for="security_answer2">{% translate "پاسخ ۲" %}</label>
-                    <input type="text" class="form-control" id="security_answer2" name="security_answer2" required 
-                           placeholder="{% translate "پاسخ را وارد کنید" %}">
+                    {{ form.security_answer2 }}{{ form.security_answer2.errors }}
                 </div>
                 
                 <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 1rem;">

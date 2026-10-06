@@ -9,15 +9,15 @@
     
     {% if cart_items %}
         <div class="card" style="overflow: hidden;">
-            <table class="table" style="margin-bottom: 0;">
+            <div class="table-scroll" role="region" tabindex="0" aria-label="{% translate 'جدول؛ برای دیدن ستون‌ها پیمایش کنید' %}"><table class="table" style="margin-bottom: 0;">
                 <thead>
                     <tr>
-                        <th style="width: 100px;">{% translate "محصول" %}</th>
-                        <th>{% translate "نام" %}</th>
-                        <th>{% translate "قیمت" %}</th>
-                        <th>{% translate "تعداد" %}</th>
-                        <th>{% translate "جمع" %}</th>
-                        <th>{% translate "عملیات" %}</th>
+                        <th scope="col" style="width: 100px;">{% translate "محصول" %}</th>
+                        <th scope="col">{% translate "نام" %}</th>
+                        <th scope="col">{% translate "قیمت" %}</th>
+                        <th scope="col">{% translate "تعداد" %}</th>
+                        <th scope="col">{% translate "جمع" %}</th>
+                        <th scope="col">{% translate "عملیات" %}</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -43,35 +43,36 @@
                             <td>
                                 <form action="{% url 'update_cart' item.pk %}" method="post" style="display: flex; align-items: center; gap: 0.5rem;">
                                     {% csrf_token %}
-                                    <select name="quantity" class="form-control" style="width: 70px; padding: 0.5rem;" onchange="this.form.submit()">
+                                    <select name="quantity" class="form-control" style="width: 70px; padding: 0.5rem;" aria-label="{% translate 'تعداد' %}: {{ item.product.name }}">
                                         {% for i in "12345"|make_list %}
                                             <option value="{{ i }}" {% if item.quantity == i|add:0 %}selected{% endif %}>{{ i }}</option>
                                         {% endfor %}
-                                    </select>
+                                    </select><button type="submit" class="btn btn-secondary btn-sm">{% translate "به‌روزرسانی" %}</button>
                                 </form>
                             </td>
                             <td><strong>{% blocktranslate with value0=item.get_total_price|floatformat:"0" %}{{ value0 }} ریال{% endblocktranslate %}</strong></td>
                             <td>
-                                <form method="post" action="{% url 'remove_from_cart' item.pk %}" class="inline-action">{% csrf_token %}<button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('{% translate "این مورد از سبد خرید حذف شود؟" %}');">
+                                <form method="post" action="{% url 'remove_from_cart' item.pk %}" class="inline-action">{% csrf_token %}<button type="submit" class="btn btn-danger btn-sm">
                                     {% translate "حذف" %}
                                 </button></form>
                             </td>
                         </tr>
                     {% endfor %}
                 </tbody>
-            </table>
+            </table></div>
         </div>
         
         <!-- Cart Summary -->
+        <p class="checkout-note">{% translate "پیش از ثبت سفارش، تعداد و مبلغ را بررسی کنید. موجودی هنگام ثبت بررسی می‌شود؛ پرداخت آنلاین فعال نیست و وجهی دریافت نمی‌شود." %}</p>
         <div class="card" style="margin-top: 2rem; padding: 2rem;">
             <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
                 <div>
                     <p style="color: var(--color-charcoal-light); margin-bottom: 0.5rem;">{% translate "تعداد کل:" %} <strong>{{ total_items }}</strong></p>
                     <h2 style="margin: 0; color: var(--color-brown);">{% blocktranslate with value0=total_price|floatformat:"0" %}جمع کل: {{ value0 }} ریال{% endblocktranslate %}</h2>
                 </div>
-                <div style="display: flex; gap: 1rem;">
+                <div class="action-group">
                     <a href="{% url 'product_list' %}" class="btn btn-secondary">{% translate "ادامه خرید" %}</a>
-                    <form method="post" action="{% url 'checkout' %}" class="inline-action">{% csrf_token %}<input type="hidden" name="checkout_token" value="{{ checkout_token }}"><button type="submit" class="btn btn-primary btn-lg" onclick="return confirm('{% translate "آیا می‌خواهید خرید را نهایی کنید؟" %}');">
+                    <form method="post" action="{% url 'checkout' %}" class="inline-action">{% csrf_token %}<input type="hidden" name="checkout_token" value="{{ checkout_token }}"><button type="submit" class="btn btn-primary btn-lg">
                         {% translate "ثبت سفارش" %}
                     </button></form>
                 </div>

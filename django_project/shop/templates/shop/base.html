@@ -15,9 +15,10 @@
     <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@100..900&display=swap" rel="stylesheet">
     
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="{% static 'css/style.css' %}?v=languages-1">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}?v=ux-1">
 </head>
 <body>
+    <a class="skip-link" href="#main-content">{% translate "رفتن به محتوای اصلی" %}</a>
     <!-- Navigation -->
     <nav class="navbar">
         <div class="navbar-content">
@@ -37,17 +38,25 @@
                     <li><a href="{% url 'shop_owner_dashboard' %}">{% translate "داشبورد فروشگاه" %}</a></li>
                     <li><form method="post" action="{% url 'logout' %}" class="inline-action">{% csrf_token %}<button type="submit" class="navigation-action">{% translate "خروج" %}</button></form></li>
                 {% else %}
+                    <li><a href="{% url 'customer_login' %}">{% translate "ورود مشتری" %}</a></li>
                     <li>{% include "includes/language_switch.html" %}</li>
                 {% endif %}
             </ul>
         </div>
     </nav>
 
+    {% if DEMO_MODE %}
+    <div class="demo-banner container">
+        <strong>{% translate "نسخه نمایشی با اطلاعات ساختگی" %}</strong>
+        <p>{% translate "سفارش‌ها آزمایشی هستند؛ پرداخت و ارسال انجام نمی‌شود. اطلاعات شخصی واقعی وارد نکنید." %}</p>
+        <p><a href="{% url 'customer_login' %}">{% translate "ورود مشتری" %}</a>: <bdi>demo-buyer</bdi> · <a href="{% url 'shop_owner_login' %}">{% translate "ورود فروشنده" %}</a>: <bdi>demo-seller</bdi> · {% translate "رمز عبور" %}: <bdi>Arcave-Demo-2026!</bdi></p>
+    </div>
+    {% endif %}
     <!-- Messages -->
     {% if messages %}
         <div class="container" style="margin-top: 2rem;">
             {% for message in messages %}
-                <div class="alert alert-{{ message.tags }}">
+                <div class="alert alert-{{ message.tags }}" role="status">
                     {{ message }}
                 </div>
             {% endfor %}
@@ -55,7 +64,7 @@
     {% endif %}
 
     <!-- Main Content -->
-    <main>
+    <main id="main-content" tabindex="-1">
         {% block content %}{% endblock %}
     </main>
 

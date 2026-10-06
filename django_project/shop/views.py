@@ -19,13 +19,12 @@ from .services import ShoppingError, change_cart, checkout_token, place_order
 logger = logging.getLogger(__name__)
 
 
-@login_required
 def product_list(request):
-    """Product listing with search and category filter - requires authentication."""
+    """Let visitors browse public listings before choosing to sign in."""
     query = request.GET.get("q", "")
     category = request.GET.get("category", "")
 
-    products = Product.objects.all()
+    products = Product.objects.select_related("shop_owner").all()
 
     if query:
         products = products.filter(
@@ -302,9 +301,6 @@ def add_product(request):
             product.save()
             messages.success(request, _("محصول با موفقیت ذخیره شد."))
             return redirect("shop_owner_dashboard")
-        for errors in form.errors.values():
-            for error in errors:
-                messages.error(request, error)
     return render(request, "shop/add_product.html", {"form": form})
 
 
@@ -405,9 +401,6 @@ def edit_product(request, pk):
             product.save()
             messages.success(request, _("محصول با موفقیت ذخیره شد."))
             return redirect("shop_owner_dashboard")
-        for errors in form.errors.values():
-            for error in errors:
-                messages.error(request, error)
     return render(request, "shop/edit_product.html", {"form": form, "product": product})
 
 

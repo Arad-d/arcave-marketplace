@@ -4,6 +4,7 @@ from django import forms
 from django.utils.translation import gettext_lazy as _
 
 from .models import Customer, ShopOwner
+from .presentation import style_public_form
 from .security import validate_new_password
 
 
@@ -16,6 +17,11 @@ class SignupForm(forms.ModelForm):
     security_question2 = forms.CharField(max_length=255)
     security_answer1 = forms.CharField(max_length=255)
     security_answer2 = forms.CharField(max_length=255)
+
+    def __init__(self, *args: object, **kwargs: object) -> None:
+        """Provide localized labels and accessible bound controls."""
+        super().__init__(*args, **kwargs)
+        style_public_form(self)
 
     def clean(self) -> dict:
         """Check password confirmation and strength against account information."""
