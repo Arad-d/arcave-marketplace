@@ -68,3 +68,7 @@ The formatter deliberately excludes free-form log messages, exception text, sour
 For a missing database or permission error, check the PostgreSQL service, `.env` connection fields, and the test role's `CREATEDB` permission. For pending schema changes, inspect `python manage.py showmigrations`. Before applying migrations to an existing database, use a `pg_dump` version compatible with the server and verify the private archive with `pg_restore --list`. Keep backups out of Git. Full automated backup scheduling and restore drills remain part of the production-readiness checklist.
 
 Reference documentation: [Django error views](https://docs.djangoproject.com/en/5.2/topics/http/views/#customizing-error-views), [Django logging](https://docs.djangoproject.com/en/5.2/topics/logging/), and [GitHub PostgreSQL services](https://docs.github.com/en/actions/tutorials/use-containerized-services/create-postgresql-service-containers).
+
+## Appearance toggle
+
+Run `node --test tests/theme.test.cjs` from the repository root with Node.js 22 or newer. These dependency-free tests execute the shipped script against a small browser API fixture, covering saved preferences, system appearance, toggle state and unavailable storage. CI runs them alongside the Django checks. Visual contrast and responsive layout still require browser verification.

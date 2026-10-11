@@ -819,3 +819,82 @@ h1, h2, h3, p, .comment-text, .order-reference, td { overflow-wrap: anywhere; }
 
 .demo-banner { padding-block: 1rem; background: #e7eddf; border-bottom: 1px solid #356638; }
 .demo-banner p { margin: .25rem 0; font-size: .9rem; }
+
+/* A single appearance switch shared by customer, seller and account pages. */
+:root { color-scheme: light; }
+.navbar-content { gap: 1.5rem; }
+.navbar-nav { margin-inline-start: auto; }
+.theme-toggle {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: space-around;
+    flex: 0 0 88px;
+    width: 88px;
+    height: 46px;
+    border: 1px solid #9c8064;
+    border-radius: 28px;
+    background: #eee3d2;
+    cursor: pointer;
+    direction: ltr;
+    padding: 3px;
+}
+.theme-toggle[hidden] { display: none; }
+.theme-toggle::before {
+    content: "";
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: #fffaf0;
+    box-shadow: 0 2px 6px #0002;
+    transition: transform .2s ease;
+}
+.theme-icon { position: relative; font-size: 22px; line-height: 1; }
+.theme-moon { opacity: .6; }
+[data-theme="dark"] {
+    color-scheme: dark;
+    --color-cream: #191b1c;
+    --color-cream-dark: #292b2d;
+    --color-white: #222426;
+    --color-charcoal: #f4eee5;
+    --color-charcoal-light: #cdc6bc;
+    --color-brown: #e4ba87;
+    --color-brown-light: #d4ae84;
+    --color-terracotta: #d8a574;
+    --color-terracotta-dark: #edbd90;
+    --color-success: #a1d4a3;
+    --color-error: #ffabab;
+    --shadow-soft: 0 4px 20px #0003;
+    --shadow-medium: 0 8px 30px #0004;
+    --shadow-hover: 0 12px 40px #0005;
+}
+[data-theme="dark"] .theme-toggle { background: #34383d; border-color: #bd9870; }
+[data-theme="dark"] .theme-toggle::before { transform: translateX(42px); background: #595048; }
+[data-theme="dark"] .theme-sun { opacity: .6; }
+[data-theme="dark"] .theme-moon { opacity: 1; }
+.form-control, .search-input { color: var(--color-charcoal); }
+input::placeholder, textarea::placeholder { color: var(--color-charcoal-light); opacity: .8; }
+[data-theme="dark"] .footer { background: #111314; }
+[data-theme="dark"] .footer-text { color: #cdc6bc; }
+[data-theme="dark"] .skip-link { background: #222426; }
+[data-theme="dark"] .demo-banner { background: #253228; border-color: #8ab38c; }
+[data-theme="dark"] .btn-danger { background: #9b3434; color: #fff5ef; }
+[data-theme="dark"] .btn-danger:hover { background: #b64646; }
+[data-theme="dark"] :focus-visible { outline-color: #97c8ff; }
+[data-theme="dark"] .form-control:focus { border-color: #d8a574; }
+/* Category badges use the accent as their background and need dark lettering. */
+[data-theme="dark"] span[style*="background-color: var(--color-brown)"] { color: #191b1c !important; }
+@media (max-width: 768px) {
+    .navbar-content { display: grid; grid-template-columns: 1fr auto; gap: .5rem 1rem; }
+    .navbar-brand { grid-column: 1; grid-row: 1; }
+    .theme-toggle { grid-column: 2; grid-row: 1; }
+    .navbar-nav { grid-column: 1 / -1; grid-row: 2; margin-inline-start: 0; }
+}
+@media (prefers-reduced-motion: reduce) { .theme-toggle::before { transition: none; } }
+[data-theme="dark"] .form-control, [data-theme="dark"] .search-input { border-color: #77716a; }
+[data-theme="dark"] span[style*="background-color: var(--color-success)"],
+[data-theme="dark"] span[style*="background-color: orange"] { color: #191b1c !important; }
+[data-theme="dark"] .reply { background-color: #292b2d !important; }

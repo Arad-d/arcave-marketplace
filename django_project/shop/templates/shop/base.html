@@ -9,13 +9,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}{% translate "آرکیو" %}{% endblock %}</title>
 
+    <script src="{% static 'js/theme.js' %}"></script>
+
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@100..900&display=swap" rel="stylesheet">
     
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="{% static 'css/style.css' %}?v=ux-1">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}?v=theme-1">
 </head>
 <body>
     <a class="skip-link" href="#main-content">{% translate "رفتن به محتوای اصلی" %}</a>
@@ -42,6 +44,10 @@
                     <li>{% include "includes/language_switch.html" %}</li>
                 {% endif %}
             </ul>
+            <button id="theme-toggle" class="theme-toggle" type="button" role="switch" aria-checked="false" aria-label="{% translate 'حالت شب' %}" title="{% translate 'حالت شب' %}" hidden>
+                <span class="theme-icon theme-sun" aria-hidden="true">☀️</span>
+                <span class="theme-icon theme-moon" aria-hidden="true">🌙</span>
+            </button>
         </div>
     </nav>
 

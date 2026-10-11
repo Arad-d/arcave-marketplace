@@ -46,3 +46,7 @@ python django_project/manage.py compilemessages -l en
 ```
 
 GitHub checks that the compiled catalog matches its source. Language tests exercise public, customer and seller pages, validation messages, recovery forms and language switching with CSRF protection.
+
+## Appearance
+
+Use the ☀️ / 🌙 switch at the outer corner of the header to change between light and night mode. The first visit follows your system appearance; an explicit choice is saved in this browser. The control is keyboard accessible and stays in the header corner on mobile, in both Persian and English.

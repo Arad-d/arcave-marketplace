@@ -58,6 +58,8 @@ jobs:
           python-version: ${{ matrix.python }}
           cache: pip
           cache-dependency-path: 'django_project/requirements*.txt'
+      - name: Test appearance toggle
+        run: node --test ../tests/theme.test.cjs
       - name: Install dependencies
         run: python -m pip install -r requirements-dev.txt
       - name: Validate English translation catalog

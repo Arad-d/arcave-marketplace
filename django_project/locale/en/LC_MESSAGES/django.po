@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arcave\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-07 00:23+0330\n"
+"POT-Creation-Date: 2026-10-12 00:28+0330\n"
 "PO-Revision-Date: 2026-10-06 20:30+0000\n"
 "Last-Translator: Arcave contributors\n"
 "Language-Team: English\n"
@@ -43,7 +43,7 @@ msgstr "Email"
 #: django_project/accounts/templates/accounts/customer_signup.html:27
 #: django_project/accounts/templates/accounts/shop_owner_login.html:23
 #: django_project/accounts/templates/accounts/shop_owner_signup.html:29
-#: django_project/shop/templates/shop/base.html:52
+#: django_project/shop/templates/shop/base.html:58
 msgid "رمز عبور"
 msgstr "Password"
 
@@ -162,8 +162,8 @@ msgid "ورود مشتری - آرکیو"
 msgstr "Customer sign in - Arcave"
 
 #: django_project/accounts/templates/accounts/customer_login.html:9
-#: django_project/shop/templates/shop/base.html:41
-#: django_project/shop/templates/shop/base.html:52
+#: django_project/shop/templates/shop/base.html:43
+#: django_project/shop/templates/shop/base.html:58
 msgid "ورود مشتری"
 msgstr "Customer sign in"
 
@@ -283,8 +283,8 @@ msgstr "My cart"
 #: django_project/accounts/templates/accounts/edit_customer_profile.html:20
 #: django_project/accounts/templates/accounts/edit_shop_owner_profile.html:20
 #: django_project/shop/templates/shop/add_product.html:21
-#: django_project/shop/templates/shop/base.html:35
-#: django_project/shop/templates/shop/base.html:39
+#: django_project/shop/templates/shop/base.html:37
+#: django_project/shop/templates/shop/base.html:41
 #: django_project/shop/templates/shop/customer_dashboard.html:22
 #: django_project/shop/templates/shop/edit_product.html:21
 #: django_project/shop/templates/shop/product_comments.html:43
@@ -496,7 +496,7 @@ msgid "ورود فروشنده - آرکیو"
 msgstr "Seller sign in - Arcave"
 
 #: django_project/accounts/templates/accounts/shop_owner_login.html:9
-#: django_project/shop/templates/shop/base.html:52
+#: django_project/shop/templates/shop/base.html:58
 msgid "ورود فروشنده"
 msgstr "Seller sign in"
 
@@ -805,32 +805,36 @@ msgstr "JPG, PNG or WebP; up to 5 MB and 4096 pixels"
 msgid "آرکیو"
 msgstr "Arcave"
 
-#: django_project/shop/templates/shop/base.html:21
+#: django_project/shop/templates/shop/base.html:23
 msgid "رفتن به محتوای اصلی"
 msgstr "Skip to main content"
 
-#: django_project/shop/templates/shop/base.html:32
+#: django_project/shop/templates/shop/base.html:34
 #: django_project/shop/templates/shop/cart.html:8
 msgid "سبد خرید"
 msgstr "Cart"
 
-#: django_project/shop/templates/shop/base.html:34
+#: django_project/shop/templates/shop/base.html:36
 msgid "داشبورد من"
 msgstr "My dashboard"
 
-#: django_project/shop/templates/shop/base.html:38
+#: django_project/shop/templates/shop/base.html:40
 msgid "داشبورد فروشگاه"
 msgstr "Store dashboard"
 
-#: django_project/shop/templates/shop/base.html:50
+#: django_project/shop/templates/shop/base.html:47
+msgid "حالت شب"
+msgstr "Night mode"
+
+#: django_project/shop/templates/shop/base.html:56
 msgid "نسخه نمایشی با اطلاعات ساختگی"
 msgstr "Demo with fictional data"
 
-#: django_project/shop/templates/shop/base.html:51
+#: django_project/shop/templates/shop/base.html:57
 msgid "سفارش‌ها آزمایشی هستند؛ پرداخت و ارسال انجام نمی‌شود. اطلاعات شخصی واقعی وارد نکنید."
 msgstr "Orders are for demonstration only. No payment or delivery takes place. Do not enter real personal information."
 
-#: django_project/shop/templates/shop/base.html:74
+#: django_project/shop/templates/shop/base.html:80
 msgid "&copy; 2026 آرکیو. تمامی حقوق محفوظ است."
 msgstr "&copy; 2026 Arcave. All rights reserved."
 
