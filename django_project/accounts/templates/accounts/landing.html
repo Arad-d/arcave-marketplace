@@ -21,8 +21,8 @@
         <h2>{% translate "مشتری هستم" %}</h2>
         <p>{% translate "محصولات را مرور کنید، خرید کنید و با فروشندگان ارتباط برقرار کنید" %}</p>
         <div style="display: flex; flex-direction: column; gap: 1rem;">
-            <a href="{% url 'customer_login' %}" class="btn btn-primary btn-lg">{% translate "ورود" %}</a>
-            <a href="{% url 'customer_signup' %}" class="btn btn-secondary">{% translate "ایجاد حساب کاربری" %}</a>
+            <a href="{% url 'customer_login' %}{% if next %}?next={{ next|urlencode }}{% endif %}" class="btn btn-primary btn-lg">{% translate "ورود" %}</a>
+            <a href="{% url 'customer_signup' %}{% if next %}?next={{ next|urlencode }}{% endif %}" class="btn btn-secondary">{% translate "ایجاد حساب کاربری" %}</a>
         </div>
     </div>
 

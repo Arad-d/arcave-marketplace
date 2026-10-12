@@ -1,5 +1,7 @@
 from datetime import timedelta
+from urllib.parse import unquote, urlencode, urlsplit
 
+from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
@@ -7,11 +9,18 @@ from django.db import transaction
 from django.http import HttpRequest, HttpResponse
 from django.middleware.csrf import rotate_token
 from django.shortcuts import redirect, render
+from django.urls import Resolver404, resolve, reverse
 from django.utils import timezone
+from django.utils.http import url_has_allowed_host_and_scheme
 from django.utils.translation import gettext_lazy as _
 from django.views.decorators.http import require_POST
 
-from .forms import CustomerSignupForm, ShopOwnerSignupForm
+from .forms import (
+    CustomerSignInForm,
+    CustomerSignupForm,
+    SellerSignInForm,
+    ShopOwnerSignupForm,
+)
 from .middleware import shop_owner_required
 from .models import Customer, ShopOwner
 from .recovery import reset_password as reset_password
@@ -58,27 +67,89 @@ def clear_failed_attempts(user):
     user.save(update_fields=["failed_attempts", "locked_until"])
 
 
-def landing(request):
-    """Landing page with login/signup options."""
-    return render(request, "accounts/landing.html")
+def account_destination(request: HttpRequest) -> str | None:
+    """Choose the entry destination from a validated existing identity."""
+    if request.user.is_authenticated:
+        return "product_list"
+    if request.shop_owner is not None:
+        return "shop_owner_dashboard"
+    return None
+
+
+def safe_next(request: HttpRequest) -> str:
+    """Preserve a same-site return path without allowing external redirects."""
+    target = request.POST.get("next", request.GET.get("next", ""))
+    if target.startswith("/") and url_has_allowed_host_and_scheme(
+        target, allowed_hosts={request.get_host()}, require_https=request.is_secure()
+    ):
+        try:
+            match = resolve(unquote(urlsplit(target).path))
+        except Resolver404:
+            return ""
+        # A redirected POST cannot be replayed: return to its review page instead.
+        if match.url_name in {"add_to_cart", "add_comment"}:
+            return reverse("product_detail", args=[match.kwargs["pk"]])
+        if match.url_name in {"update_cart", "remove_from_cart", "checkout"}:
+            return reverse("view_cart")
+        if match.url_name in {
+            "product_list",
+            "product_detail",
+            "shop_profile",
+            "view_cart",
+            "customer_dashboard",
+            "order_detail",
+            "edit_customer_profile",
+            "shop_owner_dashboard",
+            "add_product",
+            "edit_product",
+            "product_comments",
+            "edit_shop_owner_profile",
+        }:
+            return target
+    return ""
+
+
+def landing(request: HttpRequest) -> HttpResponse:
+    """Welcome guests and resume the correct workspace for returning accounts."""
+    destination = account_destination(request)
+    if destination:
+        return redirect(safe_next(request) or destination)
+    return render(request, "accounts/landing.html", {"next": safe_next(request)})
 
 
 def customer_signup(request: HttpRequest) -> HttpResponse:
     """Register an account after validating and hashing all credentials."""
+    destination = account_destination(request)
+    if request.method == "GET" and destination:
+        return redirect(destination)
     form = CustomerSignupForm(request.POST if request.method == "POST" else None)
     if request.method == "POST":
         if form.is_valid():
             form.save()
             messages.success(request, _("حساب با موفقیت ایجاد شد. لطفاً وارد شوید."))
-            return redirect("customer_login")
-    return render(request, "accounts/customer_signup.html", {"form": form})
+            target = reverse("customer_login")
+            if safe_next(request):
+                target += "?" + urlencode({"next": safe_next(request)})
+            return redirect(target)
+    return render(
+        request,
+        "accounts/customer_signup.html",
+        {"form": form, "next": safe_next(request)},
+    )
 
 
-def customer_login(request):
-    """Customer login view."""
+def customer_login(request: HttpRequest) -> HttpResponse:
+    """Validate sign-in and resume a saved destination with a persistent session."""
+    destination = account_destination(request)
+    if request.method == "GET" and request.user.is_authenticated:
+        return redirect(safe_next(request) or destination)
+    form = CustomerSignInForm(request.POST if request.method == "POST" else None)
+    context = {"form": form, "next": safe_next(request)}
+    if request.method == "POST" and not form.is_valid():
+        return render(request, "accounts/customer_login.html", context)
     if request.method == "POST":
-        username = request.POST.get("username")
-        password = request.POST.get("password")
+        username = form.cleaned_data["username"]
+        password = form.cleaned_data["password"]
 
         # Check if account exists and is locked
         try:
@@ -94,7 +165,7 @@ def customer_login(request):
                     )
                     % {"value0": f"{minutes}", "value1": f"{seconds:02d}"},
                 )
-                return render(request, "accounts/customer_login.html")
+                return render(request, "accounts/customer_login.html", context)
         except Customer.DoesNotExist:
             pass
 
@@ -109,7 +180,8 @@ def customer_login(request):
                 pass
             logout(request)
             login(request, user)
-            return redirect("customer_dashboard")
+            request.session.set_expiry(settings.ACCOUNT_SESSION_AGE)
+            return redirect(safe_next(request) or "product_list")
         else:
             # Record failed attempt
             try:
@@ -131,25 +203,42 @@ def customer_login(request):
             except Customer.DoesNotExist:
                 messages.error(request, _("نام کاربری یا رمز عبور اشتباه است."))
 
-    return render(request, "accounts/customer_login.html")
+    return render(request, "accounts/customer_login.html", context)
 
 
 def shop_owner_signup(request: HttpRequest) -> HttpResponse:
     """Register an account after validating and hashing all credentials."""
+    destination = account_destination(request)
+    if request.method == "GET" and destination:
+        return redirect(destination)
     form = ShopOwnerSignupForm(request.POST if request.method == "POST" else None)
     if request.method == "POST":
         if form.is_valid():
             form.save()
             messages.success(request, _("حساب با موفقیت ایجاد شد. لطفاً وارد شوید."))
-            return redirect("shop_owner_login")
-    return render(request, "accounts/shop_owner_signup.html", {"form": form})
+            target = reverse("shop_owner_login")
+            if safe_next(request):
+                target += "?" + urlencode({"next": safe_next(request)})
+            return redirect(target)
+    return render(
+        request,
+        "accounts/shop_owner_signup.html",
+        {"form": form, "next": safe_next(request)},
+    )
 
 
-def shop_owner_login(request):
-    """Shop owner login view."""
+def shop_owner_login(request: HttpRequest) -> HttpResponse:
+    """Validate sign-in and resume a saved destination with a persistent session."""
+    destination = account_destination(request)
+    if request.method == "GET" and request.shop_owner is not None:
+        return redirect(safe_next(request) or destination)
+    form = SellerSignInForm(request.POST if request.method == "POST" else None)
+    context = {"form": form, "next": safe_next(request)}
+    if request.method == "POST" and not form.is_valid():
+        return render(request, "accounts/shop_owner_login.html", context)
     if request.method == "POST":
-        name = request.POST.get("name")
-        password = request.POST.get("password")
+        name = form.cleaned_data["name"]
+        password = form.cleaned_data["password"]
 
         # Check if account exists and is locked
         try:
@@ -165,7 +254,7 @@ def shop_owner_login(request):
                     )
                     % {"value0": f"{minutes}", "value1": f"{seconds:02d}"},
                 )
-                return render(request, "accounts/shop_owner_login.html")
+                return render(request, "accounts/shop_owner_login.html", context)
         except ShopOwner.DoesNotExist:
             pass
 
@@ -182,7 +271,8 @@ def shop_owner_login(request):
             request.session["shop_owner_id"] = shop_owner.id
             request.session["shop_owner_name"] = shop_owner.name
             request.session["shop_owner_store"] = shop_owner.store_name
-            return redirect("shop_owner_dashboard")
+            request.session.set_expiry(settings.ACCOUNT_SESSION_AGE)
+            return redirect(safe_next(request) or "shop_owner_dashboard")
         except ShopOwner.DoesNotExist:
             # Record failed attempt
             try:
@@ -204,7 +294,7 @@ def shop_owner_login(request):
             except ShopOwner.DoesNotExist:
                 messages.error(request, _("نام یا رمز عبور اشتباه است."))
 
-    return render(request, "accounts/shop_owner_login.html")
+    return render(request, "accounts/shop_owner_login.html", context)
 
 
 @require_POST

@@ -85,3 +85,30 @@ class ShopOwnerSignupForm(SignupForm):
         if ShopOwner.objects.filter(name=name).exists():
             raise forms.ValidationError(_("این نام قبلاً ثبت شده است."))
         return name
+
+
+class SignInForm(forms.Form):
+    """Validate credentials before attempting authentication or counting failures."""
+
+    password = forms.CharField(max_length=128, strip=False, widget=forms.PasswordInput)
+
+    def __init__(self, *args: object, **kwargs: object) -> None:
+        """Provide accessible errors and password-manager compatible controls."""
+        super().__init__(*args, **kwargs)
+        style_public_form(self)
+        self.fields["password"].widget.attrs["autocomplete"] = "current-password"
+        for name in ("username", "name"):
+            if name in self.fields:
+                self.fields[name].widget.attrs["autocomplete"] = "username"
+
+
+class CustomerSignInForm(SignInForm):
+    """Validate a customer username and password."""
+
+    username = forms.CharField(max_length=150)
+
+
+class SellerSignInForm(SignInForm):
+    """Validate a seller name and password."""
+
+    name = forms.CharField(max_length=100)

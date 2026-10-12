@@ -80,7 +80,7 @@
                     </button>
                 {% endif %}
             {% else %}
-                <a href="{% url 'customer_login' %}" class="btn btn-primary btn-lg" style="width: 100%;">
+                <a href="{% url 'customer_login' %}?next={{ request.get_full_path|urlencode }}" class="btn btn-primary btn-lg" style="width: 100%;">
                     {% translate "برای خرید وارد شوید" %}
                 </a>
             {% endif %}

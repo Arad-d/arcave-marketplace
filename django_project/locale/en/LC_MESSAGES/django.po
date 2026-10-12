@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arcave\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-12 00:28+0330\n"
+"POT-Creation-Date: 2026-10-12 00:50+0330\n"
 "PO-Revision-Date: 2026-10-06 20:30+0000\n"
 "Last-Translator: Arcave contributors\n"
 "Language-Team: English\n"
@@ -25,7 +25,7 @@ msgid "این نام قبلاً ثبت شده است."
 msgstr "This name is already registered."
 
 #: django_project/accounts/presentation.py:7
-#: django_project/accounts/templates/accounts/customer_login.html:17
+#: django_project/accounts/templates/accounts/customer_login.html:18
 #: django_project/accounts/templates/accounts/customer_signup.html:17
 #: django_project/accounts/templates/accounts/edit_customer_profile.html:32
 #: django_project/accounts/templates/accounts/verify_customer_security.html:51
@@ -43,7 +43,7 @@ msgstr "Email"
 #: django_project/accounts/templates/accounts/customer_signup.html:27
 #: django_project/accounts/templates/accounts/shop_owner_login.html:23
 #: django_project/accounts/templates/accounts/shop_owner_signup.html:29
-#: django_project/shop/templates/shop/base.html:58
+#: django_project/shop/templates/shop/base.html:56
 msgid "رمز عبور"
 msgstr "Password"
 
@@ -55,7 +55,7 @@ msgid "تکرار رمز عبور"
 msgstr "Confirm password"
 
 #: django_project/accounts/presentation.py:11
-#: django_project/accounts/templates/accounts/shop_owner_login.html:17
+#: django_project/accounts/templates/accounts/shop_owner_login.html:18
 #: django_project/shop/templates/shop/cart.html:16
 msgid "نام"
 msgstr "Name"
@@ -162,8 +162,8 @@ msgid "ورود مشتری - آرکیو"
 msgstr "Customer sign in - Arcave"
 
 #: django_project/accounts/templates/accounts/customer_login.html:9
-#: django_project/shop/templates/shop/base.html:43
-#: django_project/shop/templates/shop/base.html:58
+#: django_project/shop/templates/shop/base.html:40
+#: django_project/shop/templates/shop/base.html:56
 msgid "ورود مشتری"
 msgstr "Customer sign in"
 
@@ -171,41 +171,31 @@ msgstr "Customer sign in"
 msgid "خوش آمدید! برای ادامه خرید وارد شوید."
 msgstr "Welcome back! Sign in to continue shopping."
 
-#: django_project/accounts/templates/accounts/customer_login.html:19
-#: django_project/accounts/templates/accounts/verify_customer_security.html:53
-msgid "نام کاربری خود را وارد کنید"
-msgstr "Enter your username"
-
-#: django_project/accounts/templates/accounts/customer_login.html:25
-#: django_project/accounts/templates/accounts/shop_owner_login.html:25
-msgid "رمز عبور خود را وارد کنید"
-msgstr "Enter your password"
-
-#: django_project/accounts/templates/accounts/customer_login.html:29
+#: django_project/accounts/templates/accounts/customer_login.html:28
 #: django_project/accounts/templates/accounts/forgot_password.html:9
-#: django_project/accounts/templates/accounts/shop_owner_login.html:29
+#: django_project/accounts/templates/accounts/shop_owner_login.html:28
 msgid "رمز عبور را فراموش کرده‌اید؟"
 msgstr "Forgot your password?"
 
-#: django_project/accounts/templates/accounts/customer_login.html:33
+#: django_project/accounts/templates/accounts/customer_login.html:32
 #: django_project/accounts/templates/accounts/landing.html:24
 #: django_project/accounts/templates/accounts/landing.html:35
-#: django_project/accounts/templates/accounts/shop_owner_login.html:33
+#: django_project/accounts/templates/accounts/shop_owner_login.html:32
 msgid "ورود"
 msgstr "Sign in"
 
-#: django_project/accounts/templates/accounts/customer_login.html:39
+#: django_project/accounts/templates/accounts/customer_login.html:38
 msgid "حساب کاربری ندارید؟"
 msgstr "Need an account?"
 
-#: django_project/accounts/templates/accounts/customer_login.html:40
+#: django_project/accounts/templates/accounts/customer_login.html:39
 msgid "ثبت‌نام کنید"
 msgstr "Sign up"
 
-#: django_project/accounts/templates/accounts/customer_login.html:43
+#: django_project/accounts/templates/accounts/customer_login.html:42
 #: django_project/accounts/templates/accounts/customer_signup.html:72
 #: django_project/accounts/templates/accounts/forgot_password.html:35
-#: django_project/accounts/templates/accounts/shop_owner_login.html:43
+#: django_project/accounts/templates/accounts/shop_owner_login.html:42
 #: django_project/accounts/templates/accounts/shop_owner_signup.html:84
 #: django_project/accounts/templates/accounts/verify_customer_security.html:26
 #: django_project/accounts/templates/accounts/verify_shop_owner_security.html:26
@@ -283,8 +273,8 @@ msgstr "My cart"
 #: django_project/accounts/templates/accounts/edit_customer_profile.html:20
 #: django_project/accounts/templates/accounts/edit_shop_owner_profile.html:20
 #: django_project/shop/templates/shop/add_product.html:21
+#: django_project/shop/templates/shop/base.html:33
 #: django_project/shop/templates/shop/base.html:37
-#: django_project/shop/templates/shop/base.html:41
 #: django_project/shop/templates/shop/customer_dashboard.html:22
 #: django_project/shop/templates/shop/edit_product.html:21
 #: django_project/shop/templates/shop/product_comments.html:43
@@ -496,7 +486,7 @@ msgid "ورود فروشنده - آرکیو"
 msgstr "Seller sign in - Arcave"
 
 #: django_project/accounts/templates/accounts/shop_owner_login.html:9
-#: django_project/shop/templates/shop/base.html:58
+#: django_project/shop/templates/shop/base.html:56
 msgid "ورود فروشنده"
 msgstr "Seller sign in"
 
@@ -504,15 +494,11 @@ msgstr "Seller sign in"
 msgid "به داشبورد فروشگاه خود دسترسی پیدا کنید و محصولات خود را مدیریت کنید."
 msgstr "Access your store dashboard and manage your products."
 
-#: django_project/accounts/templates/accounts/shop_owner_login.html:19
-msgid "نام خود را وارد کنید"
-msgstr "Enter your name"
-
-#: django_project/accounts/templates/accounts/shop_owner_login.html:39
+#: django_project/accounts/templates/accounts/shop_owner_login.html:38
 msgid "فروشگاه ندارید؟"
 msgstr "Need a store account?"
 
-#: django_project/accounts/templates/accounts/shop_owner_login.html:40
+#: django_project/accounts/templates/accounts/shop_owner_login.html:39
 msgid "فروشگاه خود را ثبت کنید"
 msgstr "Register your store"
 
@@ -566,6 +552,10 @@ msgstr "Too many failed attempts. Please try again after:"
 msgid "این برای امنیت شماست. لطفاً قبل از تلاش مجدد صبر کنید."
 msgstr "Please wait before trying again to keep your account secure."
 
+#: django_project/accounts/templates/accounts/verify_customer_security.html:53
+msgid "نام کاربری خود را وارد کنید"
+msgstr "Enter your username"
+
 #: django_project/accounts/templates/accounts/verify_customer_security.html:69
 #: django_project/accounts/templates/accounts/verify_customer_security.html:88
 #: django_project/accounts/templates/accounts/verify_shop_owner_security.html:75
@@ -598,56 +588,56 @@ msgstr "Security verification - Seller"
 msgid "نام ثبت‌شده خود را وارد کنید"
 msgstr "Enter your registered name"
 
-#: django_project/accounts/views.py:72 django_project/accounts/views.py:143
+#: django_project/accounts/views.py:129 django_project/accounts/views.py:218
 msgid "حساب با موفقیت ایجاد شد. لطفاً وارد شوید."
 msgstr "Your account was created. Please sign in."
 
-#: django_project/accounts/views.py:93 django_project/accounts/views.py:164
+#: django_project/accounts/views.py:164 django_project/accounts/views.py:253
 #, python-format
 msgid "حساب کاربری قفل شده است. لطفاً پس از %(value0)s:%(value1)s دوباره تلاش کنید."
 msgstr "Your account is locked. Please try again after %(value0)s:%(value1)s."
 
-#: django_project/accounts/views.py:125 django_project/accounts/views.py:198
+#: django_project/accounts/views.py:197 django_project/accounts/views.py:288
 #, python-format
 msgid "تلاش‌های ناموفق زیاد. حساب کاربری برای %(value0)s:%(value1)s قفل شده است."
 msgstr "Too many failed attempts. Your account is locked for %(value0)s:%(value1)s."
 
-#: django_project/accounts/views.py:130 django_project/accounts/views.py:132
+#: django_project/accounts/views.py:202 django_project/accounts/views.py:204
 msgid "نام کاربری یا رمز عبور اشتباه است."
 msgstr "The username or password is incorrect."
 
-#: django_project/accounts/views.py:203 django_project/accounts/views.py:205
+#: django_project/accounts/views.py:293 django_project/accounts/views.py:295
 msgid "نام یا رمز عبور اشتباه است."
 msgstr "The name or password is incorrect."
 
-#: django_project/accounts/views.py:236
+#: django_project/accounts/views.py:326
 msgid "این ایمیل قبلاً ثبت شده است."
 msgstr "This email address is already registered."
 
-#: django_project/accounts/views.py:247 django_project/accounts/views.py:318
+#: django_project/accounts/views.py:337 django_project/accounts/views.py:408
 msgid "رمز عبور فعلی اشتباه است."
 msgstr "The current password is incorrect."
 
-#: django_project/accounts/views.py:255 django_project/accounts/views.py:326
+#: django_project/accounts/views.py:345 django_project/accounts/views.py:416
 msgid "رمزهای عبور جدید مطابقت ندارند."
 msgstr "The new passwords do not match."
 
-#: django_project/accounts/views.py:271 django_project/accounts/views.py:342
+#: django_project/accounts/views.py:361 django_project/accounts/views.py:432
 msgid "رمز عبور با موفقیت به‌روزرسانی شد! لطفاً دوباره وارد شوید."
 msgstr "Your password was updated. Please sign in again."
 
-#: django_project/accounts/views.py:278 django_project/accounts/views.py:356
+#: django_project/accounts/views.py:368 django_project/accounts/views.py:446
 msgid "پروفایل با موفقیت به‌روزرسانی شد!"
 msgstr "Your profile was updated."
 
-#: django_project/accounts/views.py:292 django_project/shop/views.py:224
+#: django_project/accounts/views.py:382 django_project/shop/views.py:224
 #: django_project/shop/views.py:285 django_project/shop/views.py:314
 #: django_project/shop/views.py:354 django_project/shop/views.py:379
 #: django_project/shop/views.py:413
 msgid "لطفاً به عنوان فروشنده وارد شوید."
 msgstr "Please sign in as a seller."
 
-#: django_project/accounts/views.py:298 django_project/shop/views.py:230
+#: django_project/accounts/views.py:388 django_project/shop/views.py:230
 #: django_project/shop/views.py:291 django_project/shop/views.py:320
 #: django_project/shop/views.py:360 django_project/shop/views.py:385
 #: django_project/shop/views.py:419
@@ -809,32 +799,32 @@ msgstr "Arcave"
 msgid "رفتن به محتوای اصلی"
 msgstr "Skip to main content"
 
-#: django_project/shop/templates/shop/base.html:34
+#: django_project/shop/templates/shop/base.html:30
 #: django_project/shop/templates/shop/cart.html:8
 msgid "سبد خرید"
 msgstr "Cart"
 
-#: django_project/shop/templates/shop/base.html:36
+#: django_project/shop/templates/shop/base.html:32
 msgid "داشبورد من"
 msgstr "My dashboard"
 
-#: django_project/shop/templates/shop/base.html:40
+#: django_project/shop/templates/shop/base.html:36
 msgid "داشبورد فروشگاه"
 msgstr "Store dashboard"
 
-#: django_project/shop/templates/shop/base.html:47
+#: django_project/shop/templates/shop/base.html:45
 msgid "حالت شب"
 msgstr "Night mode"
 
-#: django_project/shop/templates/shop/base.html:56
+#: django_project/shop/templates/shop/base.html:54
 msgid "نسخه نمایشی با اطلاعات ساختگی"
 msgstr "Demo with fictional data"
 
-#: django_project/shop/templates/shop/base.html:57
+#: django_project/shop/templates/shop/base.html:55
 msgid "سفارش‌ها آزمایشی هستند؛ پرداخت و ارسال انجام نمی‌شود. اطلاعات شخصی واقعی وارد نکنید."
 msgstr "Orders are for demonstration only. No payment or delivery takes place. Do not enter real personal information."
 
-#: django_project/shop/templates/shop/base.html:80
+#: django_project/shop/templates/shop/base.html:78
 msgid "&copy; 2026 آرکیو. تمامی حقوق محفوظ است."
 msgstr "&copy; 2026 Arcave. All rights reserved."
 
@@ -1425,6 +1415,12 @@ msgstr "Reference number"
 #: django_project/templates/includes/form_errors.html:4
 msgid "لطفاً موارد مشخص‌شده را اصلاح کنید."
 msgstr "Please correct the highlighted fields."
+
+#~ msgid "رمز عبور خود را وارد کنید"
+#~ msgstr "Enter your password"
+
+#~ msgid "نام خود را وارد کنید"
+#~ msgstr "Enter your name"
 
 #~ msgid "نام کاربری انتخاب کنید"
 #~ msgstr "Choose a username"

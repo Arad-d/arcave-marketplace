@@ -50,3 +50,11 @@ GitHub checks that the compiled catalog matches its source. Language tests exerc
 ## Appearance
 
 Use the ☀️ / 🌙 switch at the outer corner of the header to change between light and night mode. The first visit follows your system appearance; an explicit choice is saved in this browser. The control is keyboard accessible and stays in the header corner on mobile, in both Persian and English.
+
+## Sign-in and returning visits
+
+The Arcave logo opens the welcome page for guests, the catalog for signed-in customers, and the dashboard for signed-in sellers. Guest welcome and account pages omit the redundant customer sign-in link in the header; the catalog still offers sign-in when needed.
+
+New successful customer and seller sign-ins last 30 days in the same browser. Reopening the home page resumes the existing account rather than showing registration choices. Sign-out revokes that session, and password changes retain their existing session-revocation behavior. Clearing cookies, private browsing, or expiration requires sign-in again; existing sessions retain their previous expiry until the next sign-in.
+
+Registration carries a valid same-site destination into sign-in. Login returns to that page; interrupted cart actions return to a review page and are never automatically replayed. Invalid login forms preserve the account name and show associated field errors while leaving passwords blank. Empty or malformed forms do not consume password attempts.

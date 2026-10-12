@@ -172,7 +172,7 @@ AUTH_USER_MODEL = "accounts.Customer"
 
 # Login redirect
 LOGIN_REDIRECT_URL = "customer_dashboard"
-LOGIN_URL = "landing"
+LOGIN_URL = "customer_login"
 LOGOUT_REDIRECT_URL = "landing"
 
 # Recovery limits are stored on the account, so new browser sessions cannot reset them.
@@ -254,3 +254,6 @@ LOGGING = {
         "accounts": {"handlers": ["console"], "level": "WARNING", "propagate": False},
     },
 }
+
+# Explicit device sign-in lifetime; logout and password changes still revoke sessions.
+ACCOUNT_SESSION_AGE = 30 * 24 * 60 * 60

@@ -11,7 +11,7 @@
         
         <div class="card" style="padding: 2rem; margin-top: 2rem;">
             <form method="post">
-                {% csrf_token %}{% include "includes/form_errors.html" %}
+                {% csrf_token %}<input type="hidden" name="next" value="{{ next }}">{% include "includes/form_errors.html" %}
                 
                 <h3 style="margin-bottom: 1.5rem; color: var(--color-brown);">{% translate "اطلاعات فروشگاه" %}</h3>
                 
@@ -78,7 +78,7 @@
             <div style="text-align: center; margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid var(--color-cream-dark);">
                 <p style="color: var(--color-charcoal-light);">
                     {% translate "قبلاً فروشگاه دارید؟" %}
-                    <a href="{% url 'shop_owner_login' %}">{% translate "وارد شوید" %}</a>
+                    <a href="{% url 'shop_owner_login' %}{% if next %}?next={{ next|urlencode }}{% endif %}">{% translate "وارد شوید" %}</a>
                 </p>
                 <p style="margin-top: 0.5rem;">
                     <a href="{% url 'landing' %}">{% translate "→ بازگشت به صفحه اصلی" %}</a>

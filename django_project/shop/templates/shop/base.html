@@ -24,11 +24,7 @@
     <!-- Navigation -->
     <nav class="navbar">
         <div class="navbar-content">
-            {% if request.session.shop_owner_id %}
-                <a href="{% url 'shop_owner_dashboard' %}" class="navbar-brand">Arcave</a>
-            {% else %}
-                <a href="{% url 'product_list' %}" class="navbar-brand">Arcave</a>
-            {% endif %}
+            <a href="{% url 'landing' %}" class="navbar-brand">Arcave</a>
             <ul class="navbar-nav">
                 {% if user.is_authenticated %}
                     <li><a href="{% url 'view_cart' %}">{% translate "سبد خرید" %}</a></li>
@@ -40,7 +36,9 @@
                     <li><a href="{% url 'shop_owner_dashboard' %}">{% translate "داشبورد فروشگاه" %}</a></li>
                     <li><form method="post" action="{% url 'logout' %}" class="inline-action">{% csrf_token %}<button type="submit" class="navigation-action">{% translate "خروج" %}</button></form></li>
                 {% else %}
-                    <li><a href="{% url 'customer_login' %}">{% translate "ورود مشتری" %}</a></li>
+                    {% if request.resolver_match.app_name == 'shop' or request.resolver_match.url_name == 'product_list' or request.resolver_match.url_name == 'product_detail' or request.resolver_match.url_name == 'shop_profile' %}
+                    <li><a href="{% url 'customer_login' %}?next={{ request.get_full_path|urlencode }}">{% translate "ورود مشتری" %}</a></li>
+                    {% endif %}
                     <li>{% include "includes/language_switch.html" %}</li>
                 {% endif %}
             </ul>
