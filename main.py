@@ -1,8 +1,80 @@
+import hashlib
+import hmac
+import secrets
 import sqlite3
 
 # connect to the database
 conn = sqlite3.connect('marketing_app.db')
 cursor = conn.cursor()
+
+# Store account secrets as salted, versioned PBKDF2-SHA256 hashes.
+PASSWORD_HASH_ITERATIONS = 600_000
+PASSWORD_HASH_PREFIX = 'pbkdf2_sha256'
+
+
+def hash_secret(secret: str) -> str:
+    """Return a salted PBKDF2 hash for an account secret."""
+    salt = secrets.token_bytes(16)
+    digest = hashlib.pbkdf2_hmac(
+        'sha256', secret.encode('utf-8'), salt, PASSWORD_HASH_ITERATIONS
+    )
+    return (
+        f'{PASSWORD_HASH_PREFIX}${PASSWORD_HASH_ITERATIONS}'
+        f'${salt.hex()}${digest.hex()}'
+    )
+
+
+def parse_secret_hash(encoded: str) -> tuple[int, bytes, bytes] | None:
+    """Parse a supported encoded secret hash, rejecting malformed values."""
+    try:
+        algorithm, iterations_text, salt_text, digest_text = encoded.split('$')
+        iterations = int(iterations_text)
+        salt = bytes.fromhex(salt_text)
+        digest = bytes.fromhex(digest_text)
+    except (AttributeError, ValueError):
+        return None
+
+    if (
+        algorithm != PASSWORD_HASH_PREFIX
+        or not 100_000 <= iterations <= 1_000_000
+        or len(salt) != 16
+        or len(digest) != 32
+    ):
+        return None
+    return iterations, salt, digest
+
+
+def verify_secret(secret: str, encoded: str) -> bool:
+    """Check a secret against its supported encoded hash."""
+    parsed_hash = parse_secret_hash(encoded)
+    if parsed_hash is None:
+        return False
+
+    iterations, salt, expected = parsed_hash
+    actual = hashlib.pbkdf2_hmac(
+        'sha256', secret.encode('utf-8'), salt, iterations
+    )
+    return hmac.compare_digest(actual, expected)
+
+
+def migrate_plaintext_secrets() -> None:
+    """Upgrade plaintext secrets in existing account rows atomically."""
+    secret_fields = ('password', 'security_answer1', 'security_answer2')
+    with conn:
+        for table in ('shop_owners', 'customers'):
+            cursor.execute(f"SELECT id, {', '.join(secret_fields)} FROM {table}")
+            for row in cursor.fetchall():
+                updates = {
+                    field: hash_secret(value)
+                    for field, value in zip(secret_fields, row[1:])
+                    if isinstance(value, str) and parse_secret_hash(value) is None
+                }
+                if updates:
+                    assignments = ', '.join(f'{field} = ?' for field in updates)
+                    cursor.execute(
+                        f'UPDATE {table} SET {assignments} WHERE id = ?',
+                        (*updates.values(), row[0]),
+                    )
 
 # create tables in the database
 cursor.execute('''CREATE TABLE IF NOT EXISTS shop_owners (
@@ -26,6 +98,8 @@ cursor.execute('''CREATE TABLE IF NOT EXISTS customers (
                     security_question2 TEXT,
                     security_answer2 TEXT
                 )''')
+
+migrate_plaintext_secrets()
 
 cursor.execute('''CREATE TABLE IF NOT EXISTS commodities (
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -67,7 +141,11 @@ def shop_owner_signup():
 
     # save the details in the database
     cursor.execute('''INSERT INTO shop_owners (name, store_name, password, security_question1, security_answer1, security_question2, security_answer2, role)
-                      VALUES (?, ?, ?, ?, ?, ?, ?, ?)''', (name, store_name, password, security_question1, security_answer1, security_question2, security_answer2, role))
+                      VALUES (?, ?, ?, ?, ?, ?, ?, ?)''', (
+                          name, store_name, hash_secret(password), security_question1,
+                          hash_secret(security_answer1), security_question2,
+                          hash_secret(security_answer2), role
+                      ))
     conn.commit()
 
     print("Shop owner sign-up successful!")
@@ -83,7 +161,11 @@ def customer_signup():
 
     # save the details in the database
     cursor.execute('''INSERT INTO customers (name, password, security_question1, security_answer1, security_question2, security_answer2)
-                      VALUES (?, ?, ?, ?, ?, ?)''', (name, password, security_question1, security_answer1, security_question2, security_answer2))
+                      VALUES (?, ?, ?, ?, ?, ?)''', (
+                          name, hash_secret(password), security_question1,
+                          hash_secret(security_answer1), security_question2,
+                          hash_secret(security_answer2)
+                      ))
     conn.commit()
 
     print("Customer sign-up successful!")
@@ -94,8 +176,10 @@ def shop_owner_login():
     password = input("Enter your password: ")
 
     # Check if the credentials are correct
-    cursor.execute('''SELECT * FROM shop_owners WHERE name = ? AND password = ?''', (name, password))
-    shop_owner = cursor.fetchone()
+    cursor.execute('''SELECT * FROM shop_owners WHERE name = ?''', (name,))
+    shop_owner = next(
+        (row for row in cursor.fetchall() if verify_secret(password, row[3])), None
+    )
 
     if shop_owner:
         print("Login successful!")
@@ -125,8 +209,10 @@ def customer_login():
     password = input("Enter your password: ")
 
     # Check if the credentials are correct
-    cursor.execute('''SELECT * FROM customers WHERE name = ? AND password = ?''', (name, password))
-    customer = cursor.fetchone()
+    cursor.execute('''SELECT * FROM customers WHERE name = ?''', (name,))
+    customer = next(
+        (row for row in cursor.fetchall() if verify_secret(password, row[2])), None
+    )
 
     if customer:
         print("Login successful!")
