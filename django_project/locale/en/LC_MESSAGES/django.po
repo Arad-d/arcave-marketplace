@@ -95,12 +95,16 @@ msgstr "Security question 2"
 #: django_project/accounts/presentation.py:17
 #: django_project/accounts/templates/accounts/customer_signup.html:47
 #: django_project/accounts/templates/accounts/shop_owner_signup.html:59
+#: django_project/accounts/templates/accounts/verify_customer_security.html:65
+#: django_project/accounts/templates/accounts/verify_shop_owner_security.html:71
 msgid "پاسخ ۱"
 msgstr "Answer 1"
 
 #: django_project/accounts/presentation.py:18
 #: django_project/accounts/templates/accounts/customer_signup.html:57
 #: django_project/accounts/templates/accounts/shop_owner_signup.html:69
+#: django_project/accounts/templates/accounts/verify_customer_security.html:81
+#: django_project/accounts/templates/accounts/verify_shop_owner_security.html:87
 msgid "پاسخ ۲"
 msgstr "Answer 2"
 
@@ -144,10 +148,6 @@ msgstr "We could not recover an account with those details."
 #: django_project/accounts/recovery.py:112
 msgid "لطفاً بازیابی رمز عبور را دوباره شروع کنید."
 msgstr "Please start password recovery again."
-
-#: django_project/accounts/recovery.py:148
-msgid "پاسخ نادرست است. بازیابی را دوباره شروع کنید."
-msgstr "Incorrect answer. Please start recovery again."
 
 #: django_project/accounts/recovery.py:191
 msgid "درخواست بازیابی نامعتبر یا منقضی شده است."
@@ -570,10 +570,15 @@ msgstr "Enter your answer"
 msgid "تأیید"
 msgstr "Confirm"
 
-#: django_project/accounts/templates/accounts/verify_customer_security.html:80
-#: django_project/accounts/templates/accounts/verify_shop_owner_security.html:86
-msgid "پاسخ اول تأیید شد. برای ادامه به سوال دوم پاسخ دهید."
-msgstr "Your first answer was verified. Answer the second question to continue."
+#: django_project/accounts/templates/accounts/verify_customer_security.html:78
+#: django_project/accounts/templates/accounts/verify_shop_owner_security.html:84
+msgid "برای ادامه به سوال دوم پاسخ دهید."
+msgstr "Answer the second question to continue."
+
+#: django_project/accounts/templates/accounts/verify_customer_security.html:61
+#: django_project/accounts/templates/accounts/verify_shop_owner_security.html:67
+msgid "برای حفظ حریم خصوصی، متن سؤال‌ها نمایش داده نمی‌شود. پاسخ‌هایی را وارد کنید که هنگام ثبت‌نام انتخاب کردید."
+msgstr "To protect your privacy, the questions are not displayed. Enter the answers you chose when you signed up."
 
 #: django_project/accounts/templates/accounts/verify_customer_security.html:98
 #: django_project/accounts/templates/accounts/verify_shop_owner_security.html:104

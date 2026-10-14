@@ -1,6 +1,7 @@
 """Tests for recovery throttling, password policy, and authenticated sessions."""
 
 import os
+import re
 import runpy
 from datetime import timedelta
 from pathlib import Path
@@ -11,6 +12,7 @@ from django.contrib.auth.hashers import check_password, make_password
 from django.core.exceptions import ImproperlyConfigured
 from django.db import connection
 from django.db.migrations.executor import MigrationExecutor
+from django.http import HttpResponse
 from django.test import Client, SimpleTestCase, TestCase, TransactionTestCase
 from django.urls import reverse
 from django.utils import timezone
@@ -20,6 +22,15 @@ from .models import Customer, ShopOwner
 
 class RecoverySecurityTests(TestCase):
     """Cover hostile requests and valid recovery for both account types."""
+
+    @staticmethod
+    def public_html(response: HttpResponse) -> bytes:
+        """Normalize only the per-session CSRF token before comparing responses."""
+        return re.sub(
+            rb'(name="csrfmiddlewaretoken" value=")[^"]+(")',
+            rb'\1<token>\2',
+            response.content,
+        )
 
     @classmethod
     def setUpTestData(cls) -> None:
@@ -63,6 +74,98 @@ class RecoverySecurityTests(TestCase):
         self.assertEqual(response.status_code, 302)
         self.assertIn("recovery_grant", client.session)
         return response.url
+
+    def test_recovery_identity_step_hides_account_details(self) -> None:
+        """Known, missing, and locked accounts receive the same first challenge."""
+        for kind, account, identity in (
+            ("customer", self.customer, {"username": self.customer.username}),
+            ("shop_owner", self.owner, {"name": self.owner.name}),
+        ):
+            with self.subTest(kind=kind):
+                url = reverse(f"verify_{kind}_security")
+                original_lock = account.recovery_locked_until
+                account.recovery_locked_until = timezone.now() + timedelta(minutes=5)
+                account.save(update_fields=["recovery_locked_until"])
+                locked_response = Client().post(url, identity)
+                account.recovery_locked_until = original_lock
+                account.save(update_fields=["recovery_locked_until"])
+                known_response = Client().post(url, identity)
+                missing_response = Client().post(
+                    url,
+                    {"username": "missing-user"}
+                    if kind == "customer"
+                    else {"name": "missing-seller"},
+                )
+
+                for response in (locked_response, known_response, missing_response):
+                    self.assertEqual(response.status_code, 200)
+                    self.assertEqual(response.context["step"], 2)
+                    body = response.content.decode()
+                    self.assertNotIn(account.security_question1, body)
+                    self.assertNotIn("locked", response.context)
+                    self.assertNotIn("remaining", response.context)
+                self.assertEqual(
+                    self.public_html(locked_response), self.public_html(known_response)
+                )
+                self.assertEqual(
+                    self.public_html(known_response), self.public_html(missing_response)
+                )
+
+    def test_invalid_recovery_identity_and_answers_follow_same_decoy_flow(self) -> None:
+        """Missing accounts and wrong answers reveal no intermediate answer result."""
+        for kind, account, identity in (
+            ("customer", self.customer, {"username": self.customer.username}),
+            ("shop_owner", self.owner, {"name": self.owner.name}),
+        ):
+            with self.subTest(kind=kind):
+                url = reverse(f"verify_{kind}_security")
+                known = Client()
+                missing = Client()
+                known.post(url, identity)
+                missing.post(
+                    url,
+                    {"username": "missing-user"}
+                    if kind == "customer"
+                    else {"name": "missing-seller"},
+                )
+                known_first = known.post(url, {"answer1": "wrong-answer"})
+                missing_first = missing.post(url, {"answer1": "anything"})
+                self.assertEqual(known_first.context["step"], 3)
+                self.assertEqual(missing_first.context["step"], 3)
+                self.assertEqual(
+                    self.public_html(known_first), self.public_html(missing_first)
+                )
+                correct = Client()
+                correct.post(url, identity)
+                correct_first = correct.post(url, {"answer1": "first"})
+                self.assertEqual(
+                    self.public_html(known_first), self.public_html(correct_first)
+                )
+                self.assertNotIn(
+                    account.security_question2, known_first.content.decode()
+                )
+                known_final = known.post(url, {"answer2": "anything"})
+                missing_final = missing.post(url, {"answer2": "anything"})
+                self.assertEqual(known_final.context["step"], 1)
+                self.assertEqual(missing_final.context["step"], 1)
+                self.assertEqual(
+                    self.public_html(known_final), self.public_html(missing_final)
+                )
+                self.assertNotIn("recovery_grant", known.session)
+                self.assertNotIn("recovery_grant", missing.session)
+
+    def test_blank_account_answer_performs_dummy_hash_check(self) -> None:
+        """A blank stored answer does not skip the work used for missing accounts."""
+        self.customer.set_security_answers("", "second")
+        self.customer.save(update_fields=["security_answer1", "security_answer2"])
+        client = Client()
+        url = self.start("customer", client)
+        with patch(
+            "accounts.recovery.check_password", return_value=False
+        ) as dummy_check:
+            response = client.post(url, {"answer1": "ordinary guess"})
+        self.assertEqual(response.context["step"], 3)
+        dummy_check.assert_called_once()
 
     def test_both_answers_are_required_in_order(self) -> None:
         """A correct second answer alone cannot bypass the first answer."""
@@ -193,11 +296,14 @@ class RecoverySecurityTests(TestCase):
         self.assertNotIn("recovery_grant", self.client.session)
 
     def test_inactive_customer_cannot_recover(self) -> None:
-        """Disabled customer accounts remain disabled and cannot issue reset grants."""
+        """Disabled accounts follow the same public flow but cannot issue reset grants."""
         self.customer.is_active = False
         self.customer.save()
-        self.start("customer", self.client)
-        self.assertNotIn("recovery_challenge", self.client.session)
+        url = self.start("customer", self.client)
+        self.assertIn("recovery_challenge", self.client.session)
+        self.client.post(url, {"answer1": "first"})
+        self.client.post(url, {"answer2": "second"})
+        self.assertNotIn("recovery_grant", self.client.session)
 
     def test_seller_password_change_revokes_existing_sessions(self) -> None:
         """Sessions bound to the previous seller password are rejected on the next request."""

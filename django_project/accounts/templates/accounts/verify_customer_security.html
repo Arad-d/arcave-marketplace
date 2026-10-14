@@ -58,13 +58,11 @@
                     </form>
                 
                 {% elif step == 2 %}
+                    <p>{% translate "برای حفظ حریم خصوصی، متن سؤال‌ها نمایش داده نمی‌شود. پاسخ‌هایی را وارد کنید که هنگام ثبت‌نام انتخاب کردید." %}</p>
                     <form method="post">
                         {% csrf_token %}
                         <div class="form-group">
-                            <label class="form-label">{% translate "سوال امنیتی ۱" %}</label>
-                            <div style="padding: 1rem; background-color: var(--color-cream-dark); border-radius: var(--radius-sm); margin-bottom: 1rem;">
-                                <strong>{{ question }}</strong>
-                            </div>
+                            <label class="form-label">{% translate "پاسخ ۱" %}</label>
                             <input type="text" class="form-control" id="answer1" name="answer1" required 
                                    placeholder="{% translate "پاسخ خود را وارد کنید" %}" autocomplete="off">
                         </div>
@@ -77,13 +75,10 @@
                     <form method="post">
                         {% csrf_token %}
                         <div class="alert" style="background-color: var(--color-cream-dark); margin-bottom: 1rem;">
-                            {% translate "پاسخ اول تأیید شد. برای ادامه به سوال دوم پاسخ دهید." %}
+                            {% translate "برای ادامه به سوال دوم پاسخ دهید." %}
                         </div>
                         <div class="form-group">
-                            <label class="form-label">{% translate "سوال امنیتی ۲" %}</label>
-                            <div style="padding: 1rem; background-color: var(--color-cream-dark); border-radius: var(--radius-sm); margin-bottom: 1rem;">
-                                <strong>{{ question }}</strong>
-                            </div>
+                            <label class="form-label">{% translate "پاسخ ۲" %}</label>
                             <input type="text" class="form-control" id="answer2" name="answer2" required 
                                    placeholder="{% translate "پاسخ خود را وارد کنید" %}" autocomplete="off">
                         </div>
