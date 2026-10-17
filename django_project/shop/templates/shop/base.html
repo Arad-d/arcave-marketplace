@@ -17,7 +17,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@100..900&display=swap" rel="stylesheet">
     
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="{% static 'css/style.css' %}?v=theme-1">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}?v=editorial-2">
 </head>
 <body>
     <a class="skip-link" href="#main-content">{% translate "رفتن به محتوای اصلی" %}</a>
@@ -78,5 +78,6 @@
             <p class="footer-text">{% translate "&copy; 2026 آرکیو. تمامی حقوق محفوظ است." %}</p>
         </div>
     </footer>
+    {% block extra_scripts %}{% endblock %}
 </body>
 </html>

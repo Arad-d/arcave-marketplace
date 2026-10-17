@@ -7,6 +7,7 @@ from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
 from django.core.paginator import Paginator
 from django.db import DatabaseError, transaction
+from django.db.models import Count
 from django.db.models import Q, Sum
 from django.shortcuts import get_object_or_404, redirect, render
 from django.utils.translation import gettext_lazy as _
@@ -34,9 +35,32 @@ def product_list(request):
     if category:
         products = products.filter(category=category)
 
-    paginator = Paginator(products, 12)
     page_number = request.GET.get("page")
+    show_editorial = not query and not category and page_number in (None, "1")
+    paginator = Paginator(products, 12)
     page_obj = paginator.get_page(page_number)
+    featured_shop = None
+    featured_products = []
+    if show_editorial and page_obj.object_list:
+        page_products = list(page_obj.object_list)
+        page_shop_ids = {product.shop_owner_id for product in page_products}
+        featured_shop = (
+            ShopOwner.objects.filter(pk__in=page_shop_ids)
+            .annotate(product_count=Count("products"))
+            .order_by("-product_count", "store_name")
+            .first()
+        )
+        if featured_shop is not None:
+            featured_products = list(
+                Product.objects.filter(shop_owner=featured_shop)
+                .select_related("shop_owner")
+                .order_by("pk")[:5]
+            )
+            featured_ids = {product.pk for product in featured_products}
+            page_obj.object_list = [
+                product for product in page_products if product.pk not in featured_ids
+            ]
+    featured_product = featured_products[0] if featured_products else None
 
     return render(
         request,
@@ -46,6 +70,10 @@ def product_list(request):
             "query": query,
             "category": category,
             "categories": Product.CATEGORY_CHOICES,
+            "featured_shop": featured_shop,
+            "featured_product": featured_product,
+            "featured_products": featured_products,
+            "show_editorial": bool(featured_products),
         },
     )
 

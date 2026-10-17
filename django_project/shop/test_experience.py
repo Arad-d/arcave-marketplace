@@ -19,6 +19,65 @@ from .models import Order, Product
 class ExperienceTests(TestCase):
     """Exercise changes that affect navigation and submitted form data."""
 
+    def test_catalog_leads_with_a_local_store_editorial(self) -> None:
+        """The default catalog opens with a real store before its product grid."""
+        owner = ShopOwner.objects.create(
+            name="local-maker",
+            store_name="Mehr Atelier",
+            password="!",
+            security_question1="First",
+            security_answer1="first",
+            security_question2="Second",
+            security_answer2="second",
+        )
+        Product.objects.create(
+            shop_owner=owner,
+            name="Hand-finished headphones",
+            price="1250000.00",
+            description="A considered everyday object.",
+            stock=4,
+        )
+
+        response = self.client.get(reverse("product_list"))
+
+        self.assertContains(response, "editorial-storefront")
+        self.assertContains(response, "Mehr Atelier")
+        self.assertContains(response, "Hand-finished headphones")
+        self.assertContains(response, reverse("shop_profile", args=[owner.pk]))
+
+    def test_catalog_editorial_carousel_navigates_without_repeating_products(self) -> None:
+        """Featured shop products have carousel controls and leave the grid below."""
+        owner = ShopOwner.objects.create(
+            name="local-maker",
+            store_name="Mehr Atelier",
+            password="!",
+            security_question1="First",
+            security_answer1="first",
+            security_question2="Second",
+            security_answer2="second",
+        )
+        products = [
+            Product.objects.create(
+                shop_owner=owner,
+                name=f"Local find {index}",
+                price="1250000.00",
+                description="A considered everyday object.",
+                stock=4,
+            )
+            for index in range(3)
+        ]
+
+        self.client.cookies[settings.LANGUAGE_COOKIE_NAME] = "en"
+        response = self.client.get(reverse("product_list"))
+
+        featured_ids = {product.pk for product in response.context["featured_products"]}
+        grid_ids = {product.pk for product in response.context["page_obj"].object_list}
+        self.assertEqual(featured_ids, {product.pk for product in products})
+        self.assertTrue(featured_ids.isdisjoint(grid_ids))
+        self.assertContains(response, "data-editorial-carousel")
+        self.assertContains(response, 'aria-label="Next product"')
+        self.assertContains(response, 'aria-label="Previous product"')
+
     def test_visitors_can_browse_but_cannot_change_carts(self) -> None:
         """Opening the catalog is public; shopping still requires an account."""
         self.assertEqual(self.client.get(reverse("product_list")).status_code, 200)

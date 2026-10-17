@@ -1,35 +1,89 @@
 {% extends 'shop/base.html' %}
 {% load i18n %}
+{% load static %}
 
 {% block title %}{% translate "محصولات - آرکیو" %}{% endblock %}
 
 {% block content %}
-<!-- Hero Section -->
-<section class="hero" style="padding: 3rem 2rem;">
+<section class="catalog-intro">
     <div class="container">
-        <h1 class="hero-title">{% translate "محصولات شگفت‌انگیز را کشف کنید" %}</h1>
-        <p class="hero-subtitle">{% translate "از مجموعه محصولات منحصربفرد فروشگاه‌های محلی ما دیدن کنید" %}</p>
-        
-        <!-- Search and Filter -->
-        <div class="search-container">
-            <form class="search-form" method="get" style="flex-wrap: wrap; gap: 1rem;">
-                <label class="sr-only" for="product-search">{% translate "جستجوی محصولات..." %}</label>
-                <input id="product-search" type="search" class="search-input" name="q" placeholder="{% translate "جستجوی محصولات..." %}" value="{{ query }}">
-                <label class="sr-only" for="category-filter">{% translate "دسته‌بندی" %}</label>
-                <select id="category-filter" name="category" class="form-control" style="min-width: 200px;">
-                    <option value="">{% translate "همه دسته‌بندی‌ها" %}</option>
-                    {% for value, label in categories %}
-                        <option value="{{ value }}" {% if category == value %}selected{% endif %}>{{ label }}</option>
-                    {% endfor %}
-                </select>
-                <button type="submit" class="btn btn-primary">{% translate "جستجو" %}</button>
-                {% if query or category %}
-                    <a href="{% url 'product_list' %}" class="btn btn-secondary">{% translate "پاک کردن فیلترها" %}</a>
-                {% endif %}
-            </form>
+        <div class="catalog-intro-copy">
+            <span class="editorial-kicker">{% translate "ویراست محلی آرکیو" %}</span>
+            <h1 class="catalog-headline">{% translate "کشف‌های خوب، همین نزدیکی" %}</h1>
+            <p>{% translate "با فروشگاه‌های مستقل اطرافتان آشنا شوید؛ انتخاب‌های کوچک، فکرشده و نزدیک." %}</p>
         </div>
+
+        <form class="catalog-search" method="get">
+            <label class="sr-only" for="product-search">{% translate "جستجوی محصولات..." %}</label>
+            <span class="catalog-search-icon" aria-hidden="true">⌕</span>
+            <input id="product-search" type="search" name="q" placeholder="{% translate "جستجوی محصولات..." %}" value="{{ query }}">
+            <label class="sr-only" for="category-filter">{% translate "دسته‌بندی" %}</label>
+            <select id="category-filter" name="category">
+                <option value="">{% translate "همه دسته‌بندی‌ها" %}</option>
+                {% for value, label in categories %}
+                    <option value="{{ value }}" {% if category == value %}selected{% endif %}>{{ label }}</option>
+                {% endfor %}
+            </select>
+            <button type="submit" class="btn btn-primary">{% translate "جستجو" %}</button>
+            {% if query or category %}
+                <a href="{% url 'product_list' %}" class="catalog-clear">{% translate "پاک کردن فیلترها" %}</a>
+            {% endif %}
+        </form>
     </div>
 </section>
+
+{% if show_editorial %}
+<section class="container editorial-storefront" aria-labelledby="featured-shop-title">
+    <div class="editorial-copy">
+        <span class="editorial-index"><span aria-hidden="true">✳</span> {% translate "فروشگاه منتخب" %} <span>01 / ARCAVE</span></span>
+        <p class="editorial-overline">{% translate "یک فروشگاه مستقل، همین نزدیکی" %}</p>
+        <h2 id="featured-shop-title">{{ featured_shop.store_name }}</h2>
+        <p class="editorial-description">{% translate "هر فروشگاه محلی، قصه‌ای برای گفتن دارد. با انتخاب‌های این فروشنده آشنا شوید و خریدی نزدیک‌تر به خانه را تجربه کنید." %}</p>
+        <div class="editorial-meta">
+            <span class="editorial-owner-mark" aria-hidden="true">{{ featured_shop.store_name|slice:":1" }}</span>
+            <span>{% translate "گرداننده فروشگاه" %}<strong>{{ featured_shop.name }}</strong></span>
+        </div>
+        <a class="editorial-link" href="{% url 'shop_profile' featured_shop.pk %}">
+            {% translate "دیدن فروشگاه" %}<span aria-hidden="true">↗</span>
+        </a>
+    </div>
+
+    <div class="editorial-carousel" data-editorial-carousel role="region" aria-roledescription="carousel" aria-label="{% translate 'محصولات این فروشگاه' %}">
+        <div class="editorial-carousel-track" data-carousel-track tabindex="0" dir="ltr">
+            {% for product in featured_products %}
+            <article class="editorial-slide" data-carousel-slide role="group" aria-roledescription="slide" aria-label="{{ forloop.counter }} / {{ featured_products|length }}" dir="{{ LANGUAGE_BIDI|yesno:'rtl,ltr' }}">
+                <a class="editorial-artwork" href="{% url 'product_detail' product.pk %}" aria-label="{{ product.name }}">
+                    <div class="editorial-artwork-frame">
+                        {% if product.image %}
+                            <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                        {% else %}
+                            <div class="editorial-artwork-placeholder" aria-hidden="true">
+                                <span>{{ featured_shop.store_name|slice:":1" }}</span>
+                                <i></i><b></b>
+                            </div>
+                        {% endif %}
+                        <span class="editorial-artwork-stamp" aria-hidden="true">ARCAVE<br>LOCAL<br>FINDS</span>
+                    </div>
+                </a>
+                <div class="editorial-product-caption">
+                    <span class="editorial-product-copy"><small>{% translate "از ویترین این فروشگاه" %}</small><strong>{{ product.name }}</strong><span>{{ product.description|truncatewords:12 }}</span></span>
+                    <span class="editorial-product-action"><span class="editorial-product-price">{% blocktranslate with value0=product.price|floatformat:"0" %}{{ value0 }} ریال{% endblocktranslate %}</span><a class="editorial-detail-link" href="{% url 'product_detail' product.pk %}">{% translate "مشاهده جزئیات" %}<span aria-hidden="true">↗</span></a></span>
+                </div>
+            </article>
+            {% endfor %}
+        </div>
+        {% if featured_products|length > 1 %}
+        <div class="editorial-carousel-controls">
+            <span class="editorial-carousel-count" data-carousel-count aria-live="polite" aria-atomic="true">1 / {{ featured_products|length }}</span>
+            <div class="editorial-carousel-buttons">
+                <button class="editorial-carousel-button" type="button" data-carousel-previous aria-label="{% translate 'محصول قبلی' %}" disabled><span aria-hidden="true">←</span></button>
+                <button class="editorial-carousel-button" type="button" data-carousel-next aria-label="{% translate 'محصول بعدی' %}"><span aria-hidden="true">→</span></button>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</section>
+{% endif %}
 
 <!-- Products Grid -->
 <div class="container">
@@ -44,9 +98,18 @@
     {% endif %}
     
     {% if page_obj.object_list %}
-        <div class="product-grid">
+        <section class="catalog-products" aria-labelledby="catalog-products-title">
+        <div class="catalog-products-heading">
+            {% if show_editorial %}
+                <div><span class="editorial-kicker">{% translate "از میان فروشگاه‌های محلی" %}</span><h2 id="catalog-products-title">{% translate "چیزهای خوب، نزدیک‌تر" %}</h2></div>
+            {% else %}
+                <h2 id="catalog-products-title">{% translate "محصولات شگفت‌انگیز را کشف کنید" %}</h2>
+            {% endif %}
+            {% if show_editorial %}<span class="catalog-count">{{ page_obj.paginator.count }} {% translate "انتخاب محلی" %}</span>{% endif %}
+        </div>
+        <div class="product-grid editorial-product-grid">
             {% for product in page_obj.object_list %}
-                <div class="card">
+                <div class="card editorial-product-card">
                     {% if product.image %}
                         <img src="{{ product.image.url }}" alt="{{ product.name }}" class="card-image">
                     {% else %}
@@ -96,15 +159,18 @@
                 {% endif %}
             </div>
         {% endif %}
+        </section>
     {% else %}
-        <div class="empty-state">
+        {% if not featured_product %}<div class="empty-state">
             <div class="empty-state-icon">📭</div>
             <h3>{% translate "محصولی موجود نیست" %}</h3>
             {% if query or category %}
             <p>{% translate "عبارت دیگری جستجو کنید یا فیلترها را پاک کنید." %}</p>
             <a class="btn btn-primary" href="{% url 'product_list' %}">{% translate "پاک کردن فیلترها" %}</a>
             {% else %}<p>{% translate "بعداً برای محصولات جدید سر بزنید!" %}</p>{% endif %}
-        </div>
+        </div>{% endif %}
     {% endif %}
 </div>
 {% endblock %}
+
+{% block extra_scripts %}<script src="{% static 'js/catalog-carousel.js' %}" defer></script>{% endblock %}

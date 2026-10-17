@@ -1178,6 +1178,66 @@ msgstr "Be the first to leave a review!"
 msgid "محصولات - آرکیو"
 msgstr "Products - Arcave"
 
+#: django_project/shop/templates/shop/product_list.html
+msgid "ویراست محلی آرکیو"
+msgstr "THE ARCAVE LOCAL EDIT"
+
+#: django_project/shop/templates/shop/product_list.html
+msgid "کشف‌های خوب، همین نزدیکی"
+msgstr "Good finds, closer to home"
+
+#: django_project/shop/templates/shop/product_list.html
+msgid "با فروشگاه‌های مستقل اطرافتان آشنا شوید؛ انتخاب‌های کوچک، فکرشده و نزدیک."
+msgstr "Meet independent shops nearby: thoughtful finds, chosen close to home."
+
+#: django_project/shop/templates/shop/product_list.html
+msgid "فروشگاه منتخب"
+msgstr "FEATURED LOCAL SHOP"
+
+#: django_project/shop/templates/shop/product_list.html
+msgid "یک فروشگاه مستقل، همین نزدیکی"
+msgstr "An independent shop, just around the corner"
+
+#: django_project/shop/templates/shop/product_list.html
+msgid "هر فروشگاه محلی، قصه‌ای برای گفتن دارد. با انتخاب‌های این فروشنده آشنا شوید و خریدی نزدیک‌تر به خانه را تجربه کنید."
+msgstr "Every local shop has a story. Meet this seller's finds and discover a more local way to shop."
+
+#: django_project/shop/templates/shop/product_list.html
+msgid "گرداننده فروشگاه"
+msgstr "SHOPKEEPER"
+
+#: django_project/shop/templates/shop/product_list.html
+msgid "دیدن فروشگاه"
+msgstr "Visit the shop"
+
+#: django_project/shop/templates/shop/product_list.html
+msgid "از ویترین این فروشگاه"
+msgstr "A piece from this shop's shelf"
+
+#: django_project/shop/templates/shop/product_list.html
+msgid "از میان فروشگاه‌های محلی"
+msgstr "FROM LOCAL SHOPS"
+
+#: django_project/shop/templates/shop/product_list.html
+msgid "چیزهای خوب، نزدیک‌تر"
+msgstr "Good things, closer to home"
+
+#: django_project/shop/templates/shop/product_list.html
+msgid "انتخاب محلی"
+msgstr "local finds"
+
+#: django_project/shop/templates/shop/product_list.html
+msgid "محصولات این فروشگاه"
+msgstr "Products from this shop"
+
+#: django_project/shop/templates/shop/product_list.html
+msgid "محصول قبلی"
+msgstr "Previous product"
+
+#: django_project/shop/templates/shop/product_list.html
+msgid "محصول بعدی"
+msgstr "Next product"
+
 #: django_project/shop/templates/shop/product_list.html:10
 msgid "محصولات شگفت‌انگیز را کشف کنید"
 msgstr "Discover great products"
