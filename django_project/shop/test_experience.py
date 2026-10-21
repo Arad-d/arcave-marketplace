@@ -78,6 +78,49 @@ class ExperienceTests(TestCase):
         self.assertContains(response, 'aria-label="Next product"')
         self.assertContains(response, 'aria-label="Previous product"')
 
+    def test_catalog_prioritizes_only_the_lead_image_and_defers_other_images(self) -> None:
+        """Offscreen catalog images do not compete with the lead image for loading."""
+        featured_owner = ShopOwner.objects.create(
+            name="featured-maker",
+            store_name="Featured Atelier",
+            password="!",
+            security_question1="First",
+            security_answer1="first",
+            security_question2="Second",
+            security_answer2="second",
+        )
+        other_owner = ShopOwner.objects.create(
+            name="other-maker",
+            store_name="Other Atelier",
+            password="!",
+            security_question1="First",
+            security_answer1="first",
+            security_question2="Second",
+            security_answer2="second",
+        )
+        for index in range(2):
+            Product.objects.create(
+                shop_owner=featured_owner,
+                name=f"Featured {index}",
+                price="100.00",
+                description="Featured product.",
+                image="products/featured.png",
+            )
+        Product.objects.create(
+            shop_owner=other_owner,
+            name="Grid product",
+            price="100.00",
+            description="Grid product.",
+            image="products/grid.png",
+        )
+
+        response = self.client.get(reverse("product_list"))
+        html = response.content.decode()
+
+        self.assertContains(response, 'fetchpriority="high"')
+        self.assertEqual(html.count('loading="lazy"'), 2)
+        self.assertEqual(html.count('decoding="async"'), 3)
+
     def test_visitors_can_browse_but_cannot_change_carts(self) -> None:
         """Opening the catalog is public; shopping still requires an account."""
         self.assertEqual(self.client.get(reverse("product_list")).status_code, 200)
@@ -87,6 +130,30 @@ class ExperienceTests(TestCase):
             ).status_code,
             302,
         )
+
+    def test_product_detail_loads_shop_owner_with_product(self) -> None:
+        """Returning to a product page avoids a second query for its shop owner."""
+        owner = ShopOwner.objects.create(
+            name="local-maker",
+            store_name="Mehr Atelier",
+            password="!",
+            security_question1="First",
+            security_answer1="first",
+            security_question2="Second",
+            security_answer2="second",
+        )
+        product = Product.objects.create(
+            shop_owner=owner,
+            name="Hand-finished headphones",
+            price="1250000.00",
+            description="A considered everyday object.",
+            stock=4,
+        )
+
+        with self.assertNumQueries(2):
+            response = self.client.get(reverse("product_detail", args=[product.pk]))
+
+        self.assertContains(response, "Mehr Atelier")
 
     def test_signup_retains_public_values_and_blanks_secrets(self) -> None:
         """A failed signup exposes linked field errors without echoing credentials."""

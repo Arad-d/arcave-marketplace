@@ -9,7 +9,7 @@
         <!-- Product Image -->
         <div>
             {% if product.image %}
-                <img src="{{ product.image.url }}" alt="{{ product.name }}" class="product-detail-image">
+                <img src="{{ product.image.url }}" alt="{{ product.name }}" class="product-detail-image" fetchpriority="high" decoding="async">
             {% else %}
                 <div class="product-detail-image" style="display: flex; align-items: center; justify-content: center; background-color: var(--color-cream-dark);">
                     <span style="font-size: 8rem;">📦</span>

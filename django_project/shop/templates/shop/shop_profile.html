@@ -39,7 +39,7 @@
             {% for product in products %}
                 <div class="card">
                     {% if product.image %}
-                        <img src="{{ product.image.url }}" alt="{{ product.name }}" class="card-image">
+                        <img src="{{ product.image.url }}" alt="{{ product.name }}" class="card-image" loading="lazy" decoding="async">
                     {% else %}
                         <div class="card-image" style="display: flex; align-items: center; justify-content: center; background-color: var(--color-cream-dark);">
                             <span style="font-size: 4rem;">📦</span>

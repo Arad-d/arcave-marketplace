@@ -55,7 +55,7 @@
                 <a class="editorial-artwork" href="{% url 'product_detail' product.pk %}" aria-label="{{ product.name }}">
                     <div class="editorial-artwork-frame">
                         {% if product.image %}
-                            <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                            <img src="{{ product.image.url }}" alt="{{ product.name }}" decoding="async" {% if forloop.first %}fetchpriority="high"{% else %}loading="lazy"{% endif %}>
                         {% else %}
                             <div class="editorial-artwork-placeholder" aria-hidden="true">
                                 <span>{{ featured_shop.store_name|slice:":1" }}</span>
@@ -111,7 +111,7 @@
             {% for product in page_obj.object_list %}
                 <div class="card editorial-product-card">
                     {% if product.image %}
-                        <img src="{{ product.image.url }}" alt="{{ product.name }}" class="card-image">
+                        <img src="{{ product.image.url }}" alt="{{ product.name }}" class="card-image" loading="lazy" decoding="async">
                     {% else %}
                         <div class="card-image" style="display: flex; align-items: center; justify-content: center; background-color: var(--color-cream-dark);">
                             <span style="font-size: 4rem;">📦</span>

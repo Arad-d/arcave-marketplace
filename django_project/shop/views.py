@@ -80,7 +80,7 @@ def product_list(request):
 
 def product_detail(request, pk):
     """Product detail page with comments."""
-    product = get_object_or_404(Product, pk=pk)
+    product = get_object_or_404(Product.objects.select_related("shop_owner"), pk=pk)
     comments = product.comments.select_related("customer").prefetch_related("reply")
 
     # Check if user has purchased this product
